@@ -1,15 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model ambulance {
+  assignment_id   Int       @id
+  ambulance_id    Int?
+  staff_id        Int?
+  assignment_date DateTime? @db.Date
+  shift_sched     String?   @db.VarChar(50)
+}
+
+model hospital {
+  hospital_id          Int     @id
+  hospital_location_id Int?
+  hospital_name        String? @db.VarChar(100)
+  hospital_type        String? @db.VarChar(50)
+  city                 String? @db.VarChar(100)
+  street               String? @db.VarChar(100)
+  hospital_capacity    Int?
+}
+
+model patient {
+  patient_id        Int     @id
+  ref_location_id   Int?
+  name              String? @db.VarChar(100)
+  age               Int?
+  medical_condition String? @db.VarChar(100)
+  priority_level    String? @db.VarChar(50)
+  contact_person    String? @db.VarChar(100)
+  contact_number    String? @db.VarChar(20)
+  transfer_status   String? @db.VarChar(50)
+}
+
+model reference_location {
+  ref_location_id Int     @id
+  city            String? @db.VarChar(100)
+  street          String? @db.VarChar(100)
+}
+
+model staff {
+  staff_id       Int     @id
+  name           String? @db.VarChar(100)
+  staff_role     String? @db.VarChar(50)
+  license_no     String? @db.VarChar(50)
+  shift_schedule String? @db.VarChar(50)
+  staff_status   String? @db.VarChar(50)
+}
+
+model transfer {
+  transfer_id     Int       @id
+  patient_id      Int?
+  ambulance_id    Int?
+  staff_id        Int?
+  hospital_id     Int?
+  transfer_date   DateTime? @db.Date
+  transfer_status String?   @db.VarChar(50)
+  priority_level  Int?
 }
