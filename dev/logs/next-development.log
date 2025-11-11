@@ -1,0 +1,2748 @@
+[00:00:04.391] Server  LOG      ✓ Ready in 3.2s
+[00:00:09.898] Server  LOG      ○ Compiling / ...
+[00:00:13.757] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:22.625] Browser LOG     submit
+[00:00:23.563] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:23.684] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:24.532] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:24.689] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:25.524] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:25.544] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:25.906] Browser ERROR   uncaughtError: Error: ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:26.043] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:26.156] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/lib/prisma'
+> 1 | import { prisma } from "@/lib/prisma";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './lib/prisma' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:42.556] Server  LOG      ✓ Compiled in 63ms
+[00:00:42.892] Server  ERROR    ⨯ ReferenceError: prisma is not defined
+[00:00:43.347] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:44.072] Browser ERROR   uncaughtError: ReferenceError: prisma is not defined
+[00:00:55.831] Server  LOG      ✓ Compiled in 58ms
+[00:00:56.013] Server  ERROR    ⨯ ReferenceError: ambulances is not defined
+[00:00:56.460] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:57.041] Browser ERROR   uncaughtError: ReferenceError: ambulances is not defined
+[00:01:54.955] Server  LOG      ✓ Compiled in 60ms
+[00:01:56.019] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:02.148] Server  ERROR    ⨯ ReferenceError: ambulances is not defined
+[00:02:02.288] Browser ERROR   uncaughtError: ReferenceError: ambulances is not defined
+[00:02:04.634] Server  LOG      ✓ Compiled in 38ms
+[00:02:05.350] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:16.433] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:19.719] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.722] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.723] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.725] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.727] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.728] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.730] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.732] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.734] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.736] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.737] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.739] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.742] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.744] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.745] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.748] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.749] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.752] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.753] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.754] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.755] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:19.764] Server  LOG      ✓ Compiled in 841ms
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:20.069] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:32.066] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 |
+  3 | interface Ambulance {
+  4 | 	id: string;
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:41.633] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.635] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.637] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.638] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.643] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.646] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.651] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.655] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.660] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.663] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.666] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.669] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.673] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.678] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.681] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.683] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.687] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.689] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.690] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.693] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:41.694] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:42.065] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.086] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.601] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:46.831] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:47.017] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:14:47.017] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:47.018] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:47.018] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:47.018] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:14:47.018] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:17.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:30.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:42.061] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:15:42.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:42.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:42.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:42.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:15:42.062] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:17:35.079] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:20:11.076] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:31:19.494] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:31:19.533] Server  ERROR    ⨯ ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:10
+Ecmascript file had an error
+> 1 | import { useState } from "react";
+    |          ^^^^^^^^
+  2 | import {
+  3 | 	Card,
+  4 | 	CardContent,
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:18:1
+Module not found: Can't resolve './ui/badge'
+  16 | } from "./ui/table";
+  17 | import { Button } from "./ui/button";
+> 18 | import { Badge } from "./ui/badge";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+  21 | interface Ambulance {
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:17:1
+Module not found: Can't resolve './ui/button'
+  15 | 	TableRow,
+  16 | } from "./ui/table";
+> 17 | import { Button } from "./ui/button";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+  20 |
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:2:1
+Module not found: Can't resolve './ui/card'
+   1 | import { useState } from "react";
+>  2 | import {
+     | ^^^^^^^^
+>  3 | 	Card,
+     | ^^^^^^
+>  4 | 	CardContent,
+     | ^^^^^^
+>  5 | 	CardDescription,
+     | ^^^^^^
+>  6 | 	CardHeader,
+     | ^^^^^^
+>  7 | 	CardTitle,
+     | ^^^^^^
+>  8 | } from "./ui/card";
+     | ^^^^^^^^^^^^^^^^^^^^
+   9 | import {
+  10 | 	Table,
+  11 | 	TableBody,
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:9:1
+Module not found: Can't resolve './ui/table'
+   7 | 	CardTitle,
+   8 | } from "./ui/card";
+>  9 | import {
+     | ^^^^^^^^
+> 10 | 	Table,
+     | ^^^^^^^
+> 11 | 	TableBody,
+     | ^^^^^^^
+> 12 | 	TableCell,
+     | ^^^^^^^
+> 13 | 	TableHead,
+     | ^^^^^^^
+> 14 | 	TableHeader,
+     | ^^^^^^^
+> 15 | 	TableRow,
+     | ^^^^^^^
+> 16 | } from "./ui/table";
+     | ^^^^^^^^^^^^^^^^^^^^^
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+  19 | import { Plus, Edit, Trash2 } from "lucide-react";
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:19:1
+Module not found: Can't resolve 'lucide-react'
+  17 | import { Button } from "./ui/button";
+  18 | import { Badge } from "./ui/badge";
+> 19 | import { Plus, Edit, Trash2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  20 |
+  21 | interface Ambulance {
+  22 | 	id: string;
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:14.568] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:19.068] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:32:28.073] Browser ERROR   ./Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/dashboard/page.tsx:1:1
+Module not found: Can't resolve '@/components/AmbulanceTable'
+> 1 | import AmbulanceTable from "@/components/AmbulanceTable";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import Link from "next/link";
+  3 |
+  4 | export const metadata = {
+
+Import map: aliased to relative './components/AmbulanceTable' inside of [project]/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts
+
+https://nextjs.org/docs/messages/module-not-found
+[00:33:12.618] Server  LOG      ✓ Compiled in 334ms
+[00:33:19.398] Browser LOG     submit
+[00:38:16.352] Browser LOG     submit
+[00:39:08.849] Server  LOG      ✓ Compiled in 86ms
+[00:42:01.489] Server  LOG      ✓ Compiled in 229ms
+[00:43:01.154] Server  LOG      ✓ Compiled in 584ms
+[00:43:05.433] Server  LOG      ✓ Compiled in 90ms
+[00:43:18.303] Server  LOG      ✓ Compiled in 220ms
+[00:43:21.913] Server  LOG      ✓ Compiled in 243ms
+[00:43:29.753] Server  LOG      ✓ Compiled in 236ms
+[00:46:11.287] Server  LOG        Reload env: .env
+[00:59:56.796] Server  LOG        Reload env: .env
+[01:00:09.977] Server  LOG        Reload env: .env
+[01:00:47.866] Server  LOG        Reload env: .env
+[01:02:22.546] Server  LOG        Reload env: .env
+[01:02:33.221] Server  LOG        Reload env: .env
+[01:07:19.453] Server  LOG        Reload env: .env
+[01:09:02.850] Server  LOG      ✓ Compiled in 465ms
+[01:11:16.416] Server  LOG        Reload env: .env
+[01:16:48.601] Server  LOG        Reload env: .env

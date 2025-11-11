@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Rainer%20Gonzaga/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/api/login/route.ts"],"sourcesContent":["import { NextRequest, NextResponse } from \"next/server\";\r\n\r\nexport async function POST(req: NextRequest) {\r\n  try {\r\n    const { username, password }: { username: string; password: string } = await req.json();\r\n\r\n    // TODO: validate credentials against DB\r\n    if (username === \"root\" && password === \"1234\") {\r\n      return NextResponse.json({ success: true });\r\n    }\r\n\r\n    return NextResponse.json({ success: false, message: \"Invalid credentials\" });\r\n  } catch (error) {\r\n    return NextResponse.json({ success: false, message: \"Something went wrong\" });\r\n  }\r\n}\r\n"],"names":[],"mappings":";;;;AAAA;;AAEO,eAAe,KAAK,GAAgB;IACzC,IAAI;QACF,MAAM,EAAE,QAAQ,EAAE,QAAQ,EAAE,GAA2C,MAAM,IAAI,IAAI;QAErF,wCAAwC;QACxC,IAAI,aAAa,UAAU,aAAa,QAAQ;YAC9C,OAAO,yQAAY,CAAC,IAAI,CAAC;gBAAE,SAAS;YAAK;QAC3C;QAEA,OAAO,yQAAY,CAAC,IAAI,CAAC;YAAE,SAAS;YAAO,SAAS;QAAsB;IAC5E,EAAE,OAAO,OAAO;QACd,OAAO,yQAAY,CAAC,IAAI,CAAC;YAAE,SAAS;YAAO,SAAS;QAAuB;IAC7E;AACF","debugId":null}}]
+}

@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Rainer%20Gonzaga/Documents/GitHub/DLSU-Acads-Repositories/Second-Year-Programming/CCINFOM-S22-06/adts/src/app/page.tsx"],"sourcesContent":["import { redirect } from \"next/navigation\";\r\nexport default function Home() {\r\n\tredirect(\"/login\");\r\n}\r\n"],"names":[],"mappings":";;;;AAAA;AAAA;;AACe,SAAS;IACvB,IAAA,0TAAQ,EAAC;AACV","debugId":null}}]
+}
