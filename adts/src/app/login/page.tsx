@@ -1,11 +1,37 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const router = useRouter();
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		// TODO: call API (fetch('/api/login', ...))
 		console.log("submit");
+
+		const form = e.currentTarget;
+		const data = new FormData(form);
+		const body = {
+			username: String(data.get("username") ?? ""),
+			password: String(data.get("password") ?? ""),
+		};
+
+		try {
+			const res = await fetch("/api/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(body),
+			});
+			const json = await res.json();
+			if (json.success) {
+				router.push("/dashboard"); // redirect to dashboard
+			} else {
+				alert(json.message || "Login failed");
+			}
+		} catch (err) {
+			console.error(err);
+			alert("Network error");
+		}
 	};
 
 	return (
