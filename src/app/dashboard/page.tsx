@@ -1,71 +1,68 @@
-'use client'
+"use client";
 import { useState } from "react";
 import AmbulanceTable from "../../components/AmbulanceTable";
 import PatientTable from "../../components/PatientTable";
-import Link from "next/link";
-
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
+import ModeToggle from "../../components/ModeToggle";
+import Image from "next/image";
 
 export default function DashboardPage() {
 	const [activeTab, setActiveTab] = useState("Ambulances");
 	// to do: connect backend
-	const ambulances: any[] = [];
-	const patients: any[] = [];
+	const ambulances: Ambulance[] = [];
+	const patients: Patient[] = [];
 
-	const tabs = ["Ambulances", "Patients", "Locations", "Staffs", "Hospitals"];
+	const tabs = [
+		{ name: "Ambulances", icon: "/icons/ambulance.svg" },
+		{ name: "Patients", icon: "/icons/patients.svg" },
+		{ name: "Locations", icon: "/icons/location.svg" },
+		{ name: "Staffs", icon: "/icons/staff.svg" },
+		{ name: "Hospitals", icon: "/icons/hospital.svg" },
+	];
 
 	return (
 		<div className="min-h-screen bg-gray-50 flex flex-col">
-			{/* header */}
-			<header className="bg-gradient-to-r from-[#2882FF] to-[#00BBA8] text-white py-4 px-6 flex items-center justify-between">
-				<div className="flex items-center gap-3">
-					<div className="text-2xl">🚑</div>
-					<h1 className="text-lg font-semibold">
-						Primecare General Hospital Management System
-					</h1>
-				</div>
-				<Link
-					href="/login"
-					className="px-4 py-2 bg-white text-blue-600 rounded-lg font-medium hover:bg-gray-100 transition"
-				>
-					↪ Logout
-				</Link>
-			</header>
-
+			<Header />
 			{/* tabs */}
-			<div className="flex justify-center gap-4 my-6">
-				<button className="px-8 py-3 bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white rounded-full font-medium shadow-lg">
-					📋 Records
-				</button>
-				<button className="px-8 py-3 bg-white text-gray-700 rounded-full font-medium shadow hover:shadow-lg transition">
-					📄 Reports
-				</button>
-			</div>
-
+			<ModeToggle activeMode={"Records"} />
 			{/* Record Buttons */}
-			<div className="flex justify-center gap-6 mb-8">
-				{tabs.map(
-					(item) => (
-						<button
-							key={item}
-							onClick={() => setActiveTab(item)}
-							className="px-6 py-3 bg-white rounded-full shadow hover:shadow-md transition text-gray-700 font-medium"
-						>
-							{item}
-						</button>
-					)
-				)}
+			<div className="flex justify-center gap-4 mb-8 px-6">
+				{tabs.map((item) => (
+					<button
+						key={item.name}
+						onClick={() => setActiveTab(item.name)}
+						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-medium min-w-[120px] ${
+							activeTab === item.name
+								? "bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white shadow-lg"
+								: "bg-white text-gray-700 shadow-md hover:shadow-lg"
+						}`}
+					>
+						<div className="w-10 h-10 flex items-center justify-center">
+							<Image
+								src={item.icon}
+								alt={item.name}
+								width={32}
+								height={32}
+								className={`w-8 h-8 ${
+									activeTab === item.name ? "brightness-0 invert" : "opacity-70"
+								}`}
+							/>
+						</div>
+						<span className="text-sm">{item.name}</span>
+					</button>
+				))}
 			</div>
-
 			{/* Scrollable data container */}
 			<div className="flex-1 overflow-y-auto pb-6">
-				{activeTab === "Ambulances" && <AmbulanceTable initialData={ambulances} />}
-				{activeTab === "Patients" && <PatientTable initialData={patients} />}
+				{activeTab === "Ambulances" && (
+					<AmbulanceTable initialData={ambulances as any} />
+				)}
+				{activeTab === "Patients" && (
+					<PatientTable initialData={patients as any} />
+				)}
 			</div>
-
-			{/* footer */}
-			<footer className="bg-gradient-to-r from-[#2882FF] to-[#00BBA8] text-white text-center py-4">
-				Primecare Hospital © 2025. All Rights Reserved
-			</footer>
+			<Footer />
 		</div>
 	);
 }
