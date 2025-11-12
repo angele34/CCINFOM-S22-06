@@ -94,7 +94,7 @@ export default function LoginPage() {
 
 						<button
 							type="submit"
-							className="w-full mt-2 py-3 rounded-lg text-white font-medium bg-gradient-to-r from-[#1E74FF] to-[#0a9f9a] hover:opacity-95 transition"
+							className="w-full mt-2 py-3 rounded-lg text-white font-medium bg-gradient-to-r from-[#1E74FF] to-[#0a9f9a] hover:opacity-85 transition delay-90"
 						>
 							CONTINUE
 						</button>

@@ -1,13 +1,17 @@
+'use client'
+import { useState } from "react";
 import AmbulanceTable from "../../components/AmbulanceTable";
+import PatientTable from "../../components/PatientTable";
 import Link from "next/link";
 
-export const metadata = {
-	title: "Ambulance Records",
-};
 
 export default function DashboardPage() {
+	const [activeTab, setActiveTab] = useState("Ambulances");
 	// to do: connect backend
 	const ambulances: any[] = [];
+	const patients: any[] = [];
+
+	const tabs = ["Ambulances", "Patients", "Locations", "Staffs", "Hospitals"];
 
 	return (
 		<div className="min-h-screen bg-gray-50 flex flex-col">
@@ -39,22 +43,23 @@ export default function DashboardPage() {
 
 			{/* Record Buttons */}
 			<div className="flex justify-center gap-6 mb-8">
-				{["Ambulances", "Patients", "Locations", "Staffs", "Hospitals"].map(
+				{tabs.map(
 					(item) => (
-						<Link
+						<button
 							key={item}
-							href="#"
+							onClick={() => setActiveTab(item)}
 							className="px-6 py-3 bg-white rounded-full shadow hover:shadow-md transition text-gray-700 font-medium"
 						>
 							{item}
-						</Link>
+						</button>
 					)
 				)}
 			</div>
 
 			{/* Scrollable data container */}
 			<div className="flex-1 overflow-y-auto pb-6">
-				<AmbulanceTable initialData={ambulances} />
+				{activeTab === "Ambulances" && <AmbulanceTable initialData={ambulances} />}
+				{activeTab === "Patients" && <PatientTable initialData={patients} />}
 			</div>
 
 			{/* footer */}
