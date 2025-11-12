@@ -4,46 +4,67 @@ import prisma from "@/src/lib/prisma";
 // READ
 export async function GET() {
     // retrieves all columns from the table
-    const ambulances = await prisma.Ambulance.findMany();
-    return NextResponse.json(ambulances);
+    try {
+        const ambulances = await prisma.ambulance.findMany();
+        return NextResponse.json(ambulances);
+    } catch (error) {
+        console.error("GET /ambulance error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 // CREATE
 export async function POST(req: Request) {
-    const body = await req.json();
-    const newAmbulance = await prisma.Ambulance.create({
-        data: {
-        assignment_id: body.assignment_id,
-        ambulance_id: body.ambulance_id,
-        staff_id: body.staff_id,
-        assignment_date: new Date(body.assignment_date),
-        shift_sched: body.shift_sched,
-        },
-    });
-    return NextResponse.json(newAmbulance);
+    try {
+        const body = await req.json();
+        const newAmbulance = await prisma.ambulance.create({
+            data: {
+            assignment_id: body.assignment_id,
+            ambulance_id: body.ambulance_id,
+            staff_id: body.staff_id,
+            assignment_date: new Date(body.assignment_date),
+            shift_sched: body.shift_sched,
+            },
+        });
+
+        return NextResponse.json(newAmbulance);
+    } catch (error) {
+        console.error("CREATE /ambulance error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 
 // UPDATE
 export async function PUT(req: Request) {
-    const body = await req.json();
-    const updatedAmbulance = await prisma.Ambulance.update({
-        where: { assignment_id: body.assignment_id },
-        data: { 
-            ambulance_id: body.ambulance_id,
-            staff_id: body.staff_id,
-            assignment_date: new Date(body.assignment_date),
-            shift_sched: body.shift_sched,
-        },
-    });
-    return NextResponse.json(updatedAmbulance);
+    try {
+        const body = await req.json();
+        const updatedAmbulance = await prisma.ambulance.update({
+            where: { assignment_id: body.assignment_id },
+            data: { 
+                ambulance_id: body.ambulance_id,
+                staff_id: body.staff_id,
+                assignment_date: new Date(body.assignment_date),
+                shift_sched: body.shift_sched,
+            },
+        });
+        return NextResponse.json(updatedAmbulance);
+    } catch (error) {
+        console.error("UPDATE /ambulance error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 // DELETE
 export async function DELETE(req: Request) {
-    const body = await req.json();
-    const deletedAmbulance = await prisma.Ambulance.delete({
-        where: { assignment_id: body.assignemnt_id },
-    })
-    return NextResponse.json(deletedAmbulance);
+    try {
+        const body = await req.json();
+        const deletedAmbulance = await prisma.ambulance.delete({
+            where: { assignment_id: body.assignment_id },
+        })
+        return NextResponse.json(deletedAmbulance);
+    } catch (error) {
+        console.error("DELETE /ambulance error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }

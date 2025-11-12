@@ -3,41 +3,61 @@ import prisma from "@/src/lib/prisma";
 
 // READ
 export async function GET() {
-    const referenceLocs = await prisma.Reference_Location.findMany();
-    return NextResponse.json(referenceLocs);
+    try {
+        const referenceLocs = await prisma.reference_location.findMany();
+        return NextResponse.json(referenceLocs);
+    } catch (error) {
+        console.error("READ /reference_location error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 // CREATE
 export async function POST(req: Request) {
-    const body = await req.json();
-    const newReferenceLocs = await prisma.Patient.create({
-        data: {
-            ref_location_id: body.ref_location_id,
-            city: body.city,
-            street: body.street,
-        },
-    });
-    return NextResponse.json(newReferenceLocs);
+    try {
+        const body = await req.json();
+        const newReferenceLocs = await prisma.reference_location.create({
+            data: {
+                ref_location_id: body.ref_location_id,
+                city: body.city,
+                street: body.street,
+            },
+        });
+        return NextResponse.json(newReferenceLocs);
+    } catch (error) {
+        console.error("CREATE /reference_location error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 // UPDATE
 export async function PUT(req: Request) {
-    const body = await req.json();
-    const updatedReferenceLoc = await prisma.Reference_Location.update({
-        where: { ref_location_id: body.ref_location_id },
-        data: {
-            city: body.city,
-            street: body.street,
-        },
-    })
-    return NextResponse.json(updatedReferenceLoc);
+    try {
+        const body = await req.json();
+        const updatedReferenceLoc = await prisma.reference_location.update({
+            where: { ref_location_id: body.ref_location_id },
+            data: {
+                city: body.city,
+                street: body.street,
+            },
+        })
+        return NextResponse.json(updatedReferenceLoc);
+    } catch (error) {
+        console.error("UPDATE /reference_location error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
 
 // DELETE
 export async function DELETE(req: Request) {
-    const body = await req.json();
-    const deletedReferenceLoc = await prisma.Reference_Location.delete({
-        where: { ref_location_id: body.ref_location_id  },
-    })
-    return NextResponse.json(deletedReferenceLoc);
+    try {
+        const body = await req.json();
+        const deletedReferenceLoc = await prisma.reference_location.delete({
+            where: { ref_location_id: body.ref_location_id  },
+        })
+        return NextResponse.json(deletedReferenceLoc);
+    } catch (error) {
+        console.error("DELETE /reference_location error:", error);
+        return NextResponse.json({ error: String(error) }, { status: 500 });
+    }
 }
