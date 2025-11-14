@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AmbulanceTable from "../../components/AmbulanceTable";
 import PatientTable from "../../components/PatientTable";
 import LocationTable from "../../components/LocationTable";
@@ -13,9 +13,32 @@ import Link from "next/link";
 
 export default function DashboardPage() {
 	const [activeTab, setActiveTab] = useState("Ambulances");
-	// to do: connect backend
-	const ambulances: Ambulance[] = [];
-	const patients: Patient[] = [];
+	const [ambulances, setAmbulances] = useState<any[]>([]);
+	const [patients, setPatients] = useState<any[]>([]);
+
+	// fetch ambulance data from backend
+	useEffect(() => {
+		const fetchAmbulances = async () => {
+			try {
+				const response = await fetch("/api/ambulance");
+				if (response.ok) {
+					const data = await response.json();
+					setAmbulances(data);
+				}
+			} catch (error) {
+				console.error("Error fetching ambulances:", error);
+			}
+		};
+		fetchAmbulances();
+	}, []);
+
+	const handleAmbulanceUpdate = () => {
+		// refetch ambulance table after each crud
+		fetch("/api/ambulance")
+			.then((res) => res.json())
+			.then((data) => setAmbulances(data))
+			.catch((error) => console.error("Error fetching ambulances:", error));
+	};
 
 	const tabs = [
 		{ name: "Ambulances", icon: "/icons/ambulance.svg" },
@@ -30,7 +53,7 @@ export default function DashboardPage() {
 			<Header />
 			{/* tabs */}
 			<ModeToggle activeMode={"Records"} />
-			{/* Record Buttons */}
+			{/* database buttons */}
 			<div className="flex justify-center gap-4 mb-8 px-6">
 				{tabs.map((item) => (
 					<button
@@ -57,10 +80,13 @@ export default function DashboardPage() {
 					</button>
 				))}
 			</div>
-			{/* Scrollable data container */}
+			{/* table container */}
 			<div className="flex-1 overflow-y-auto pb-6">
 				{activeTab === "Ambulances" && (
-					<AmbulanceTable initialData={ambulances as any} />
+					<AmbulanceTable
+						initialData={ambulances}
+						onUpdate={handleAmbulanceUpdate}
+					/>
 				)}
 				{activeTab === "Patients" && (
 					<PatientTable initialData={patients as any} />
