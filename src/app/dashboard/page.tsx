@@ -2,10 +2,14 @@
 import { useState } from "react";
 import AmbulanceTable from "../../components/AmbulanceTable";
 import PatientTable from "../../components/PatientTable";
+import LocationTable from "../../components/LocationTable";
+import StaffTable from "../../components/StaffTable";
+import HospitalTable from "../../components/HospitalTable";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ModeToggle from "../../components/ModeToggle";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function DashboardPage() {
 	const [activeTab, setActiveTab] = useState("Ambulances");
@@ -32,7 +36,7 @@ export default function DashboardPage() {
 					<button
 						key={item.name}
 						onClick={() => setActiveTab(item.name)}
-						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-medium min-w-[120px] ${
+						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-semibold min-w-[120px] ${
 							activeTab === item.name
 								? "bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white shadow-lg"
 								: "bg-white text-gray-700 shadow-md hover:shadow-lg"
@@ -61,6 +65,9 @@ export default function DashboardPage() {
 				{activeTab === "Patients" && (
 					<PatientTable initialData={patients as any} />
 				)}
+				{activeTab === "Locations" && <LocationTable initialData={[]} />}
+				{activeTab === "Staffs" && <StaffTable initialData={[]} />}
+				{activeTab === "Hospitals" && <HospitalTable initialData={[]} />}
 			</div>
 			<Footer />
 		</div>

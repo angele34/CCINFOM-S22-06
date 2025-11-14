@@ -8,6 +8,8 @@ interface Ambulance {
 	staff_id: number | null;
 	assignment_date: string | null;
 	shift_sched: string | null;
+	date_created: string | null;
+	date_updated: string | null;
 }
 
 export default function AmbulanceTable({
@@ -18,7 +20,7 @@ export default function AmbulanceTable({
 	const [ambulances] = useState<Ambulance[]>(initialData);
 
 	return (
-		<div className="max-w-7xl mx-auto px-6">
+		<div className="max-w-[1500px] mx-auto px-6">
 			<div className="bg-white rounded-2xl shadow-lg p-6">
 				<div className="flex items-center justify-between mb-6">
 					<div>
@@ -39,18 +41,20 @@ export default function AmbulanceTable({
 					<table className="w-full text-left text-sm">
 						<thead className="border-b border-gray-200">
 							<tr className="text-gray-600">
-								<th className="py-3 px-4 font-medium">Ambulance ID</th>
-								<th className="py-3 px-4 font-medium">Plate Number</th>
-								<th className="py-3 px-4 font-medium">Ambulance Type</th>
-								<th className="py-3 px-4 font-medium">Ambulance Status</th>
-								<th className="py-3 px-4 font-medium">Hospital Location ID</th>
-								<th className="py-3 px-4 font-medium">Actions</th>
+								<th className="py-3 px-4 font-bold">Ambulance ID</th>
+								<th className="py-3 px-4 font-bold">Plate Number</th>
+								<th className="py-3 px-4 font-bold">Ambulance Type</th>
+								<th className="py-3 px-4 font-bold">Ambulance Status</th>
+								<th className="py-3 px-4 font-bold">Hospital Location ID</th>
+								<th className="py-3 px-4 font-bold">Date Created</th>
+								<th className="py-3 px-4 font-bold">Date Updated</th>
+								<th className="py-3 px-4 font-bold">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							{ambulances.length === 0 ? (
 								<tr>
-									<td colSpan={6} className="py-8 text-center text-gray-500">
+									<td colSpan={8} className="py-8 text-center text-gray-500">
 										No ambulance assignments found. Click &quot;+ Add
 										Ambulance&quot; to get started.
 									</td>
@@ -77,6 +81,30 @@ export default function AmbulanceTable({
 										</td>
 										<td className="py-4 px-4 text-gray-600">
 											{amb.shift_sched ?? "N/A"}
+										</td>
+										<td className="py-4 px-4 text-gray-600">
+											{amb.date_created
+												? new Date(amb.date_created).toLocaleString("en-US", {
+														month: "2-digit",
+														day: "2-digit",
+														year: "numeric",
+														hour: "2-digit",
+														minute: "2-digit",
+														hour12: true,
+												  })
+												: "N/A"}
+										</td>
+										<td className="py-4 px-4 text-gray-600">
+											{amb.date_updated
+												? new Date(amb.date_updated).toLocaleString("en-US", {
+														month: "2-digit",
+														day: "2-digit",
+														year: "numeric",
+														hour: "2-digit",
+														minute: "2-digit",
+														hour12: true,
+												  })
+												: "N/A"}
 										</td>
 										<td className="py-4 px-4 flex gap-2">
 											<button
