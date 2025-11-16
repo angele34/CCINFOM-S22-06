@@ -18,13 +18,13 @@ export async function POST(req: Request) {
         const body = await req.json();
         const newPatient = await prisma.patient.create({
             data: {
-                patient_id: body.patient_id,
                 ref_location_id: body.ref_location_id,
                 name: body.name,
                 age: body.age,
                 medical_condition: body.medical_condition,
                 priority_level: body.priority_level,
                 contact_person: body.contact_person,
+                contact_number: body.contact_number,
                 transfer_status: body.transfer_status,
             },
         });
@@ -48,6 +48,7 @@ export async function PUT(req: Request) {
                 medical_condition: body.medical_condition,
                 priority_level: body.priority_level,
                 contact_person: body.contact_person,
+                contact_number: body.contact_number,
                 transfer_status: body.transfer_status,
             },
         })

@@ -18,7 +18,6 @@ export async function POST(req: Request) {
         const body = await req.json();
         const newReferenceLocs = await prisma.reference_location.create({
             data: {
-                ref_location_id: body.ref_location_id,
                 city: body.city,
                 street: body.street,
             },
