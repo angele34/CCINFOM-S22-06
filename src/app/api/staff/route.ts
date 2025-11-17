@@ -1,68 +1,108 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import prisma from "@/src/lib/prisma";
+
+// zod validation schemas
+const StaffSchema = z.object({
+	name: z.string().min(1).max(50),
+	staff_role: z.enum(["driver", "emt", "paramedic"]),
+	license_no: z
+		.string()
+		.length(11)
+		.regex(
+			/^LIC-\d{3}-\d{3}$/,
+			"License must be in format LIC-NNN-NNN (e.g., LIC-123-456)"
+		),
+	shift_schedule: z.enum(["morning", "night"]),
+	staff_status: z.enum(["available", "in_transfer", "off_duty"]),
+});
+
+const StaffUpdateSchema = StaffSchema.extend({
+	staff_id: z.coerce.number().int().positive(),
+});
+
+const StaffDeleteSchema = z.object({
+	staff_id: z.coerce.number().int().positive(),
+});
 
 // READ
 export async function GET() {
-    try {
-        const staffs = await prisma.staff.findMany();
-        return NextResponse.json(staffs);
-    } catch (error) {
-        console.error("READ /staff error", error);
-        return NextResponse.json({ error: String(error) }, { status: 500 });
-    }
+	try {
+		const staffs = await prisma.staff.findMany({
+			where: { is_deleted: false },
+		});
+		return NextResponse.json(staffs);
+	} catch (error) {
+		console.error("READ /staff error", error);
+		return NextResponse.json({ error: String(error) }, { status: 500 });
+	}
 }
 
 // CREATE
 export async function POST(req: Request) {
-    try {
-        const body = await req.json();
-        const newStaff = await prisma.staff.create({
-            data: {
-                name: body.name,
-                staff_role: body.staff_role,
-                license_no: body.license_no,
-                shift_schedule: body.shift_schedule,
-                staff_status: body.staff_status,
-            },
-        });
-        return NextResponse.json(newStaff);
-    } catch (error) {
-        console.error("CREATE /staff error", error);
-        return NextResponse.json({ error: String(error) }, { status: 500 });
-    }
+	try {
+		const body = await req.json();
+		const validated = StaffSchema.parse(body);
+
+		const newStaff = await prisma.staff.create({
+			data: validated,
+		});
+		return NextResponse.json(newStaff);
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return NextResponse.json(
+				{ error: "Validation failed", details: error.issues },
+				{ status: 400 }
+			);
+		}
+		console.error("CREATE /staff error", error);
+		return NextResponse.json({ error: String(error) }, { status: 500 });
+	}
 }
 
 // UPDATE
 export async function PUT(req: Request) {
-    try {
-        const body = await req.json();
-        const updatedStaff = await prisma.staff.update({
-            where: { staff_id: body.staff_id },
-            data: {
-                name: body.name,
-                staff_role: body.staff_role,
-                license_no: body.license_no,
-                shift_schedule: body.shift_schedule,
-                staff_status: body.staff_status,
-            },
-        })
-        return NextResponse.json(updatedStaff);
-    } catch (error) {
-        console.error("UPDATE /staff error", error);
-        return NextResponse.json({ error: String(error) }, { status: 500 });
-    }
+	try {
+		const body = await req.json();
+		const validated = StaffUpdateSchema.parse(body);
+		const { staff_id, ...data } = validated;
+
+		const updatedStaff = await prisma.staff.update({
+			where: { staff_id },
+			data,
+		});
+		return NextResponse.json(updatedStaff);
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return NextResponse.json(
+				{ error: "Validation failed", details: error.issues },
+				{ status: 400 }
+			);
+		}
+		console.error("UPDATE /staff error", error);
+		return NextResponse.json({ error: String(error) }, { status: 500 });
+	}
 }
 
-// DELETE
+// DELETE (soft delete)
 export async function DELETE(req: Request) {
-    try {
-        const body = await req.json();
-        const deletedStaff = await prisma.staff.delete({
-            where: { staff_id: body.staff_id },
-        })
-        return NextResponse.json(deletedStaff);
-    } catch (error) {
-        console.error("DELETE /staff error", error);
-        return NextResponse.json({ error: String(error) }, { status: 500 });
-    }
-} 
+	try {
+		const body = await req.json();
+		const { staff_id } = StaffDeleteSchema.parse(body);
+
+		const deletedStaff = await prisma.staff.update({
+			where: { staff_id },
+			data: { is_deleted: true, updated_at: new Date() },
+		});
+		return NextResponse.json(deletedStaff);
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return NextResponse.json(
+				{ error: "Validation failed", details: error.issues },
+				{ status: 400 }
+			);
+		}
+		console.error("DELETE /staff error", error);
+		return NextResponse.json({ error: String(error) }, { status: 500 });
+	}
+}

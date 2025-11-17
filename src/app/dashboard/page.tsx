@@ -9,12 +9,14 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ModeToggle from "../../components/ModeToggle";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function DashboardPage() {
 	const [activeTab, setActiveTab] = useState("Ambulances");
 	const [ambulances, setAmbulances] = useState<any[]>([]);
 	const [patients, setPatients] = useState<any[]>([]);
+	const [locations, setLocations] = useState<any[]>([]);
+	const [staffs, setStaffs] = useState<any[]>([]);
+	const [hospitals, setHospitals] = useState<any[]>([]);
 
 	// fetch ambulance data from backend
 	useEffect(() => {
@@ -32,12 +34,108 @@ export default function DashboardPage() {
 		fetchAmbulances();
 	}, []);
 
+	// fetch patient data from backend
+	useEffect(() => {
+		const fetchPatients = async () => {
+			try {
+				const response = await fetch("/api/patient");
+				if (response.ok) {
+					const data = await response.json();
+					setPatients(data);
+				}
+			} catch (error) {
+				console.error("Error fetching patients:", error);
+			}
+		};
+		fetchPatients();
+	}, []);
+
+	// fetch location data from backend
+	useEffect(() => {
+		const fetchLocations = async () => {
+			try {
+				const response = await fetch("/api/reference_loc");
+				if (response.ok) {
+					const data = await response.json();
+					setLocations(data);
+				}
+			} catch (error) {
+				console.error("Error fetching locations:", error);
+			}
+		};
+		fetchLocations();
+	}, []);
+
+	// fetch staff data from backend
+	useEffect(() => {
+		const fetchStaffs = async () => {
+			try {
+				const response = await fetch("/api/staff");
+				if (response.ok) {
+					const data = await response.json();
+					setStaffs(data);
+				}
+			} catch (error) {
+				console.error("Error fetching staffs:", error);
+			}
+		};
+		fetchStaffs();
+	}, []);
+
+	// fetch hospital data from backend
+	useEffect(() => {
+		const fetchHospitals = async () => {
+			try {
+				const response = await fetch("/api/hospital");
+				if (response.ok) {
+					const data = await response.json();
+					setHospitals(data);
+				}
+			} catch (error) {
+				console.error("Error fetching hospitals:", error);
+			}
+		};
+		fetchHospitals();
+	}, []);
+
 	const handleAmbulanceUpdate = () => {
 		// refetch ambulance table after each crud
 		fetch("/api/ambulance")
 			.then((res) => res.json())
 			.then((data) => setAmbulances(data))
 			.catch((error) => console.error("Error fetching ambulances:", error));
+	};
+
+	const handlePatientUpdate = () => {
+		// refetch patient table after each crud
+		fetch("/api/patient")
+			.then((res) => res.json())
+			.then((data) => setPatients(data))
+			.catch((error) => console.error("Error fetching patients:", error));
+	};
+
+	const handleLocationUpdate = () => {
+		// refetch location table after each crud
+		fetch("/api/reference_loc")
+			.then((res) => res.json())
+			.then((data) => setLocations(data))
+			.catch((error) => console.error("Error fetching locations:", error));
+	};
+
+	const handleStaffUpdate = () => {
+		// refetch staff table after each crud
+		fetch("/api/staff")
+			.then((res) => res.json())
+			.then((data) => setStaffs(data))
+			.catch((error) => console.error("Error fetching staffs:", error));
+	};
+
+	const handleHospitalUpdate = () => {
+		// refetch hospital table after each crud
+		fetch("/api/hospital")
+			.then((res) => res.json())
+			.then((data) => setHospitals(data))
+			.catch((error) => console.error("Error fetching hospitals:", error));
 	};
 
 	const tabs = [
@@ -89,11 +187,26 @@ export default function DashboardPage() {
 					/>
 				)}
 				{activeTab === "Patients" && (
-					<PatientTable initialData={patients as any} />
+					<PatientTable
+						initialData={patients}
+						onUpdate={handlePatientUpdate}
+					/>
 				)}
-				{activeTab === "Locations" && <LocationTable initialData={[]} />}
-				{activeTab === "Staffs" && <StaffTable initialData={[]} />}
-				{activeTab === "Hospitals" && <HospitalTable initialData={[]} />}
+				{activeTab === "Locations" && (
+					<LocationTable
+						initialData={locations}
+						onUpdate={handleLocationUpdate}
+					/>
+				)}
+				{activeTab === "Staffs" && (
+					<StaffTable initialData={staffs} onUpdate={handleStaffUpdate} />
+				)}
+				{activeTab === "Hospitals" && (
+					<HospitalTable
+						initialData={hospitals}
+						onUpdate={handleHospitalUpdate}
+					/>
+				)}
 			</div>
 			<Footer />
 		</div>
