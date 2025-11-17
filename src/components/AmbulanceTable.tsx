@@ -1,20 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import FormModal from "./FormModal";
-import {
-	isDuplicateKeyError,
-	showDuplicateAlert,
-	generateNextUniqueId,
-	extractExistingIds,
-} from "@/src/lib/duplicateHandler";
 
 interface Ambulance {
-	assignment_id: number;
-	ambulance_id: number | null;
-	staff_id: number | null;
-	assignment_date: string | null;
-	shift_sched: string | null;
+	ambulance_id: number;
+	ambulance_type: string;
+	hospital_id: number;
+	ambulance_status: string;
+	plate_no: string;
+	created_at: string;
+	updated_at: string | null;
+}
+
+interface Hospital {
+	hospital_id: number;
+	hospital_name: string;
 }
 
 export default function AmbulanceTable({
@@ -25,120 +27,129 @@ export default function AmbulanceTable({
 	onUpdate?: () => void;
 }) {
 	const [showModal, setShowModal] = useState(false);
+	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+
+	useEffect(() => {
+		const fetchHospitals = async () => {
+			try {
+				const response = await fetch("/api/hospital");
+				if (response.ok) {
+					const data = await response.json();
+					setHospitals(data);
+				} else {
+					console.error("Failed to fetch hospitals");
+				}
+			} catch (error) {
+				console.error("Error fetching hospitals:", error);
+			}
+		};
+
+		fetchHospitals();
+	}, []);
 
 	const formFields = [
 		{
-			name: "assignment_id",
-			label: "Assignment ID",
-			type: "number" as const,
+			name: "hospital_id",
+			label: "Hospital ID",
+			type: "select" as const,
 			required: true,
-			placeholder: "Enter assignment ID",
+			options: hospitals.map((h) => ({
+				value: h.hospital_id.toString(),
+				label: `${h.hospital_name} (ID: ${h.hospital_id})`,
+			})),
 		},
 		{
-			name: "ambulance_id",
-			label: "Ambulance ID",
-			type: "number" as const,
-			placeholder: "Enter ambulance ID",
+			name: "ambulance_type",
+			label: "Ambulance Type",
+			type: "select" as const,
+			required: true,
+			options: [
+				{ value: "type_1", label: "Type 1" },
+				{ value: "type_2", label: "Type 2" },
+			],
 		},
 		{
-			name: "staff_id",
-			label: "Staff ID",
-			type: "number" as const,
-			placeholder: "Enter staff ID",
+			name: "ambulance_status",
+			label: "Ambulance Status",
+			type: "select" as const,
+			required: true,
+			options: [
+				{ value: "on_trip", label: "On Trip" },
+				{ value: "available", label: "Available" },
+			],
 		},
 		{
-			name: "assignment_date",
-			label: "Assignment Date",
-			type: "date" as const,
-		},
-		{
-			name: "shift_sched",
-			label: "Shift Schedule",
+			name: "plate_no",
+			label: "Plate Number",
 			type: "text" as const,
-			placeholder: "Enter shift schedule",
+			required: true,
+			placeholder: "Enter plate number (max 7 chars)",
+			maxLength: 7,
+			transform: "uppercase" as const,
+			pattern: "^[A-Z0-9\\- ]{1,7}$",
+			customErrorMessages: {
+				valueMissing: "Plate number is required",
+				patternMismatch: "Use up to 7 letters, numbers or hyphen",
+				tooLong: "Plate must be at most 7 characters",
+			},
 		},
 	];
 
 	const handleFormSubmit = async (formData: Record<string, string>) => {
 		try {
-			const initialAssignmentId = parseInt(formData.assignment_id);
-			let assignmentId = initialAssignmentId;
 			const payload = {
-				assignment_id: assignmentId,
-				ambulance_id: formData.ambulance_id
-					? parseInt(formData.ambulance_id)
-					: null,
-				staff_id: formData.staff_id ? parseInt(formData.staff_id) : null,
-				assignment_date: formData.assignment_date || null,
-				shift_sched: formData.shift_sched || null,
+				hospital_id: parseInt(formData.hospital_id, 10),
+				ambulance_type: formData.ambulance_type,
+				ambulance_status: formData.ambulance_status,
+				plate_no: formData.plate_no.toUpperCase().slice(0, 7),
 			};
 
-			let response = await fetch("/api/ambulance", {
+			const response = await fetch("/api/ambulance", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(payload),
 			});
-
-			// handle duplicate primary key error
-			if (!response.ok) {
-				const errorData = await response.json();
-				if (isDuplicateKeyError(errorData.error)) {
-					const existingIds = extractExistingIds(
-						initialData as unknown as Record<string, unknown>[],
-						"assignment_id"
-					);
-					const suggestedId = generateNextUniqueId(existingIds);
-
-					const userConfirmed = showDuplicateAlert(
-						"Assignment ID",
-						assignmentId,
-						suggestedId
-					);
-
-					if (userConfirmed) {
-						// retry with the new ID
-						assignmentId = suggestedId;
-						payload.assignment_id = suggestedId;
-						response = await fetch("/api/ambulance", {
-							method: "POST",
-							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify(payload),
-						});
-					} else {
-						// user cancelled, don't proceed
-						return;
-					}
-				}
-			}
 
 			if (response.ok) {
 				setShowModal(false);
 				onUpdate?.();
 			} else {
 				const errorData = await response.json();
-				alert(`Error: ${errorData.error}`);
+
+				// handle structured Zod validation errors
+				if (errorData.details && Array.isArray(errorData.details)) {
+					const errorMessages = errorData.details
+						.map(
+							(err: { path: string[]; message: string }) =>
+								`${err.path.join(".")}: ${err.message}`
+						)
+						.join("\n");
+					alert(`Validation errors:\n${errorMessages}`);
+				} else {
+					alert(`Error: ${errorData.error || "Unknown error"}`);
+				}
 			}
 		} catch (error) {
 			console.error("Error creating ambulance:", error);
-			alert("An error occurred while creating the ambulance assignment");
+			alert("An error occurred while creating the ambulance");
 		}
 	};
 
 	return (
-		<div className="max-w-[1500px] mx-auto px-6">
+		<div className="max-w-[1200px] mx-auto px-6">
 			<div className="bg-white rounded-2xl shadow-lg p-6">
 				<div className="flex items-center justify-between mb-6">
 					<div>
-						<h2 className="text-xl font-semibold text-gray-800">
+						<h2 className="text-xl font-semibold text-ambulance-teal-750">
 							Ambulance Record Management
 						</h2>
-						<p className="text-sm text-gray-500">
-							Manage and track all ambulance assignments in the fleet
+						<p className="text-sm text-ambulance-teal-750 text-opacity-80">
+							Manage and track all ambulance vehicles in the fleet
 						</p>
 					</div>
 					<button
 						onClick={() => setShowModal(true)}
-						className="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+						className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
 					>
 						+ Add Ambulance
 					</button>
@@ -148,7 +159,7 @@ export default function AmbulanceTable({
 					isOpen={showModal}
 					onClose={() => setShowModal(false)}
 					onSubmit={handleFormSubmit}
-					title="New Ambulance Assignment"
+					title="New Ambulance Record"
 					fields={formFields}
 					submitLabel="Add Ambulance"
 				/>
@@ -157,15 +168,17 @@ export default function AmbulanceTable({
 				<div className="overflow-x-auto">
 					<table className="w-full text-left text-sm">
 						<thead className="border-b border-gray-200">
-							<tr className="text-gray-600">
-								<th className="py-3 px-4 font-bold">Assignment ID</th>
-								<th className="py-3 px-4 font-bold">Ambulance ID</th>
-								<th className="py-3 px-4 font-bold">Staff ID</th>
-								<th className="py-3 px-4 font-bold">Assignment Date</th>
-								<th className="py-3 px-4 font-bold">Shift Schedule</th>
-								<th className="py-3 px-4 font-bold">Date Created</th>
-								<th className="py-3 px-4 font-bold">Date Updated</th>
-								<th className="py-3 px-4 font-bold">Actions</th>
+							<tr className="text-ambulance-teal-750">
+								<th className="py-2 px-1 font-bold text-center">
+									Ambulance ID
+								</th>
+								<th className="py-2 px-1 font-bold text-center">Hospital ID</th>
+								<th className="py-3 px-4 font-bold">Type</th>
+								<th className="py-3 px-4 font-bold">Status</th>
+								<th className="py-2 px-3 font-bold">Plate Number</th>
+								<th className="py-2 px-3 font-bold">Date Created</th>
+								<th className="py-2 px-3 font-bold">Date Updated</th>
+								<th className="py-2 px-3 font-bold">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -173,7 +186,7 @@ export default function AmbulanceTable({
 								<tr>
 									<td colSpan={8} className="py-12 text-center">
 										<p className="text-gray-500 text-base">
-											No ambulance assignments found. Click &quot;+ Add
+											No ambulance records found. Click &quot;+ Add
 											Ambulance&quot; to get started.
 										</p>
 									</td>
@@ -181,48 +194,86 @@ export default function AmbulanceTable({
 							) : (
 								initialData.map((amb) => (
 									<tr
-										key={amb.assignment_id}
+										key={amb.ambulance_id}
 										className="border-b border-gray-100 hover:bg-gray-50"
 									>
-										<td className="py-4 px-4 font-medium text-gray-900">
-											{amb.assignment_id}
+										<td className="py-2 px-1 font-medium text-gray-900 text-center">
+											{amb.ambulance_id}
 										</td>
-										<td className="py-4 px-4 text-gray-800">
-											{amb.ambulance_id ?? "N/A"}
+										<td className="py-2 px-1 text-gray-800 text-center">
+											{amb.hospital_id}
 										</td>
-										<td className="py-4 px-4 text-gray-800">
-											{amb.staff_id ?? "N/A"}
+										<td className="py-2 px-3">
+											{amb.ambulance_type ? (
+												amb.ambulance_type === "type_1" ? (
+													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-1 text-xs font-medium">
+														Type 1
+													</span>
+												) : amb.ambulance_type === "type_2" ? (
+													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-2 text-xs font-medium">
+														Type 2
+													</span>
+												) : (
+													<span className="text-gray-600">
+														{amb.ambulance_type}
+													</span>
+												)
+											) : (
+												<span className="text-gray-600">N/A</span>
+											)}
 										</td>
-										<td className="py-4 px-4 text-gray-800">
-											{amb.assignment_date
-												? new Date(amb.assignment_date).toLocaleDateString()
+										<td className="py-2 px-3">
+											{amb.ambulance_status ? (
+												amb.ambulance_status === "available" ? (
+													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-status-available text-xs font-medium">
+														Available
+													</span>
+												) : amb.ambulance_status === "on_trip" ? (
+													<span className="inline-block px-3 py-1 rounded-full text-ambulance-ontrip bg-ambulance-status-on-trip text-xs font-medium">
+														On Trip
+													</span>
+												) : (
+													<span className="text-gray-600">
+														{amb.ambulance_status}
+													</span>
+												)
+											) : (
+												<span className="text-gray-600">N/A</span>
+											)}
+										</td>
+										<td className="py-2 px-3 text-gray-800">
+											{amb.plate_no ?? "N/A"}
+										</td>
+										<td className="py-2 px-3 text-gray-800">
+											{new Date(amb.created_at).toLocaleString()}
+										</td>
+										<td className="py-2 px-3 text-gray-800">
+											{amb.updated_at
+												? new Date(amb.updated_at).toLocaleString()
 												: "N/A"}
 										</td>
-										<td className="py-4 px-4 text-gray-800">
-											{amb.shift_sched ?? "N/A"}
-										</td>
-										<td className="py-4 px-4">
+										<td className="py-2 px-3">
 											<div className="flex items-center justify-left gap-2">
 												<button
 													className="p-2 hover:bg-blue-100 rounded transition"
 													title="Edit"
 												>
-													<img
+													<Image
 														src="/icons/edit.svg"
 														alt="Edit"
-														width="18"
-														height="18"
+														width={18}
+														height={18}
 													/>
 												</button>
 												<button
 													className="p-2 hover:bg-red-100 rounded transition"
 													title="Delete"
 												>
-													<img
+													<Image
 														src="/icons/delete.svg"
 														alt="Delete"
-														width="20"
-														height="20"
+														width={20}
+														height={20}
 													/>
 												</button>
 											</div>

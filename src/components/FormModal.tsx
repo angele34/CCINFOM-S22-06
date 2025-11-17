@@ -1,11 +1,21 @@
 "use client";
+"use client";
 
 interface FormField {
 	name: string;
 	label: string;
-	type: "text" | "number" | "date" | "email" | "tel";
+	type: "text" | "number" | "date" | "email" | "tel" | "select";
 	required?: boolean;
 	placeholder?: string;
+	options?: { value: string; label?: string }[];
+	maxLength?: number;
+	pattern?: string;
+	transform?: "uppercase" | "lowercase" | "none";
+	customErrorMessages?: {
+		required?: string;
+		pattern?: string;
+		tooLong?: string;
+	};
 }
 
 interface FormModalProps {
@@ -33,8 +43,11 @@ export default function FormModal({
 		const formData: Record<string, string> = {};
 
 		fields.forEach((field) => {
-			const input = form.elements.namedItem(field.name) as HTMLInputElement;
-			formData[field.name] = input.value;
+			const el = form.elements.namedItem(field.name) as
+				| HTMLInputElement
+				| HTMLSelectElement
+				| null;
+			formData[field.name] = el?.value ?? "";
 		});
 
 		onSubmit(formData);
@@ -57,38 +70,96 @@ export default function FormModal({
 										<span className="text-red-500 ml-1">*</span>
 									)}
 								</label>
-								<input
-									type={field.type === "date" ? "text" : field.type}
-									name={field.name}
-									required={field.required}
-									inputMode={field.type === "number" ? "numeric" : undefined}
-									title={
-										field.type === "number"
-											? "Please enter numbers only"
-											: undefined
-									}
-									pattern={field.type === "number" ? "[0-9]*" : undefined}
-									placeholder={
-										field.type === "date" ? "YYYY-MM-DD" : field.placeholder
-									}
-									className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400 invalid:border-red-500 invalid:ring-red-500"
-									onInvalid={(e) => {
-										if (
-											field.type === "number" &&
-											(e.target as HTMLInputElement).value &&
-											isNaN(Number((e.target as HTMLInputElement).value))
-										) {
-											(e.target as HTMLInputElement).setCustomValidity(
-												"Please enter numbers only"
-											);
+
+								{field.type === "select" ? (
+									<select
+										name={field.name}
+										required={field.required}
+										className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400"
+									>
+										<option value="">-- Select --</option>
+										{field.options?.map((opt) => (
+											<option key={opt.value} value={opt.value}>
+												{opt.label ?? opt.value}
+											</option>
+										))}
+									</select>
+								) : (
+									<input
+										type={field.type === "date" ? "text" : field.type}
+										name={field.name}
+										required={field.required}
+										inputMode={field.type === "number" ? "numeric" : undefined}
+										title={
+											field.type === "number"
+												? "Please enter numbers only"
+												: field.customErrorMessages?.pattern ?? undefined
 										}
-									}}
-									onChange={(e) => {
-										(e.target as HTMLInputElement).setCustomValidity("");
-									}}
-								/>
+										pattern={
+											field.pattern ??
+											(field.type === "number" ? "[0-9]*" : undefined)
+										}
+										maxLength={field.maxLength}
+										placeholder={
+											field.type === "date" ? "YYYY-MM-DD" : field.placeholder
+										}
+										className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400"
+										onInput={(e) => {
+											const input = e.target as HTMLInputElement;
+											if (field.transform === "uppercase")
+												input.value = input.value.toUpperCase();
+											if (field.transform === "lowercase")
+												input.value = input.value.toLowerCase();
+											if (typeof field.maxLength === "number") {
+												input.value = input.value.slice(0, field.maxLength);
+											}
+										}}
+										onInvalid={(e) => {
+											const target = e.target as HTMLInputElement;
+											if (
+												field.type === "number" &&
+												target.value &&
+												isNaN(Number(target.value))
+											) {
+												target.setCustomValidity(
+													field.customErrorMessages?.pattern ??
+														"Please enter numbers only"
+												);
+												return;
+											}
+											if (
+												field.maxLength &&
+												target.value &&
+												target.value.length > field.maxLength
+											) {
+												target.setCustomValidity(
+													field.customErrorMessages?.tooLong ??
+														`Maximum length is ${field.maxLength}`
+												);
+												return;
+											}
+											if (field.pattern && target.value) {
+												target.setCustomValidity(
+													field.customErrorMessages?.pattern ?? "Invalid format"
+												);
+												return;
+											}
+											if (field.required && !target.value) {
+												target.setCustomValidity(
+													field.customErrorMessages?.required ??
+														"This field is required"
+												);
+												return;
+											}
+										}}
+										onChange={(e) => {
+											(e.target as HTMLInputElement).setCustomValidity("");
+										}}
+									/>
+								)}
 							</div>
 						))}
+
 						<div className="flex gap-3 pt-4">
 							<button
 								type="button"
