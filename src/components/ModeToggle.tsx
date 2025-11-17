@@ -12,7 +12,7 @@ export default function ModeToggle({
 				href="/dashboard"
 				className={`flex items-center gap-2 px-10 py-3 rounded-full font-medium transition min-w-[160px] justify-center ${
 					activeMode === "Records"
-						? "bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white shadow-lg"
+						? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg"
 						: "bg-white text-gray-700 shadow-md hover:shadow-lg"
 				}`}
 			>
@@ -32,7 +32,7 @@ export default function ModeToggle({
 				href="/reports"
 				className={`flex items-center gap-2 px-10 py-3 rounded-full font-medium transition min-w-[160px] justify-center ${
 					activeMode === "Reports"
-						? "bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white shadow-lg"
+						? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg"
 						: "bg-white text-gray-700 shadow-md hover:shadow-lg"
 				}`}
 			>

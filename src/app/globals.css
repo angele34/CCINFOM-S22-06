@@ -24,3 +24,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Ambulance-specific color utilities */
+.text-ambulance-teal-750 {
+  color: #003533;
+}
+
+.bg-ambulance-status-on-trip {
+  background-color: #f1d04a;
+}
+
+.bg-ambulance-status-available {
+  background-color: #006937;
+}
+
+.bg-ambulance-type-1 {
+  background-color: #00897b;
+}
+
+.bg-ambulance-type-2 {
+  background-color: #0a574f;
+}
+
+/* On-trip badge text color (contrasts with the yellow background) */
+.text-ambulance-ontrip {
+  color: #003533;
+}

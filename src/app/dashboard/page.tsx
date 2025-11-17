@@ -61,7 +61,7 @@ export default function DashboardPage() {
 						onClick={() => setActiveTab(item.name)}
 						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-semibold min-w-[120px] ${
 							activeTab === item.name
-								? "bg-gradient-to-r from-[#00BBA8] to-[#2882FF] text-white shadow-lg"
+								? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg"
 								: "bg-white text-gray-700 shadow-md hover:shadow-lg"
 						}`}
 					>

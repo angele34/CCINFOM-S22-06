@@ -35,77 +35,95 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-[#2882FF] to-[#00BBA8] p-6">
-			<div className="w-full max-w-5xl bg-white/0 md:bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 p-4">
+			<div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
 				{/* left side */}
-				<div className="md:flex-1 bg-gradient-to-br from-[#0865F5] to-[#00BBA8] p-12 flex items-center justify-center text-white">
-					<div className="max-w-xs text-center md:text-left">
-						<h2 className="text-2xl font-semibold mb-4">
-							placeholder for primecare{" "}
-						</h2>
+				<div className="w-full md:w-1/2 bg-gradient-to-br from-cyan-600 via-teal-600 to-teal-700 p-12 flex flex-col justify-center">
+					<div className="text-white">
+						<div className="text-lg font text-teal-100 uppercase mb-2">
+							WELCOME BACK
+						</div>
+						<h3 className="text-3xl font-bold text-white mb-6">
+							Log In to your Account
+						</h3>
+
+						<form onSubmit={handleSubmit} className="space-y-4">
+							<div>
+								<label className="block text-sm text-white mb-1">
+									Username
+								</label>
+								<input
+									name="username"
+									type="text"
+									placeholder="Enter Username"
+									className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
+									required
+								/>
+							</div>
+
+							<div>
+								<label className="block text-sm text-white mb-1">
+									Password
+								</label>
+								<input
+									name="password"
+									type="password"
+									placeholder="••••••••••"
+									className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
+									required
+								/>
+							</div>
+
+							<div className="flex items-center justify-between text-sm mt-1">
+								<label className="flex items-center gap-2 text-white text-sm">
+									<input
+										type="checkbox"
+										className="w-4 h-4 rounded border-white/40"
+									/>
+									<span>Remember me</span>
+								</label>
+								<a href="#" className="text-white/80 hover:text-white text-sm">
+									Forgot your password?
+								</a>
+							</div>
+
+							<button
+								type="submit"
+								className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-teal-600 text-white shadow-lg rounded-lg py-3 mt-3 hover:opacity-90 transition"
+							>
+								Log In
+							</button>
+
+							<div className="text-center text-white/80 text-sm">
+								New User?{" "}
+								<a href="#" className="text-white underline">
+									Sign up
+								</a>
+							</div>
+						</form>
 					</div>
 				</div>
 
 				{/* right side */}
-				<div className="md:w-[420px] w-full bg-white p-8 md:p-10 flex flex-col justify-center">
-					<div className="mb-6">
-						<div className="text-s uppercase text-[#333333] mb-1">
-							Welcome back
-						</div>
-						<h3 className="text-2xl text-black font-semibold">
-							Log In to your Account
-						</h3>
+				<div className="w-full md:w-1/2 bg-white p-12 flex flex-col justify-center items-center relative overflow-hidden">
+					{/*  spheres */}
+					<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"></div>
+					<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500"></div>
+					<div className="absolute bottom-20 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
+					<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-400/50"></div>
+					<div className="absolute bottom-32 right-16 w-10 h-10 rounded-full bg-cyan-500/30"></div>
+
+					{/* random bilog */}
+					<div className="absolute top-1/4 right-0 w-32 h-32 border-8 border-teal-500 rounded-full translate-x-1/2"></div>
+					<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
+
+					<div className="relative z-10 text-center">
+						<h2 className="text-4xl font-semibold text-cyan-500">
+							{" "}
+							fuck ccinfom !
+						</h2>
+						<p className="text-gray-500 mt-2">this is a placeholder</p>
 					</div>
-
-					<form className="space-y-4" action="#" onSubmit={handleSubmit}>
-						<label className="block text-sm text-black">
-							<span className="text-xs text-[#333333]">Username</span>
-							<input
-								name="username"
-								className="mt-1 block w-full rounded-lg border border-[#333333] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2882FF]"
-								placeholder="JuanDelaCruz"
-								required
-							/>
-						</label>
-
-						<label className="block text-sm text-[#333333]">
-							<span className="text-xs text-[#333333]">Password</span>
-							<input
-								name="password"
-								type="password"
-								className="mt-1 block w-full rounded-lg border border-[#333333] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#2882FF]"
-								placeholder="••••••••••"
-								required
-							/>
-						</label>
-
-						<div className="flex items-center justify-between text-sm text-[#333333]">
-							<label className="flex items-center gap-2">
-								<input
-									type="checkbox"
-									className="w-4 h-4 rounded border-[#333333]"
-								/>
-								<span>Remember me</span>
-							</label>
-							<a className="text-blue-600 hover:underline" href="#">
-								Forgot Password?
-							</a>
-						</div>
-
-						<button
-							type="submit"
-							className="w-full mt-2 py-3 rounded-lg text-white font-medium bg-gradient-to-r from-[#1E74FF] to-[#0a9f9a] hover:opacity-85 transition delay-90"
-						>
-							CONTINUE
-						</button>
-
-						<div className="text-center text-sm text-gray-500">
-							New User?{" "}
-							<a className="text-blue-600 hover:underline" href="#">
-								Sign up
-							</a>
-						</div>
-					</form>
 				</div>
 			</div>
 		</div>
