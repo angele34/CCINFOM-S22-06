@@ -23,9 +23,11 @@ const AmbulanceDeleteSchema = z.object({
 
 // READ
 export async function GET() {
-	// retrieves all columns from the table
+	// retrieves all columns from the table, excluding soft-deleted records
 	try {
-		const ambulances = await prisma.ambulance.findMany();
+		const ambulances = await prisma.ambulance.findMany({
+			where: { is_deleted: false },
+		});
 		return NextResponse.json(ambulances);
 	} catch (error) {
 		console.error("GET /ambulance error:", error);
@@ -79,14 +81,15 @@ export async function PUT(req: Request) {
 	}
 }
 
-// DELETE
+// DELETE (soft delete lang)
 export async function DELETE(req: Request) {
 	try {
 		const body = await req.json();
 		const { ambulance_id } = AmbulanceDeleteSchema.parse(body);
 
-		const deletedAmbulance = await prisma.ambulance.delete({
+		const deletedAmbulance = await prisma.ambulance.update({
 			where: { ambulance_id },
+			data: { is_deleted: true, updated_at: new Date() },
 		});
 		return NextResponse.json(deletedAmbulance);
 	} catch (error) {

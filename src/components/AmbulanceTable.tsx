@@ -27,6 +27,9 @@ export default function AmbulanceTable({
 	onUpdate?: () => void;
 }) {
 	const [showModal, setShowModal] = useState(false);
+	const [editingAmbulance, setEditingAmbulance] = useState<Ambulance | null>(
+		null
+	);
 	const [hospitals, setHospitals] = useState<Hospital[]>([]);
 
 	useEffect(() => {
@@ -104,14 +107,21 @@ export default function AmbulanceTable({
 				plate_no: formData.plate_no.toUpperCase().slice(0, 7),
 			};
 
-			const response = await fetch("/api/ambulance", {
-				method: "POST",
+			const url = "/api/ambulance";
+			const method = editingAmbulance ? "PUT" : "POST";
+			const body = editingAmbulance
+				? { ...payload, ambulance_id: editingAmbulance.ambulance_id }
+				: payload;
+
+			const response = await fetch(url, {
+				method,
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(payload),
+				body: JSON.stringify(body),
 			});
 
 			if (response.ok) {
 				setShowModal(false);
+				setEditingAmbulance(null);
 				onUpdate?.();
 			} else {
 				const errorData = await response.json();
@@ -130,9 +140,43 @@ export default function AmbulanceTable({
 				}
 			}
 		} catch (error) {
-			console.error("Error creating ambulance:", error);
-			alert("An error occurred while creating the ambulance");
+			console.error("Error saving ambulance:", error);
+			alert("An error occurred while saving the ambulance");
 		}
+	};
+
+	const handleEdit = (ambulance: Ambulance) => {
+		setEditingAmbulance(ambulance);
+		setShowModal(true);
+	};
+
+	const handleDelete = async (ambulance_id: number) => {
+		if (!confirm("Are you sure you want to delete this ambulance?")) {
+			return;
+		}
+
+		try {
+			const response = await fetch("/api/ambulance", {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ ambulance_id }),
+			});
+
+			if (response.ok) {
+				onUpdate?.();
+			} else {
+				const errorData = await response.json();
+				alert(`Error: ${errorData.error || "Failed to delete ambulance"}`);
+			}
+		} catch (error) {
+			console.error("Error deleting ambulance:", error);
+			alert("An error occurred while deleting the ambulance");
+		}
+	};
+
+	const handleCloseModal = () => {
+		setShowModal(false);
+		setEditingAmbulance(null);
 	};
 
 	return (
@@ -157,11 +201,23 @@ export default function AmbulanceTable({
 
 				<FormModal
 					isOpen={showModal}
-					onClose={() => setShowModal(false)}
+					onClose={handleCloseModal}
 					onSubmit={handleFormSubmit}
-					title="New Ambulance Record"
+					title={
+						editingAmbulance ? "Edit Ambulance Record" : "New Ambulance Record"
+					}
 					fields={formFields}
-					submitLabel="Add Ambulance"
+					submitLabel={editingAmbulance ? "Update Ambulance" : "Add Ambulance"}
+					initialData={
+						editingAmbulance
+							? {
+									hospital_id: editingAmbulance.hospital_id.toString(),
+									ambulance_type: editingAmbulance.ambulance_type || "",
+									ambulance_status: editingAmbulance.ambulance_status || "",
+									plate_no: editingAmbulance.plate_no || "",
+							  }
+							: undefined
+					}
 				/>
 
 				{/* Table */}
@@ -257,6 +313,7 @@ export default function AmbulanceTable({
 												<button
 													className="p-2 hover:bg-blue-100 rounded transition"
 													title="Edit"
+													onClick={() => handleEdit(amb)}
 												>
 													<Image
 														src="/icons/edit.svg"
@@ -268,6 +325,7 @@ export default function AmbulanceTable({
 												<button
 													className="p-2 hover:bg-red-100 rounded transition"
 													title="Delete"
+													onClick={() => handleDelete(amb.ambulance_id)}
 												>
 													<Image
 														src="/icons/delete.svg"
