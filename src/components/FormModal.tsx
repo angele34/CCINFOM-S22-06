@@ -25,6 +25,7 @@ interface FormModalProps {
 	title: string;
 	fields: FormField[];
 	submitLabel?: string;
+	initialData?: Record<string, string>;
 }
 
 export default function FormModal({
@@ -34,6 +35,7 @@ export default function FormModal({
 	title,
 	fields,
 	submitLabel = "Submit",
+	initialData,
 }: FormModalProps) {
 	if (!isOpen) return null;
 
@@ -75,6 +77,7 @@ export default function FormModal({
 									<select
 										name={field.name}
 										required={field.required}
+										defaultValue={initialData?.[field.name] ?? ""}
 										className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400"
 									>
 										<option value="">-- Select --</option>
@@ -89,6 +92,7 @@ export default function FormModal({
 										type={field.type === "date" ? "text" : field.type}
 										name={field.name}
 										required={field.required}
+										defaultValue={initialData?.[field.name] ?? ""}
 										inputMode={field.type === "number" ? "numeric" : undefined}
 										title={
 											field.type === "number"
@@ -166,11 +170,11 @@ export default function FormModal({
 								onClick={onClose}
 								className="flex-1 px-4 py-2.5 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition"
 							>
-								Discard
+								Cancel
 							</button>
 							<button
 								type="submit"
-								className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition"
+								className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
 							>
 								{submitLabel}
 							</button>
