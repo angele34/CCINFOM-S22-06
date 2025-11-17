@@ -19,7 +19,6 @@ export async function POST(req: Request) {
         const newHospital = await prisma.hospital.create({
             data: {
                 hospital_name: body.hospital_name,
-                hospital_type: body.hospital_type,
                 city: body.city,
                 street: body.street,
             },
@@ -39,7 +38,6 @@ export async function PUT(req: Request) {
             where: { hospital_id: body.hospital_id },
             data: {
                 hospital_name: body.hospital_name,
-                hospital_type: body.hospital_type,
                 city: body.city,
                 street: body.street,
             },

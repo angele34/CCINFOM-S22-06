@@ -24,13 +24,12 @@ model ambulance {
 }
 
 model hospital {
-  hospital_id   Int                    @id @default(autoincrement())
-  hospital_name String                 @db.VarChar(50)
-  hospital_type hospital_hospital_type
+  hospital_id   Int           @id @default(autoincrement())
+  hospital_name String        @db.VarChar(50)
   city          hospital_city
-  street        String                 @db.VarChar(20)
-  created_at    DateTime               @default(now()) @db.DateTime(0)
-  updated_at    DateTime?              @default(now()) @db.DateTime(0)
+  street        String        @db.VarChar(20)
+  created_at    DateTime      @default(now()) @db.DateTime(0)
+  updated_at    DateTime?     @default(now()) @db.DateTime(0)
   ambulance     ambulance[]
   transfer      transfer[]
 }
@@ -108,11 +107,6 @@ model ambulance_staff {
 enum ambulance_ambulance_type {
   type_1
   type_2
-}
-
-enum hospital_hospital_type {
-  public
-  private
 }
 
 enum staff_staff_role {
