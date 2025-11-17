@@ -86,14 +86,15 @@ export default function AmbulanceTable({
 			label: "Plate Number",
 			type: "text" as const,
 			required: true,
-			placeholder: "Enter plate number (max 7 chars)",
+			placeholder: "ABC1234 (3 letters + 4 numbers)",
 			maxLength: 7,
 			transform: "uppercase" as const,
-			pattern: "^[A-Z0-9\\- ]{1,7}$",
+			pattern: "^[A-Z]{3}[0-9]{4}$",
 			customErrorMessages: {
-				valueMissing: "Plate number is required",
-				patternMismatch: "Use up to 7 letters, numbers or hyphen",
-				tooLong: "Plate must be at most 7 characters",
+				required: "Plate number is required",
+				pattern:
+					"Plate must be 3 letters followed by 4 numbers (e.g., ABC1234)",
+				tooLong: "Plate must be exactly 7 characters",
 			},
 		},
 	];
