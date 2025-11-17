@@ -10,13 +10,65 @@ import Footer from "../../components/Footer";
 import ModeToggle from "../../components/ModeToggle";
 import Image from "next/image";
 
+interface Ambulance {
+	ambulance_id: number;
+	ambulance_type: string;
+	hospital_id: number;
+	ambulance_status: string;
+	plate_no: string;
+	created_at: string;
+	updated_at: string | null;
+}
+
+interface Patient {
+	patient_id: number;
+	ref_location_id: number;
+	name: string;
+	age: number | null;
+	medical_condition: string;
+	priority_level: string;
+	contact_person: string | null;
+	contact_number: string | null;
+	transfer_status: string | null;
+	created_at: string;
+	updated_at: string | null;
+}
+
+interface Location {
+	ref_location_id: number;
+	city: string;
+	street: string;
+	created_at: string;
+	updated_at: string | null;
+}
+
+interface Staff {
+	staff_id: number;
+	name: string;
+	staff_role: string;
+	license_no: string;
+	shift_schedule: string;
+	staff_status: string;
+	created_at: string;
+	updated_at: string | null;
+}
+
+interface Hospital {
+	hospital_id: number;
+	hospital_name: string;
+	city: string;
+	street: string;
+	created_at: string;
+	updated_at: string | null;
+}
+
 export default function DashboardPage() {
 	const [activeTab, setActiveTab] = useState("Ambulances");
-	const [ambulances, setAmbulances] = useState<any[]>([]);
-	const [patients, setPatients] = useState<any[]>([]);
-	const [locations, setLocations] = useState<any[]>([]);
-	const [staffs, setStaffs] = useState<any[]>([]);
-	const [hospitals, setHospitals] = useState<any[]>([]);
+	const [ambulances, setAmbulances] = useState<Ambulance[]>([]);
+	const [patients, setPatients] = useState<Patient[]>([]);
+	const [locations, setLocations] = useState<Location[]>([]);
+	const [staffs, setStaffs] = useState<Staff[]>([]);
+	const [hospitals, setHospitals] = useState<Hospital[]>([]);
 
 	// fetch ambulance data from backend
 	useEffect(() => {
@@ -187,10 +239,7 @@ export default function DashboardPage() {
 					/>
 				)}
 				{activeTab === "Patients" && (
-					<PatientTable
-						initialData={patients}
-						onUpdate={handlePatientUpdate}
-					/>
+					<PatientTable initialData={patients} onUpdate={handlePatientUpdate} />
 				)}
 				{activeTab === "Locations" && (
 					<LocationTable
