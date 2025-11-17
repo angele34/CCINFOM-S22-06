@@ -82,14 +82,14 @@ export default function LoginPage() {
 									/>
 									<span>Remember me</span>
 								</label>
-								<a href="#" className="text-white/80 hover:text-white text-sm">
+								<a href="#" className="text-white/80 hover:text-white text-sm transition delay-70">
 									Forgot your password?
 								</a>
 							</div>
 
 							<button
 								type="submit"
-								className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-teal-600 text-white shadow-lg rounded-lg py-3 mt-3 hover:opacity-90 transition"
+								className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-teal-600 text-white shadow-lg rounded-lg py-3 mt-3 hover:opacity-90 transition delay-70"
 							>
 								Log In
 							</button>
@@ -118,9 +118,9 @@ export default function LoginPage() {
 					<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
 
 					<div className="relative z-10 text-center">
-						<h2 className="text-4xl font-semibold text-cyan-500">
+						<h2 className="text-2xl font-semibold text-cyan-500">
 							{" "}
-							fuck ccinfom !
+							PrimeCare General Hospital
 						</h2>
 						<p className="text-gray-500 mt-2">this is a placeholder</p>
 					</div>

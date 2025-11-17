@@ -11,7 +11,7 @@ export default function Header() {
 			</div>
 			<Link
 				href="/login"
-				className="px-4 py-2 bg-white text-teal-700 rounded-lg font-medium hover:bg-gray-100 transition"
+				className="px-4 py-2 bg-white text-teal-700 rounded-lg font-medium hover:bg-gray-100 transition delay-70"
 			>
 				↪ Logout
 			</Link>
