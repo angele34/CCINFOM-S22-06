@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Aurora from "../../components/Aurora";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -24,7 +25,7 @@ export default function LoginPage() {
 			});
 			const json = await res.json();
 			if (json.success) {
-				router.push("/dashboard"); // redirect to dashboard
+				router.push("/dashboard");
 			} else {
 				alert(json.message || "Login failed");
 			}
@@ -35,97 +36,98 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-500 via-teal-500 to-teal-600 p-4">
-			<div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
-				{/* left side */}
-				<div className="w-full md:w-1/2 bg-gradient-to-br from-cyan-600 via-teal-600 to-teal-700 p-12 flex flex-col justify-center">
-					<div className="text-white">
-						<div className="text-lg font text-teal-100 uppercase mb-2">
-							WELCOME BACK
-						</div>
-						<h3 className="text-3xl font-bold text-white mb-6">
-							Log In to your Account
-						</h3>
+		<div className="relative min-h-screen overflow-hidden">
 
-						<form onSubmit={handleSubmit} className="space-y-4">
-							<div>
-								<label className="block text-sm text-white mb-1">
-									Username
-								</label>
-								<input
-									name="username"
-									type="text"
-									placeholder="Enter Username"
-									className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
-									required
-								/>
+			<div className="absolute inset-0 -z-20">
+				<Aurora
+					colorStops={["#5bd4c2", "#73f0c8", "#27ace6"]}
+					blend={0.5}
+					amplitude={1.0}
+					speed={0.5}
+				/>
+			</div>
+
+			<div className="min-h-screen flex items-center justify-center">
+
+				<div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+					
+					{/* LEFT SIDE */}
+					<div className="w-full md:w-1/2 bg-linear-to-br from-cyan-600 via-teal-600 to-teal-700 p-12 flex flex-col justify-center">
+						<div className="text-white">
+							<div className="text-lg font text-teal-100 uppercase mb-2">
+								WELCOME BACK
 							</div>
+							<h3 className="text-3xl font-bold mb-6">Log In to your Account</h3>
 
-							<div>
-								<label className="block text-sm text-white mb-1">
-									Password
-								</label>
-								<input
-									name="password"
-									type="password"
-									placeholder="••••••••••"
-									className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
-									required
-								/>
-							</div>
-
-							<div className="flex items-center justify-between text-sm mt-1">
-								<label className="flex items-center gap-2 text-white text-sm">
+							<form onSubmit={handleSubmit} className="space-y-4">
+								<div>
+									<label className="block text-sm mb-1">Username</label>
 									<input
-										type="checkbox"
-										className="w-4 h-4 rounded border-white/40"
+										name="username"
+										type="text"
+										placeholder="Enter Username"
+										className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
+										required
 									/>
-									<span>Remember me</span>
-								</label>
-								<a href="#" className="text-white/80 hover:text-white text-sm transition delay-70">
-									Forgot your password?
-								</a>
-							</div>
+								</div>
 
-							<button
-								type="submit"
-								className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-teal-600 text-white shadow-lg rounded-lg py-3 mt-3 hover:opacity-90 transition delay-70"
-							>
-								Log In
-							</button>
+								<div>
+									<label className="block text-sm mb-1">Password</label>
+									<input
+										name="password"
+										type="password"
+										placeholder="••••••••••"
+										className="w-full bg-white/10 border-0 rounded-lg px-4 py-3 placeholder-white/70"
+										required
+									/>
+								</div>
 
-							<div className="text-center text-white/80 text-sm">
-								New User?{" "}
-								<a href="#" className="text-white underline">
-									Sign up
-								</a>
-							</div>
-						</form>
+								<div className="flex items-center justify-between text-sm mt-1">
+									<label className="flex items-center gap-2 text-sm">
+										<input type="checkbox" className="w-4 h-4 rounded border-white/40" />
+										<span>Remember me</span>
+									</label>
+									<a href="#" className="text-white/80 hover:text-white transition">
+										Forgot your password?
+									</a>
+								</div>
+
+								<button
+									type="submit"
+									className="w-full bg-gradient-to-r from-cyan-500 via-teal-500 to-teal-600 text-white shadow-lg rounded-lg py-3 mt-3 hover:opacity-90 transition"
+								>
+									Log In
+								</button>
+
+								<div className="text-center text-white/80 text-sm">
+									New User? <a href="#" className="text-white underline">Sign up</a>
+								</div>
+							</form>
+						</div>
 					</div>
-				</div>
 
-				{/* right side */}
-				<div className="w-full md:w-1/2 bg-white p-12 flex flex-col justify-center items-center relative overflow-hidden">
-					{/*  spheres */}
-					<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"></div>
-					<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500"></div>
-					<div className="absolute bottom-20 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
-					<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-400/50"></div>
-					<div className="absolute bottom-32 right-16 w-10 h-10 rounded-full bg-cyan-500/30"></div>
+					{/* RIGHT SIDE */}
+					<div className="w-full md:w-1/2 bg-white p-12 flex flex-col justify-center items-center relative overflow-hidden">
+						<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"></div>
+						<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500"></div>
+						<div className="absolute bottom-20 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
+						<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-400/50"></div>
+						<div className="absolute bottom-32 right-16 w-10 h-10 rounded-full bg-cyan-500/30"></div>
 
-					{/* random bilog */}
-					<div className="absolute top-1/4 right-0 w-32 h-32 border-8 border-teal-500 rounded-full translate-x-1/2"></div>
-					<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
+						<div className="absolute top-1/4 right-0 w-32 h-32 border-8 border-teal-500 rounded-full translate-x-1/2"></div>
+						<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
 
-					<div className="relative z-10 text-center">
-						<h2 className="text-2xl font-semibold text-cyan-500">
-							{" "}
-							PrimeCare General Hospital
-						</h2>
-						<p className="text-gray-500 mt-2">this is a placeholder</p>
+						<div className="relative z-10 text-center">
+							<h2 className="text-2xl font-semibold text-cyan-500">
+								PrimeCare General Hospital
+							</h2>
+							<p className="text-gray-500 mt-2">this is a placeholder</p>
+						</div>
 					</div>
+
 				</div>
 			</div>
+			
 		</div>
 	);
 }
