@@ -163,135 +163,133 @@ export default function StaffTable({
 	};
 
 	return (
-		<div className="max-w-[1500px] mx-auto px-6 h-full">
-			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-				<div className="flex items-center justify-between mb-6">
-					<div>
-						<h2 className="text-xl font-semibold text-ambulance-teal-750">
-							Staff Record Management
-						</h2>
-						<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-							Manage and track all staff members
-						</p>
-					</div>
-					<button
-						onClick={() => setShowModal(true)}
-						className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
-					>
-						+ Add Staff
-					</button>
+		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
+			<div className="flex items-center justify-between mb-3">
+				<div>
+					<h2 className="text-xl font-semibold text-ambulance-teal-750">
+						Staff Record Management
+					</h2>
+					<p className="text-sm text-ambulance-teal-750 text-opacity-80">
+						Manage and track all staff members
+					</p>
 				</div>
+				<button
+					onClick={() => setShowModal(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
+					+ Add Staff
+				</button>
+			</div>
 
-				<FormModal
-					isOpen={showModal}
-					onClose={handleCloseModal}
-					onSubmit={handleFormSubmit}
-					title={editingStaff ? "Edit Staff Record" : "New Staff Record"}
-					fields={formFields}
-					submitLabel={editingStaff ? "Update Staff" : "Add Staff"}
-					initialData={
-						editingStaff
-							? {
-									name: editingStaff.name || "",
-									staff_role: editingStaff.staff_role || "",
-									license_no: editingStaff.license_no || "",
-									shift_schedule: editingStaff.shift_schedule || "",
-									staff_status: editingStaff.staff_status || "",
-							  }
-							: undefined
-					}
-				/>
+			<FormModal
+				isOpen={showModal}
+				onClose={handleCloseModal}
+				onSubmit={handleFormSubmit}
+				title={editingStaff ? "Edit Staff Record" : "New Staff Record"}
+				fields={formFields}
+				submitLabel={editingStaff ? "Update Staff" : "Add Staff"}
+				initialData={
+					editingStaff
+						? {
+								name: editingStaff.name || "",
+								staff_role: editingStaff.staff_role || "",
+								license_no: editingStaff.license_no || "",
+								shift_schedule: editingStaff.shift_schedule || "",
+								staff_status: editingStaff.staff_status || "",
+						  }
+						: undefined
+				}
+			/>
 
-				{/* Table */}
-				<div className="overflow-auto flex-1">
-					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
-							<tr className="text-ambulance-teal-750">
-								<th className="py-2 px-1 font-bold text-center">Staff ID</th>
-								<th className="py-2 px-3 font-bold">Name</th>
-								<th className="py-2 px-3 font-bold">Role</th>
-								<th className="py-2 px-3 font-bold">License No</th>
-								<th className="py-2 px-3 font-bold">Shift</th>
-								<th className="py-2 px-3 font-bold">Status</th>
-								<th className="py-2 px-3 font-bold">Date Created</th>
-								<th className="py-2 px-3 font-bold">Date Updated</th>
-								<th className="py-2 px-3 font-bold">Actions</th>
+			{/* Table */}
+			<div className="overflow-auto flex-1 border-b border-gray-200">
+				<table className="w-full text-left text-sm">
+					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
+						<tr className="text-ambulance-teal-750">
+							<th className="py-2 px-1 font-bold text-center">Staff ID</th>
+							<th className="py-2 px-3 font-bold">Name</th>
+							<th className="py-2 px-3 font-bold">Role</th>
+							<th className="py-2 px-3 font-bold">License No</th>
+							<th className="py-2 px-3 font-bold">Shift</th>
+							<th className="py-2 px-3 font-bold">Status</th>
+							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Date Updated</th>
+							<th className="py-2 px-3 font-bold">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{initialData.length === 0 ? (
+							<tr>
+								<td colSpan={9} className="py-12 text-center">
+									<p className="text-gray-500 text-base">
+										No staff records found. Click &quot;+ Add Staff&quot; to get
+										started.
+									</p>
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							{initialData.length === 0 ? (
-								<tr>
-									<td colSpan={9} className="py-12 text-center">
-										<p className="text-gray-500 text-base">
-											No staff records found. Click &quot;+ Add Staff&quot; to
-											get started.
-										</p>
+						) : (
+							initialData.map((member) => (
+								<tr
+									key={member.staff_id}
+									className="border-b border-gray-100 hover:bg-gray-50"
+								>
+									<td className="py-2 px-1 font-medium text-gray-900 text-center">
+										{member.staff_id}
+									</td>
+									<td className="py-2 px-3 text-gray-800">{member.name}</td>
+									<td className="py-2 px-3 text-gray-800">
+										{member.staff_role}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{member.license_no}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{member.shift_schedule}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{member.staff_status}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{new Date(member.created_at).toLocaleString()}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{member.updated_at
+											? new Date(member.updated_at).toLocaleString()
+											: "N/A"}
+									</td>
+									<td className="py-2 px-3">
+										<div className="flex items-center justify-left gap-2">
+											<button
+												className="p-2 hover:bg-blue-100 rounded transition"
+												title="Edit"
+												onClick={() => handleEdit(member)}
+											>
+												<Image
+													src="/icons/edit.svg"
+													alt="Edit"
+													width={18}
+													height={18}
+												/>
+											</button>
+											<button
+												className="p-2 hover:bg-red-100 rounded transition"
+												title="Delete"
+												onClick={() => handleDelete(member.staff_id)}
+											>
+												<Image
+													src="/icons/delete.svg"
+													alt="Delete"
+													width={20}
+													height={20}
+												/>
+											</button>
+										</div>
 									</td>
 								</tr>
-							) : (
-								initialData.map((member) => (
-									<tr
-										key={member.staff_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="py-2 px-1 font-medium text-gray-900 text-center">
-											{member.staff_id}
-										</td>
-										<td className="py-2 px-3 text-gray-800">{member.name}</td>
-										<td className="py-2 px-3 text-gray-800">
-											{member.staff_role}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{member.license_no}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{member.shift_schedule}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{member.staff_status}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{new Date(member.created_at).toLocaleString()}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{member.updated_at
-												? new Date(member.updated_at).toLocaleString()
-												: "N/A"}
-										</td>
-										<td className="py-2 px-3">
-											<div className="flex items-center justify-left gap-2">
-												<button
-													className="p-2 hover:bg-blue-100 rounded transition"
-													title="Edit"
-													onClick={() => handleEdit(member)}
-												>
-													<Image
-														src="/icons/edit.svg"
-														alt="Edit"
-														width={18}
-														height={18}
-													/>
-												</button>
-												<button
-													className="p-2 hover:bg-red-100 rounded transition"
-													title="Delete"
-													onClick={() => handleDelete(member.staff_id)}
-												>
-													<Image
-														src="/icons/delete.svg"
-														alt="Delete"
-														width={20}
-														height={20}
-													/>
-												</button>
-											</div>
-										</td>
-									</tr>
-								))
-							)}
-						</tbody>
-					</table>
-				</div>
+							))
+						)}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);

@@ -1,263 +1,178 @@
 "use client";
 import { useState, useEffect } from "react";
-import AmbulanceTable from "../../components/records/AmbulanceTable";
-import PatientTable from "../../components/records/PatientTable";
-import LocationTable from "../../components/records/LocationTable";
-import StaffTable from "../../components/records/StaffTable";
-import HospitalTable from "../../components/records/HospitalTable";
-import Header from "../../components/ui/Header";
-import Footer from "../../components/ui/Footer";
-import ModeToggle from "../../components/ui/ModeToggle";
+import AppLayout from "../../components/ui/AppLayout";
 import Image from "next/image";
+import { Ambulance, Activity, TrendingUp } from "lucide-react";
 
-interface Ambulance {
-	ambulance_id: number;
-	ambulance_type: string;
-	hospital_id: number;
-	ambulance_status: string;
-	plate_no: string;
-	created_at: string;
-	updated_at: string | null;
-}
-
-interface Patient {
-	patient_id: number;
-	ref_location_id: number;
-	name: string;
-	age: number | null;
-	medical_condition: string;
-	priority_level: string;
-	contact_person: string | null;
-	contact_number: string | null;
-	transfer_status: string | null;
-	created_at: string;
-	updated_at: string | null;
-}
-
-interface Location {
-	ref_location_id: number;
-	city: string;
-	street: string;
-	created_at: string;
-	updated_at: string | null;
-}
-
-interface Staff {
-	staff_id: number;
-	name: string;
-	staff_role: string;
-	license_no: string;
-	shift_schedule: string;
-	staff_status: string;
-	created_at: string;
-	updated_at: string | null;
-}
-
-interface Hospital {
-	hospital_id: number;
-	hospital_name: string;
-	city: string;
-	street: string;
-	created_at: string;
-	updated_at: string | null;
+interface Stats {
+	totalAmbulances: number;
+	totalPatients: number;
+	totalStaff: number;
+	totalHospitals: number;
+	totalLocations: number;
 }
 
 export default function DashboardPage() {
-	const [activeTab, setActiveTab] = useState("Ambulances");
-	const [ambulances, setAmbulances] = useState<Ambulance[]>([]);
-	const [patients, setPatients] = useState<Patient[]>([]);
-	const [locations, setLocations] = useState<Location[]>([]);
-	const [staffs, setStaffs] = useState<Staff[]>([]);
-	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+	const [stats, setStats] = useState<Stats>({
+		totalAmbulances: 0,
+		totalPatients: 0,
+		totalStaff: 0,
+		totalHospitals: 0,
+		totalLocations: 0,
+	});
 
-	// fetch ambulance data from backend
+	// fetch all stats data
 	useEffect(() => {
-		const fetchAmbulances = async () => {
+		const fetchStats = async () => {
 			try {
-				const response = await fetch("/api/ambulance");
-				if (response.ok) {
-					const data = await response.json();
-					setAmbulances(data);
-				}
+				const [ambulances, patients, staff, hospitals, locations] =
+					await Promise.all([
+						fetch("/api/ambulance").then((res) => res.json()),
+						fetch("/api/patient").then((res) => res.json()),
+						fetch("/api/staff").then((res) => res.json()),
+						fetch("/api/hospital").then((res) => res.json()),
+						fetch("/api/reference_loc").then((res) => res.json()),
+					]);
+
+				setStats({
+					totalAmbulances: ambulances.length,
+					totalPatients: patients.length,
+					totalStaff: staff.length,
+					totalHospitals: hospitals.length,
+					totalLocations: locations.length,
+				});
 			} catch (error) {
-				console.error("Error fetching ambulances:", error);
+				console.error("Error fetching stats:", error);
 			}
 		};
-		fetchAmbulances();
+		fetchStats();
 	}, []);
-
-	// fetch patient data from backend
-	useEffect(() => {
-		const fetchPatients = async () => {
-			try {
-				const response = await fetch("/api/patient");
-				if (response.ok) {
-					const data = await response.json();
-					setPatients(data);
-				}
-			} catch (error) {
-				console.error("Error fetching patients:", error);
-			}
-		};
-		fetchPatients();
-	}, []);
-
-	// fetch location data from backend
-	useEffect(() => {
-		const fetchLocations = async () => {
-			try {
-				const response = await fetch("/api/reference_loc");
-				if (response.ok) {
-					const data = await response.json();
-					setLocations(data);
-				}
-			} catch (error) {
-				console.error("Error fetching locations:", error);
-			}
-		};
-		fetchLocations();
-	}, []);
-
-	// fetch staff data from backend
-	useEffect(() => {
-		const fetchStaffs = async () => {
-			try {
-				const response = await fetch("/api/staff");
-				if (response.ok) {
-					const data = await response.json();
-					setStaffs(data);
-				}
-			} catch (error) {
-				console.error("Error fetching staffs:", error);
-			}
-		};
-		fetchStaffs();
-	}, []);
-
-	// fetch hospital data from backend
-	useEffect(() => {
-		const fetchHospitals = async () => {
-			try {
-				const response = await fetch("/api/hospital");
-				if (response.ok) {
-					const data = await response.json();
-					setHospitals(data);
-				}
-			} catch (error) {
-				console.error("Error fetching hospitals:", error);
-			}
-		};
-		fetchHospitals();
-	}, []);
-
-	const handleAmbulanceUpdate = () => {
-		// refetch ambulance table after each crud
-		fetch("/api/ambulance")
-			.then((res) => res.json())
-			.then((data) => setAmbulances(data))
-			.catch((error) => console.error("Error fetching ambulances:", error));
-	};
-
-	const handlePatientUpdate = () => {
-		// refetch patient table after each crud
-		fetch("/api/patient")
-			.then((res) => res.json())
-			.then((data) => setPatients(data))
-			.catch((error) => console.error("Error fetching patients:", error));
-	};
-
-	const handleLocationUpdate = () => {
-		// refetch location table after each crud
-		fetch("/api/reference_loc")
-			.then((res) => res.json())
-			.then((data) => setLocations(data))
-			.catch((error) => console.error("Error fetching locations:", error));
-	};
-
-	const handleStaffUpdate = () => {
-		// refetch staff table after each crud
-		fetch("/api/staff")
-			.then((res) => res.json())
-			.then((data) => setStaffs(data))
-			.catch((error) => console.error("Error fetching staffs:", error));
-	};
-
-	const handleHospitalUpdate = () => {
-		// refetch hospital table after each crud
-		fetch("/api/hospital")
-			.then((res) => res.json())
-			.then((data) => setHospitals(data))
-			.catch((error) => console.error("Error fetching hospitals:", error));
-	};
-
-	const tabs = [
-		{ name: "Ambulances", icon: "/icons/ambulance.svg" },
-		{ name: "Patients", icon: "/icons/patients.svg" },
-		{ name: "Locations", icon: "/icons/location.svg" },
-		{ name: "Staffs", icon: "/icons/staff.svg" },
-		{ name: "Hospitals", icon: "/icons/hospital.svg" },
-	];
 
 	return (
-		<div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
-			<Header />
-			{/* tabs */}
-			<ModeToggle activeMode={"Records"} />
-			{/* database buttons */}
-			<div className="flex justify-center gap-4 mb-8 px-6">
-				{tabs.map((item) => (
-					<button
-						key={item.name}
-						onClick={() => setActiveTab(item.name)}
-						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-semibold min-w-[120px] ${
-							activeTab === item.name
-								? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg"
-								: "bg-white text-gray-700 shadow-md hover:shadow-lg"
-						}`}
-					>
-						<div className="w-10 h-10 flex items-center justify-center">
-							<Image
-								src={item.icon}
-								alt={item.name}
-								width={32}
-								height={32}
-								className={`w-8 h-8 ${
-									activeTab === item.name ? "brightness-0 invert" : "opacity-70"
-								}`}
-							/>
+		<AppLayout>
+			<div className="p-6 space-y-6">
+				{/* header */}
+				<div>
+					<h1 className="text-2xl font-bold text-ambulance-teal-750">
+						Dashboard
+					</h1>
+					<p className="text-gray-600">
+						Welcome to PrimeCare General Hospital Management System
+					</p>
+				</div>
+
+				{/* cards */}
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+					{/* total records */}
+					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+						<div className="flex items-center justify-between mb-2">
+							<h3 className="text-sm font-medium text-gray-600">
+								Total Records
+							</h3>
+							<div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+								<svg
+									className="w-5 h-5 text-blue-600"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+									/>
+								</svg>
+							</div>
 						</div>
-						<span className="text-sm">{item.name}</span>
-					</button>
-				))}
+						<p className="text-2xl font-bold text-gray-900">
+							{stats.totalAmbulances +
+								stats.totalPatients +
+								stats.totalStaff +
+								stats.totalHospitals +
+								stats.totalLocations}
+						</p>
+						<p className="text-xs text-gray-500 mt-1">All database entries</p>
+					</div>
+
+					{/* ambulances */}
+					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+						<div className="flex items-center justify-between mb-2">
+							<h3 className="text-sm font-medium text-gray-600">Ambulances</h3>
+							<div className="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center">
+								<Image
+									src="/icons/ambulance.svg"
+									alt="Ambulance"
+									width={20}
+									height={20}
+									className="opacity-70"
+								/>
+							</div>
+						</div>
+						<p className="text-2xl font-bold text-gray-900">
+							{stats.totalAmbulances}
+						</p>
+						<p className="text-xs text-gray-500 mt-1">Active vehicles</p>
+					</div>
+
+					{/* patients  */}
+					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+						<div className="flex items-center justify-between mb-2">
+							<h3 className="text-sm font-medium text-gray-600">Patients</h3>
+							<div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+								<Image
+									src="/icons/patients.svg"
+									alt="Patients"
+									width={20}
+									height={20}
+									className="opacity-70"
+								/>
+							</div>
+						</div>
+						<p className="text-2xl font-bold text-gray-900">
+							{stats.totalPatients}
+						</p>
+						<p className="text-xs text-gray-500 mt-1">Registered patients</p>
+					</div>
+
+					{/* staffs */}
+					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+						<div className="flex items-center justify-between mb-2">
+							<h3 className="text-sm font-medium text-gray-600">Staff</h3>
+							<div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+								<Image
+									src="/icons/staff.svg"
+									alt="Staff"
+									width={20}
+									height={20}
+									className="opacity-70"
+								/>
+							</div>
+						</div>
+						<p className="text-2xl font-bold text-gray-900">
+							{stats.totalStaff}
+						</p>
+						<p className="text-xs text-gray-500 mt-1">Team members</p>
+					</div>
+				</div>
+
+				{/* main content sa gitna */}
+				<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+					{/* left side */}
+					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+						<h2 className="text-lg font-semibold text-gray-900 mb-4">
+							Placeholder
+						</h2>
+					</div>
+
+					{/* right side */}
+					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+						<h2 className="text-lg font-semibold text-gray-900 mb-4">
+							lorem ipsum
+						</h2>
+					</div>
+				</div>
 			</div>
-			{/* table container */}
-			<div className="flex-1 overflow-hidden pb-6">
-				{activeTab === "Ambulances" && (
-					<AmbulanceTable
-						initialData={ambulances}
-						onUpdate={handleAmbulanceUpdate}
-					/>
-				)}
-				{activeTab === "Patients" && (
-					<PatientTable initialData={patients} onUpdate={handlePatientUpdate} />
-				)}
-				{activeTab === "Locations" && (
-					<LocationTable
-						initialData={locations}
-						onUpdate={handleLocationUpdate}
-					/>
-				)}
-				{activeTab === "Staffs" && (
-					<StaffTable initialData={staffs} onUpdate={handleStaffUpdate} />
-				)}
-				{activeTab === "Hospitals" && (
-					<HospitalTable
-						initialData={hospitals}
-						onUpdate={handleHospitalUpdate}
-					/>
-				)}
-			</div>
-			<Footer />
-		</div>
+		</AppLayout>
 	);
 }

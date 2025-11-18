@@ -181,168 +181,164 @@ export default function AmbulanceTable({
 	};
 
 	return (
-		<div className="max-w-[1200px] mx-auto px-6 h-full">
-			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-				<div className="flex items-center justify-between mb-6">
-					<div>
-						<h2 className="text-xl font-semibold text-ambulance-teal-750">
-							Ambulance Record Management
-						</h2>
-						<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-							Manage and track all ambulance vehicles in the fleet
-						</p>
-					</div>
-					<button
-						onClick={() => setShowModal(true)}
-						className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
-					>
-						+ Add Ambulance
-					</button>
+		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
+			<div className="flex items-center justify-between mb-3">
+				<div>
+					<h2 className="text-xl font-semibold text-ambulance-teal-750">
+						Ambulance Record Management
+					</h2>
+					<p className="text-sm text-ambulance-teal-750 text-opacity-80">
+						Manage and track all ambulance vehicles in the fleet
+					</p>
 				</div>
+				<button
+					onClick={() => setShowModal(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
+					+ Add Ambulance
+				</button>
+			</div>
 
-				<FormModal
-					isOpen={showModal}
-					onClose={handleCloseModal}
-					onSubmit={handleFormSubmit}
-					title={
-						editingAmbulance ? "Edit Ambulance Record" : "New Ambulance Record"
-					}
-					fields={formFields}
-					submitLabel={editingAmbulance ? "Update Ambulance" : "Add Ambulance"}
-					initialData={
-						editingAmbulance
-							? {
-									hospital_id: editingAmbulance.hospital_id.toString(),
-									ambulance_type: editingAmbulance.ambulance_type || "",
-									ambulance_status: editingAmbulance.ambulance_status || "",
-									plate_no: editingAmbulance.plate_no || "",
-							  }
-							: undefined
-					}
-				/>
+			<FormModal
+				isOpen={showModal}
+				onClose={handleCloseModal}
+				onSubmit={handleFormSubmit}
+				title={
+					editingAmbulance ? "Edit Ambulance Record" : "New Ambulance Record"
+				}
+				fields={formFields}
+				submitLabel={editingAmbulance ? "Update Ambulance" : "Add Ambulance"}
+				initialData={
+					editingAmbulance
+						? {
+								hospital_id: editingAmbulance.hospital_id.toString(),
+								ambulance_type: editingAmbulance.ambulance_type || "",
+								ambulance_status: editingAmbulance.ambulance_status || "",
+								plate_no: editingAmbulance.plate_no || "",
+						  }
+						: undefined
+				}
+			/>
 
-				{/* Table */}
-				<div className="overflow-auto flex-1">
-					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
-							<tr className="text-ambulance-teal-750">
-								<th className="py-2 px-1 font-bold text-center">
-									Ambulance ID
-								</th>
-								<th className="py-2 px-1 font-bold text-center">Hospital ID</th>
-								<th className="py-2 px-3 font-bold">Type</th>
-								<th className="py-2 px-3 font-bold">Status</th>
-								<th className="py-2 px-3 font-bold">Plate Number</th>
-								<th className="py-2 px-3 font-bold">Date Created</th>
-								<th className="py-2 px-3 font-bold">Date Updated</th>
-								<th className="py-2 px-3 font-bold">Actions</th>
+			{/* Table */}
+			<div className="overflow-auto flex-1 border-b border-gray-200">
+				<table className="w-full text-left text-sm">
+					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
+						<tr className="text-ambulance-teal-750">
+							<th className="py-2 px-1 font-bold text-center">Ambulance ID</th>
+							<th className="py-2 px-1 font-bold text-center">Hospital ID</th>
+							<th className="py-2 px-3 font-bold">Type</th>
+							<th className="py-2 px-3 font-bold">Status</th>
+							<th className="py-2 px-3 font-bold">Plate Number</th>
+							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Date Updated</th>
+							<th className="py-2 px-3 font-bold">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{initialData.length === 0 ? (
+							<tr>
+								<td colSpan={8} className="py-12 text-center">
+									<p className="text-gray-500 text-base">
+										No ambulance records found. Click &quot;+ Add
+										Ambulance&quot; to get started.
+									</p>
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							{initialData.length === 0 ? (
-								<tr>
-									<td colSpan={8} className="py-12 text-center">
-										<p className="text-gray-500 text-base">
-											No ambulance records found. Click &quot;+ Add
-											Ambulance&quot; to get started.
-										</p>
+						) : (
+							initialData.map((amb) => (
+								<tr
+									key={amb.ambulance_id}
+									className="border-b border-gray-100 hover:bg-gray-50"
+								>
+									<td className="py-2 px-1 font-medium text-gray-900 text-center">
+										{amb.ambulance_id}
+									</td>
+									<td className="py-2 px-1 text-gray-800 text-center">
+										{amb.hospital_id}
+									</td>
+									<td className="py-2 px-3">
+										{amb.ambulance_type ? (
+											amb.ambulance_type === "type_1" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-1 text-xs font-medium">
+													Type 1
+												</span>
+											) : amb.ambulance_type === "type_2" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-2 text-xs font-medium">
+													Type 2
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{amb.ambulance_type}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
+									</td>
+									<td className="py-2 px-3">
+										{amb.ambulance_status ? (
+											amb.ambulance_status === "available" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-status-available text-xs font-medium">
+													Available
+												</span>
+											) : amb.ambulance_status === "on_trip" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-ambulance-ontrip bg-ambulance-status-on-trip text-xs font-medium">
+													On Trip
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{amb.ambulance_status}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{amb.plate_no ?? "N/A"}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{new Date(amb.created_at).toLocaleString()}
+									</td>
+									<td className="py-2 px-3 text-gray-800">
+										{amb.updated_at
+											? new Date(amb.updated_at).toLocaleString()
+											: "N/A"}
+									</td>
+									<td className="py-2 px-3">
+										<div className="flex items-center justify-left gap-2">
+											<button
+												className="p-2 hover:bg-blue-100 rounded transition"
+												title="Edit"
+												onClick={() => handleEdit(amb)}
+											>
+												<Image
+													src="/icons/edit.svg"
+													alt="Edit"
+													width={18}
+													height={18}
+												/>
+											</button>
+											<button
+												className="p-2 hover:bg-red-100 rounded transition"
+												title="Delete"
+												onClick={() => handleDelete(amb.ambulance_id)}
+											>
+												<Image
+													src="/icons/delete.svg"
+													alt="Delete"
+													width={20}
+													height={20}
+												/>
+											</button>
+										</div>
 									</td>
 								</tr>
-							) : (
-								initialData.map((amb) => (
-									<tr
-										key={amb.ambulance_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="py-2 px-1 font-medium text-gray-900 text-center">
-											{amb.ambulance_id}
-										</td>
-										<td className="py-2 px-1 text-gray-800 text-center">
-											{amb.hospital_id}
-										</td>
-										<td className="py-2 px-3">
-											{amb.ambulance_type ? (
-												amb.ambulance_type === "type_1" ? (
-													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-1 text-xs font-medium">
-														Type 1
-													</span>
-												) : amb.ambulance_type === "type_2" ? (
-													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-type-2 text-xs font-medium">
-														Type 2
-													</span>
-												) : (
-													<span className="text-gray-600">
-														{amb.ambulance_type}
-													</span>
-												)
-											) : (
-												<span className="text-gray-600">N/A</span>
-											)}
-										</td>
-										<td className="py-2 px-3">
-											{amb.ambulance_status ? (
-												amb.ambulance_status === "available" ? (
-													<span className="inline-block px-3 py-1 rounded-full text-white bg-ambulance-status-available text-xs font-medium">
-														Available
-													</span>
-												) : amb.ambulance_status === "on_trip" ? (
-													<span className="inline-block px-3 py-1 rounded-full text-ambulance-ontrip bg-ambulance-status-on-trip text-xs font-medium">
-														On Trip
-													</span>
-												) : (
-													<span className="text-gray-600">
-														{amb.ambulance_status}
-													</span>
-												)
-											) : (
-												<span className="text-gray-600">N/A</span>
-											)}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{amb.plate_no ?? "N/A"}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{new Date(amb.created_at).toLocaleString()}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{amb.updated_at
-												? new Date(amb.updated_at).toLocaleString()
-												: "N/A"}
-										</td>
-										<td className="py-2 px-3">
-											<div className="flex items-center justify-left gap-2">
-												<button
-													className="p-2 hover:bg-blue-100 rounded transition"
-													title="Edit"
-													onClick={() => handleEdit(amb)}
-												>
-													<Image
-														src="/icons/edit.svg"
-														alt="Edit"
-														width={18}
-														height={18}
-													/>
-												</button>
-												<button
-													className="p-2 hover:bg-red-100 rounded transition"
-													title="Delete"
-													onClick={() => handleDelete(amb.ambulance_id)}
-												>
-													<Image
-														src="/icons/delete.svg"
-														alt="Delete"
-														width={20}
-														height={20}
-													/>
-												</button>
-											</div>
-										</td>
-									</tr>
-								))
-							)}
-						</tbody>
-					</table>
-				</div>
+							))
+						)}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);

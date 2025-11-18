@@ -1,27 +1,25 @@
 "use client";
-import Header from "../../components/ui/Header";
-import Footer from "../../components/ui/Footer";
-import ModeToggle from "../../components/ui/ModeToggle";
+import AppLayout from "../../components/ui/AppLayout";
 
 export default function ReportsPage() {
 	return (
-		<div className="min-h-screen bg-gray-50 flex flex-col">
-			<Header />
-			{/* tabs */}
-			<ModeToggle activeMode={"Reports"} />
-			{/* Main content area */}
-			<div className="flex-1 flex items-center justify-center px-6 pb-6">
-				<div className="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-8 min-h-[400px] flex flex-col items-center justify-center">
-					<div className="text-center">
-						<div className="text-6xl text-gray-800 mb-4">placeholder</div>
-						<h2 className="text-2xl font-semibold text-gray-800 mb-2">
-							placeholder
-						</h2>
-						<p className="text-gray-500">placeholder</p>
-					</div>
+		<AppLayout>
+			<div className="p-6 space-y-6">
+				{/* header  */}
+				<div>
+					<h1 className="text-2xl font-bold text-ambulance-teal-750">
+						Reports
+					</h1>
+					<p className="text-gray-600">
+						Generate and view system reports with analytics
+					</p>
+				</div>
+				{/* content */}
+				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
+					<h2 className="text-2xl font-bold text-gray-800 mb-2">lorem ipsum</h2>
+					<p className="text-gray-600 text-center max-w-md">blablablablabla</p>
 				</div>
 			</div>
-			<Footer />
-		</div>
+		</AppLayout>
 	);
 }
