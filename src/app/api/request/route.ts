@@ -23,7 +23,7 @@ const RequestDeleteSchema = z.object({
 export async function GET() {
     // retrieves all columns from the table
     try {
-        const requests = await prisma.transfer.findMany();
+        const requests = await prisma.request.findMany();
         return NextResponse.json(requests);
     } catch (error) {
         console.error("GET /request error:", error);
