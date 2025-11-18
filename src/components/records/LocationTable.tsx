@@ -29,10 +29,12 @@ export default function LocationTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter city name",
+			minLength: 1,
 			maxLength: 20,
 			customErrorMessages: {
 				required: "City is required",
-				tooLong: "City must not exceed 20 characters",
+				minLength: "City is required",
+				maxLength: "City must not exceed 20 characters",
 			},
 		},
 		{
@@ -41,10 +43,12 @@ export default function LocationTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter street address",
+			minLength: 1,
 			maxLength: 20,
 			customErrorMessages: {
 				required: "Street is required",
-				tooLong: "Street must not exceed 20 characters",
+				minLength: "Street is required",
+				maxLength: "Street must not exceed 20 characters",
 			},
 		},
 	];

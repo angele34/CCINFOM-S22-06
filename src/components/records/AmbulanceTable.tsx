@@ -87,6 +87,7 @@ export default function AmbulanceTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "ABC1234 (3 letters + 4 numbers)",
+			minLength: 7,
 			maxLength: 7,
 			transform: "uppercase" as const,
 			pattern: "^[A-Z]{3}[0-9]{4}$",
@@ -94,7 +95,8 @@ export default function AmbulanceTable({
 				required: "Plate number is required",
 				pattern:
 					"Plate must be 3 letters followed by 4 numbers (e.g., ABC1234)",
-				tooLong: "Plate must be exactly 7 characters",
+				minLength: "Plate must be exactly 7 characters",
+				maxLength: "Plate must be exactly 7 characters",
 			},
 		},
 	];

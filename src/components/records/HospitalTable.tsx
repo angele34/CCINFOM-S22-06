@@ -30,7 +30,13 @@ export default function HospitalTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter hospital name",
+			minLength: 1,
 			maxLength: 50,
+			customErrorMessages: {
+				required: "Hospital name is required",
+				minLength: "Hospital name is required",
+				maxLength: "Hospital name must not exceed 50 characters",
+			},
 		},
 		{
 			name: "city",
@@ -49,7 +55,13 @@ export default function HospitalTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter street address",
+			minLength: 1,
 			maxLength: 20,
+			customErrorMessages: {
+				required: "Street is required",
+				minLength: "Street is required",
+				maxLength: "Street must not exceed 20 characters",
+			},
 		},
 	];
 

@@ -9,10 +9,14 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-    await prisma.ambulance_staff.deleteMany({});
+    // Delete in dependency order: children first to avoid FK constraint errors
     await prisma.transfer.deleteMany({});
+    await prisma.dispatch.deleteMany({});
+    await prisma.request.deleteMany({});
+    await prisma.preassign.deleteMany({});
     await prisma.patient.deleteMany({});
     await prisma.ambulance.deleteMany({});
+    await prisma.staff.deleteMany({});
     await prisma.hospital.deleteMany({});
     await prisma.reference_location.deleteMany({});
 
