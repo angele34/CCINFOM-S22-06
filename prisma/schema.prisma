@@ -81,18 +81,17 @@ model staff {
 }
 
 model transfer {
-  transfer_id     Int                      @id @default(autoincrement())
+  transfer_id     Int                       @id @default(autoincrement())
   patient_id      Int
   ambulance_id    Int
   hospital_id     Int
-  transferred_on  DateTime                 @db.DateTime(0)
-  transfer_status transfer_transfer_status @default(waiting)
+  transferred_on  DateTime                  @db.DateTime(0)
+  transfer_status transfer_transfer_status?
   priority_level  transfer_priority_level?
-  created_on      DateTime                 @default(now()) @db.DateTime(0)
-  updated_on      DateTime?                @default(now()) @db.DateTime(0)
-  patient         patient                  @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
-  ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
-  hospital        hospital                 @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
+  updated_on      DateTime?                 @default(now()) @db.DateTime(0)
+  patient         patient                   @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
+  ambulance       ambulance                 @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
+  hospital        hospital                  @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
 
   @@index([ambulance_id], map: "ambulance_id")
   @@index([hospital_id], map: "hospital_id")
@@ -106,7 +105,6 @@ model dispatch {
   dispatched_on   DateTime                 @default(now()) @db.DateTime(0)
   dispatch_status dispatch_dispatch_status
   created_on      DateTime                 @default(now()) @db.DateTime(0)
-  updated_on      DateTime?                @default(now()) @db.DateTime(0)
   request         request                  @relation(fields: [request_id], references: [request_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_1")
   ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_2")
 
@@ -118,9 +116,8 @@ model preassign {
   staff_id          Int
   staff_role        preassign_staff_role
   ambulance_id      Int
-  assigned_on       DateTime                     @default(now()) @db.DateTime(0)
   assignment_status preassign_assignment_status? @default(active)
-  created_on        DateTime                     @default(now()) @db.DateTime(0)
+  assigned_on       DateTime                     @default(now()) @db.DateTime(0)
   updated_on        DateTime?                    @default(now()) @db.DateTime(0)
   staff             staff                        @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_1")
   ambulance         ambulance                    @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_2")
@@ -135,9 +132,8 @@ model request {
   ref_location_id    Int
   hospital_id        Int
   priority_level     request_priority_level
-  requested_on       DateTime               @default(now()) @db.DateTime(0)
   request_status     request_request_status @default(pending)
-  created_on         DateTime               @default(now()) @db.DateTime(0)
+  requested_on       DateTime               @default(now()) @db.DateTime(0)
   updated_on         DateTime?              @default(now()) @db.DateTime(0)
   dispatch           dispatch?
   patient            patient                @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "request_ibfk_1")
@@ -190,12 +186,6 @@ enum staff_staff_status {
   off_duty
 }
 
-enum transfer_transfer_status {
-  waiting
-  in_transfer
-  transferred
-}
-
 enum transfer_priority_level {
   critical
   moderate
@@ -220,12 +210,6 @@ enum hospital_city {
   Muntinlupa_City
 }
 
-enum dispatch_dispatch_status {
-  dispatched
-  completed
-  cancelled
-}
-
 enum request_priority_level {
   critical
   moderate
@@ -242,4 +226,14 @@ enum request_request_status {
   pending
   completed
   cancelled
+}
+
+enum dispatch_dispatch_status {
+  dispatched
+  cancelled
+}
+
+enum transfer_transfer_status {
+  in_transfer
+  transferred
 }
