@@ -128,8 +128,8 @@ export default function LocationTable({
 	};
 
 	return (
-		<div className="max-w-[1400px] mx-auto px-6">
-			<div className="bg-white rounded-2xl shadow-lg p-6">
+		<div className="max-w-[1200px] mx-auto px-6 h-full">
+			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
 				<div className="flex items-center justify-between mb-6">
 					<div>
 						<h2 className="text-xl font-semibold text-ambulance-teal-750">
@@ -167,16 +167,18 @@ export default function LocationTable({
 				/>
 
 				{/* Table */}
-				<div className="overflow-x-auto">
+				<div className="overflow-auto flex-1">
 					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200">
+						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
 							<tr className="text-ambulance-teal-750">
-								<th className="py-3 px-4 font-bold">Ref Location ID</th>
-								<th className="py-3 px-4 font-bold">City</th>
-								<th className="py-3 px-4 font-bold">Street</th>
-								<th className="py-3 px-4 font-bold">Date Created</th>
-								<th className="py-3 px-4 font-bold">Date Updated</th>
-								<th className="py-3 px-4 font-bold">Actions</th>
+								<th className="py-2 px-3 text-center font-bold">
+									Ref Location ID
+								</th>
+								<th className="py-2 px-3 font-bold">City</th>
+								<th className="py-2 px-3 font-bold">Street</th>
+								<th className="py-2 px-3 font-bold">Date Created</th>
+								<th className="py-2 px-3 font-bold">Date Updated</th>
+								<th className="py-2 px-3 font-bold">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -195,7 +197,7 @@ export default function LocationTable({
 										key={loc.ref_location_id}
 										className="border-b border-gray-100 hover:bg-gray-50"
 									>
-										<td className="py-4 px-4 font-medium text-gray-900">
+										<td className="py-4 px-4 font-medium text-center text-gray-900">
 											{loc.ref_location_id}
 										</td>
 										<td className="py-4 px-4 text-gray-800">{loc.city}</td>

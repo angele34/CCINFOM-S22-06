@@ -222,8 +222,8 @@ export default function PatientTable({
 	};
 
 	return (
-		<div className="max-w-[1750px] mx-auto px-6">
-			<div className="bg-white rounded-2xl shadow-lg p-6">
+		<div className="max-w-[1750px] mx-auto px-6 h-full">
+			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
 				<div className="flex items-center justify-between mb-6">
 					<div>
 						<h2 className="text-xl font-semibold text-ambulance-teal-750">
@@ -265,21 +265,21 @@ export default function PatientTable({
 				/>
 
 				{/* Table */}
-				<div className="overflow-x-auto">
+				<div className="overflow-auto flex-1">
 					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200">
-							<tr className="text-ambulance-teal-750">
+						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
+							<tr className="text-ambulance-teal-750 text-left ">
 								<th className="py-2 px-1 font-bold text-center">Patient ID</th>
 								<th className="py-2 px-1 font-bold text-center">
 									Ref Location ID
 								</th>
-								<th className="py-3 px-4 font-bold">Name</th>
-								<th className="py-3 px-4 font-bold">Age</th>
-								<th className="py-3 px-4 font-bold">Medical Condition</th>
-								<th className="py-3 px-4 font-bold">Priority Level</th>
-								<th className="py-3 px-4 font-bold">Contact Person</th>
-								<th className="py-3 px-4 font-bold">Contact Number</th>
-								<th className="py-3 px-4 font-bold">Transfer Status</th>
+								<th className="py-2 px-3 font-bold">Name</th>
+								<th className="py-2 px-3 font-bold">Age</th>
+								<th className="py-2 px-3 font-bold">Medical Condition</th>
+								<th className="py-2 px-3 font-bold">Priority Level</th>
+								<th className="py-2 px-3 font-bold">Contact Person</th>
+								<th className="py-2 px-3 font-bold">Contact Number</th>
+								<th className="py-2 px-3 font-bold">Transfer Status</th>
 								<th className="py-2 px-3 font-bold">Date Created</th>
 								<th className="py-2 px-3 font-bold">Date Updated</th>
 								<th className="py-2 px-3 font-bold">Actions</th>

@@ -38,9 +38,9 @@ export default function HospitalTable({
 			type: "select" as const,
 			required: true,
 			options: [
-				{ value: "Quezon City", label: "Quezon City" },
-				{ value: "Manila City", label: "Manila City" },
-				{ value: "Muntinlupa City", label: "Muntinlupa City" },
+				{ value: "Quezon_City", label: "Quezon City" },
+				{ value: "Manila_City", label: "Manila City" },
+				{ value: "Muntinlupa_City", label: "Muntinlupa City" },
 			],
 		},
 		{
@@ -133,8 +133,8 @@ export default function HospitalTable({
 	};
 
 	return (
-		<div className="max-w-[1500px] mx-auto px-6">
-			<div className="bg-white rounded-2xl shadow-lg p-6">
+		<div className="max-w-[1500px] mx-auto px-6 h-full">
+			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
 				<div className="flex items-center justify-between mb-6">
 					<div>
 						<h2 className="text-xl font-semibold text-ambulance-teal-750">
@@ -173,14 +173,14 @@ export default function HospitalTable({
 				/>
 
 				{/* Table */}
-				<div className="overflow-x-auto">
+				<div className="overflow-auto flex-1">
 					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200">
+						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
 							<tr className="text-ambulance-teal-750">
-								<th className="py-2 px-1 font-bold text-center">Hospital ID</th>
-								<th className="py-3 px-4 font-bold">Hospital Name</th>
-								<th className="py-3 px-4 font-bold">City</th>
-								<th className="py-3 px-4 font-bold">Street</th>
+								<th className="py-2 px-3 font-bold text-center">Hospital ID</th>
+								<th className="py-2 px-3 font-bold">Hospital Name</th>
+								<th className="py-2 px-3 font-bold">City</th>
+								<th className="py-2 px-3 font-bold">Street</th>
 								<th className="py-2 px-3 font-bold">Date Created</th>
 								<th className="py-2 px-3 font-bold">Date Updated</th>
 								<th className="py-2 px-3 font-bold">Actions</th>
@@ -208,7 +208,9 @@ export default function HospitalTable({
 										<td className="py-2 px-3 text-gray-800">
 											{hospital.hospital_name}
 										</td>
-										<td className="py-2 px-3 text-gray-800">{hospital.city}</td>
+										<td className="py-2 px-3 text-gray-800">
+											{hospital.city.replace(/_/g, " ")}
+										</td>
 										<td className="py-2 px-3 text-gray-800">
 											{hospital.street}
 										</td>

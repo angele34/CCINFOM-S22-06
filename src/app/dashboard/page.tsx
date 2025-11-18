@@ -199,7 +199,7 @@ export default function DashboardPage() {
 	];
 
 	return (
-		<div className="min-h-screen bg-gray-50 flex flex-col">
+		<div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
 			<Header />
 			{/* tabs */}
 			<ModeToggle activeMode={"Records"} />
@@ -231,7 +231,7 @@ export default function DashboardPage() {
 				))}
 			</div>
 			{/* table container */}
-			<div className="flex-1 overflow-y-auto pb-6">
+			<div className="flex-1 overflow-hidden pb-6">
 				{activeTab === "Ambulances" && (
 					<AmbulanceTable
 						initialData={ambulances}

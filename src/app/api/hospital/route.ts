@@ -5,7 +5,7 @@ import prisma from "@/src/lib/prisma";
 // zod validation schemas
 const HospitalSchema = z.object({
 	hospital_name: z.string().min(1).max(50),
-	city: z.enum(["Quezon City", "Manila City", "Muntinlupa City"]),
+	city: z.enum(["Quezon_City", "Manila_City", "Muntinlupa_City"]),
 	street: z.string().min(1).max(20),
 });
 

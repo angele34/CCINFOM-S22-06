@@ -6,7 +6,7 @@ export default function Header() {
 			<div className="flex items-center gap-3">
 				<div className="text-2xl">🚑</div>
 				<h1 className="text-lg font-semibold">
-					Primecare General Hospital Management System
+					PrimeCare General Hospital Management System
 				</h1>
 			</div>
 			<Link
