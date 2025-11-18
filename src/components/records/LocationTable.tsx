@@ -128,122 +128,118 @@ export default function LocationTable({
 	};
 
 	return (
-		<div className="max-w-[1200px] mx-auto px-6 h-full">
-			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
-				<div className="flex items-center justify-between mb-6">
-					<div>
-						<h2 className="text-xl font-semibold text-ambulance-teal-750">
-							Reference Location Record Management
-						</h2>
-						<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-							Viewing a reference location record along with the address
-						</p>
-					</div>
-					<button
-						onClick={() => setShowModal(true)}
-						className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
-					>
-						+ Add Location
-					</button>
+		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
+			<div className="flex items-center justify-between mb-3">
+				<div>
+					<h2 className="text-xl font-semibold text-ambulance-teal-750">
+						Reference Location Record Management
+					</h2>
+					<p className="text-sm text-ambulance-teal-750 text-opacity-80">
+						Viewing a reference location record along with the address
+					</p>
 				</div>
+				<button
+					onClick={() => setShowModal(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
+					+ Add Location
+				</button>
+			</div>
 
-				<FormModal
-					isOpen={showModal}
-					onClose={handleCloseModal}
-					onSubmit={handleFormSubmit}
-					title={
-						editingLocation ? "Edit Location Record" : "New Location Record"
-					}
-					fields={formFields}
-					submitLabel={editingLocation ? "Update Location" : "Add Location"}
-					initialData={
-						editingLocation
-							? {
-									city: editingLocation?.city || "",
-									street: editingLocation?.street || "",
-							  }
-							: undefined
-					}
-				/>
+			<FormModal
+				isOpen={showModal}
+				onClose={handleCloseModal}
+				onSubmit={handleFormSubmit}
+				title={editingLocation ? "Edit Location Record" : "New Location Record"}
+				fields={formFields}
+				submitLabel={editingLocation ? "Update Location" : "Add Location"}
+				initialData={
+					editingLocation
+						? {
+								city: editingLocation?.city || "",
+								street: editingLocation?.street || "",
+						  }
+						: undefined
+				}
+			/>
 
-				{/* Table */}
-				<div className="overflow-auto flex-1">
-					<table className="w-full text-left text-sm">
-						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
-							<tr className="text-ambulance-teal-750">
-								<th className="py-2 px-3 text-center font-bold">
-									Ref Location ID
-								</th>
-								<th className="py-2 px-3 font-bold">City</th>
-								<th className="py-2 px-3 font-bold">Street</th>
-								<th className="py-2 px-3 font-bold">Date Created</th>
-								<th className="py-2 px-3 font-bold">Date Updated</th>
-								<th className="py-2 px-3 font-bold">Actions</th>
+			{/* Table */}
+			<div className="overflow-auto flex-1 border-b border-gray-200">
+				<table className="w-full text-left text-sm">
+					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
+						<tr className="text-ambulance-teal-750">
+							<th className="py-2 px-3 text-center font-bold">
+								Ref Location ID
+							</th>
+							<th className="py-2 px-3 font-bold">City</th>
+							<th className="py-2 px-3 font-bold">Street</th>
+							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Date Updated</th>
+							<th className="py-2 px-3 font-bold">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{initialData.length === 0 ? (
+							<tr>
+								<td colSpan={6} className="py-12 text-center">
+									<p className="text-gray-500 text-base">
+										No location records found. Click &quot;+ Add Location&quot;
+										to get started.
+									</p>
+								</td>
 							</tr>
-						</thead>
-						<tbody>
-							{initialData.length === 0 ? (
-								<tr>
-									<td colSpan={6} className="py-12 text-center">
-										<p className="text-gray-500 text-base">
-											No location records found. Click &quot;+ Add
-											Location&quot; to get started.
-										</p>
+						) : (
+							initialData.map((loc) => (
+								<tr
+									key={loc.ref_location_id}
+									className="border-b border-gray-100 hover:bg-gray-50"
+								>
+									<td className="py-4 px-4 font-medium text-center text-gray-900">
+										{loc.ref_location_id}
+									</td>
+									<td className="py-4 px-4 text-gray-800">{loc.city}</td>
+									<td className="py-4 px-4 text-gray-800">{loc.street}</td>
+									<td className="py-4 px-4 text-gray-800">
+										{new Date(loc.created_at).toLocaleString()}
+									</td>
+									<td className="py-4 px-4 text-gray-800">
+										{loc.updated_at
+											? new Date(loc.updated_at).toLocaleString()
+											: "N/A"}
+									</td>
+									<td className="py-4 px-4">
+										<div className="flex items-center justify-left gap-2">
+											<button
+												className="p-2 hover:bg-blue-100 rounded transition"
+												title="Edit"
+												onClick={() => handleEdit(loc)}
+											>
+												<Image
+													src="/icons/edit.svg"
+													alt="Edit"
+													width={18}
+													height={18}
+												/>
+											</button>
+											<button
+												className="p-2 hover:bg-red-100 rounded transition"
+												title="Delete"
+												onClick={() => handleDelete(loc.ref_location_id)}
+											>
+												<Image
+													src="/icons/delete.svg"
+													alt="Delete"
+													width={20}
+													height={20}
+												/>
+											</button>
+										</div>
 									</td>
 								</tr>
-							) : (
-								initialData.map((loc) => (
-									<tr
-										key={loc.ref_location_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="py-4 px-4 font-medium text-center text-gray-900">
-											{loc.ref_location_id}
-										</td>
-										<td className="py-4 px-4 text-gray-800">{loc.city}</td>
-										<td className="py-4 px-4 text-gray-800">{loc.street}</td>
-										<td className="py-4 px-4 text-gray-800">
-											{new Date(loc.created_at).toLocaleString()}
-										</td>
-										<td className="py-4 px-4 text-gray-800">
-											{loc.updated_at
-												? new Date(loc.updated_at).toLocaleString()
-												: "N/A"}
-										</td>
-										<td className="py-4 px-4">
-											<div className="flex items-center justify-left gap-2">
-												<button
-													className="p-2 hover:bg-blue-100 rounded transition"
-													title="Edit"
-													onClick={() => handleEdit(loc)}
-												>
-													<Image
-														src="/icons/edit.svg"
-														alt="Edit"
-														width={18}
-														height={18}
-													/>
-												</button>
-												<button
-													className="p-2 hover:bg-red-100 rounded transition"
-													title="Delete"
-													onClick={() => handleDelete(loc.ref_location_id)}
-												>
-													<Image
-														src="/icons/delete.svg"
-														alt="Delete"
-														width={20}
-														height={20}
-													/>
-												</button>
-											</div>
-										</td>
-									</tr>
-								))
-							)}
-						</tbody>
-					</table>
-				</div>
+							))
+						)}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	);

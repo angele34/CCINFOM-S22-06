@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-import Header from "../../components/ui/Header";
-import Footer from "../../components/ui/Footer";
-import ModeToggle from "../../components/ui/ModeToggle";
+import AppLayout from "../../components/ui/AppLayout";
 import Image from "next/image";
 import PreassignTable, {
 	type PreassignTransaction,
@@ -36,47 +34,50 @@ export default function TransactionsPage() {
 	];
 
 	return (
-		<div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
-			<Header />
-			<ModeToggle activeMode={"Transactions"} />
+		<AppLayout>
+			<div className="h-full flex flex-col p-6">
+				{/* header */}
+				<div className="mb-4">
+					<h1 className="text-2xl font-bold text-ambulance-teal-750">
+						Transactions
+					</h1>
+					<p className="text-gray-600">
+						Manage all patient transfer transactions
+					</p>
+				</div>
 
-			{/* Tab buttons */}
-			<div className="flex justify-center gap-4 mb-6 px-6">
-				{tabs.map((item) => (
-					<button
-						key={item.key}
-						onClick={() => setActiveTab(item.key)}
-						className={`flex flex-col items-center justify-center gap-2 px-6 py-4 rounded-2xl transition font-semibold min-w-[120px] ${
-							activeTab === item.key
-								? "bg-gradient-to-r from-teal-500 to-teal-600 text-white shadow-lg"
-								: "bg-white text-gray-700 shadow-md hover:shadow-lg"
-						}`}
-					>
-						<div className="w-10 h-10 flex items-center justify-center">
+				{/* buttons */}
+				<div className="flex gap-2 flex-wrap mb-4">
+					{tabs.map((item) => (
+						<button
+							key={item.key}
+							onClick={() => setActiveTab(item.key)}
+							className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
+								activeTab === item.key
+									? "bg-teal-600 text-white shadow-sm"
+									: "border border-gray-200 text-gray-600 hover:bg-gray-50"
+							}`}
+						>
 							<Image
 								src={item.icon}
 								alt={item.name}
-								width={32}
-								height={32}
-								className={`w-8 h-8 ${
-									activeTab === item.key ? "brightness-0 invert" : "opacity-70"
-								}`}
+								width={18}
+								height={18}
+								className={
+									activeTab === item.key ? "brightness-0 invert" : "opacity-60"
+								}
 							/>
-						</div>
-						<span className="text-sm">{item.name}</span>
-					</button>
-				))}
-			</div>
+							<span>{item.name}</span>
+						</button>
+					))}
+				</div>
 
-			{/* Table container */}
-			<div className="flex-1 overflow-hidden pb-6">
+				{/* main content */}
 				{activeTab === "preassign" && <PreassignTable data={preassignData} />}
 				{activeTab === "request" && <RequestTable data={requestData} />}
 				{activeTab === "dispatch" && <DispatchTable data={dispatchData} />}
 				{activeTab === "transfer" && <TransferTable data={transferData} />}
 			</div>
-
-			<Footer />
-		</div>
+		</AppLayout>
 	);
 }
