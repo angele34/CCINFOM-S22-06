@@ -9,8 +9,8 @@ datasource db {
 
 model ambulance {
   ambulance_id     Int                        @id @default(autoincrement())
-  ambulance_type   ambulance_ambulance_type
   hospital_id      Int
+  ambulance_type   ambulance_ambulance_type
   ambulance_status ambulance_ambulance_status
   plate_no         String                     @unique(map: "plate_no") @db.VarChar(7)
   created_at       DateTime                   @default(now()) @db.DateTime(0)
@@ -25,16 +25,18 @@ model ambulance {
 }
 
 model hospital {
-  hospital_id   Int           @id @default(autoincrement())
-  hospital_name String        @db.VarChar(50)
-  city          hospital_city
-  street        String        @db.VarChar(20)
-  created_at    DateTime      @default(now()) @db.DateTime(0)
-  updated_at    DateTime?     @default(now()) @db.DateTime(0)
-  is_deleted    Boolean       @default(false)
-  ambulance     ambulance[]
-  request       request[]
-  transfer      transfer[]
+  hospital_id        Int                  @id @default(autoincrement())
+  hospital_name      String               @db.VarChar(50)
+  city               hospital_city
+  street             String               @db.VarChar(20)
+  created_at         DateTime             @default(now()) @db.DateTime(0)
+  updated_at         DateTime?            @default(now()) @db.DateTime(0)
+  is_deleted         Boolean              @default(false)
+  ambulance          ambulance[]
+  reference_location reference_location[]
+  request            request[]
+  staff              staff[]
+  transfer           transfer[]
 }
 
 model patient {
@@ -58,17 +60,22 @@ model patient {
 }
 
 model reference_location {
-  ref_location_id Int       @id @default(autoincrement())
-  city            String    @db.VarChar(20)
-  street          String    @db.VarChar(20)
-  created_at      DateTime  @default(now()) @db.DateTime(0)
-  updated_at      DateTime? @default(now()) @db.DateTime(0)
+  ref_location_id Int                     @id @default(autoincrement())
+  hospital_id     Int?
+  city            reference_location_city
+  street          String                  @db.VarChar(20)
+  created_at      DateTime                @default(now()) @db.DateTime(0)
+  updated_at      DateTime?               @default(now()) @db.DateTime(0)
   patient         patient[]
+  hospital        hospital?               @relation(fields: [hospital_id], references: [hospital_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_reflocation_hospital")
   request         request[]
+
+  @@index([hospital_id], map: "fk_reflocation_hospital")
 }
 
 model staff {
   staff_id       Int                  @id @default(autoincrement())
+  hospital_id    Int?
   name           String               @db.VarChar(50)
   staff_role     staff_staff_role
   license_no     String               @unique(map: "license_no") @db.VarChar(11)
@@ -78,24 +85,31 @@ model staff {
   updated_at     DateTime?            @default(now()) @db.DateTime(0)
   is_deleted     Boolean              @default(false)
   preassign      preassign[]
+  hospital       hospital?            @relation(fields: [hospital_id], references: [hospital_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_staff_hospital")
+  transfer       transfer[]
+
+  @@index([hospital_id], map: "fk_staff_hospital")
 }
 
 model transfer {
-  transfer_id     Int                       @id @default(autoincrement())
+  transfer_id     Int                      @id @default(autoincrement())
   patient_id      Int
   ambulance_id    Int
+  staff_id        Int
   hospital_id     Int
-  transferred_on  DateTime                  @db.DateTime(0)
-  transfer_status transfer_transfer_status?
+  transferred_on  DateTime                 @db.DateTime(0)
+  transfer_status transfer_transfer_status
   priority_level  transfer_priority_level?
-  updated_on      DateTime?                 @default(now()) @db.DateTime(0)
-  patient         patient                   @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
-  ambulance       ambulance                 @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
-  hospital        hospital                  @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
+  updated_on      DateTime?                @default(now()) @db.DateTime(0)
+  patient         patient                  @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
+  ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
+  hospital        hospital                 @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
+  staff           staff                    @relation(fields: [staff_id], references: [staff_id], onUpdate: NoAction, map: "transfer_ibfk_4")
 
   @@index([ambulance_id], map: "ambulance_id")
   @@index([hospital_id], map: "hospital_id")
   @@index([patient_id], map: "patient_id")
+  @@index([staff_id], map: "staff_id")
 }
 
 model dispatch {
@@ -227,13 +241,18 @@ enum dispatch_dispatch_status {
   cancelled
 }
 
-enum transfer_transfer_status {
-  in_transfer
-  transferred
-}
-
 enum request_request_status {
   pending
   accepted
   cancelled
+}
+
+enum reference_location_city {
+  Quezon_City
+  Manila_City
+  Muntinlupa_City
+}
+
+enum transfer_transfer_status {
+  transferred
 }

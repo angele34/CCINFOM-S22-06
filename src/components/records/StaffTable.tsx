@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import FormModal from "../ui/FormModal";
 
@@ -13,6 +13,7 @@ interface Staff {
 	staff_status: string;
 	created_at: string;
 	updated_at: string | null;
+	hospital_id: number;
 }
 
 export default function StaffTable({
@@ -24,8 +25,21 @@ export default function StaffTable({
 }) {
 	const [showModal, setShowModal] = useState(false);
 	const [editingStaff, setEditingStaff] = useState<Staff | null>(null);
+	const [hospitals, setHospitals] = useState<
+		{ hospital_id: number; hospital_name: string }[]
+	>([]);
 
 	const formFields = [
+		{
+			name: "hospital_id",
+			label: "Hospital",
+			type: "select" as const,
+			required: true,
+			options: hospitals.map((h) => ({
+				value: h.hospital_id.toString(),
+				label: `${h.hospital_name} (ID: ${h.hospital_id})`,
+			})),
+		},
 		{
 			name: "name",
 			label: "Staff Name",
@@ -90,9 +104,26 @@ export default function StaffTable({
 		},
 	];
 
+	useEffect(() => {
+		const fetchHospitals = async () => {
+			try {
+				const res = await fetch("/api/hospital");
+				if (res.ok) {
+					const data = await res.json();
+					setHospitals(data || []);
+				}
+			} catch (err) {
+				console.error("Failed to fetch hospitals", err);
+			}
+		};
+
+		fetchHospitals();
+	}, []);
+
 	const handleFormSubmit = async (formData: Record<string, string>) => {
 		try {
 			const payload = {
+				hospital_id: parseInt(formData.hospital_id, 10),
 				name: formData.name,
 				staff_role: formData.staff_role,
 				license_no: formData.license_no,
@@ -199,6 +230,7 @@ export default function StaffTable({
 				initialData={
 					editingStaff
 						? {
+								hospital_id: editingStaff?.hospital_id?.toString() || "",
 								name: editingStaff.name || "",
 								staff_role: editingStaff.staff_role || "",
 								license_no: editingStaff.license_no || "",
@@ -215,6 +247,7 @@ export default function StaffTable({
 					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
 						<tr className="text-ambulance-teal-750">
 							<th className="py-2 px-1 font-bold text-center">Staff ID</th>
+							<th className="py-2 px-3 font-bold text-center">Hospital ID</th>
 							<th className="py-2 px-3 font-bold">Name</th>
 							<th className="py-2 px-3 font-bold">Role</th>
 							<th className="py-2 px-3 font-bold">License No</th>
@@ -228,7 +261,7 @@ export default function StaffTable({
 					<tbody>
 						{initialData.length === 0 ? (
 							<tr>
-								<td colSpan={9} className="py-12 text-center">
+								<td colSpan={10} className="py-12 text-center">
 									<p className="text-gray-500 text-base">
 										No staff records found. Click &quot;+ Add Staff&quot; to get
 										started.
@@ -243,6 +276,9 @@ export default function StaffTable({
 								>
 									<td className="py-2 px-1 font-medium text-gray-900 text-center">
 										{member.staff_id}
+									</td>
+									<td className="py-2 px-3 text-gray-800 text-center">
+										{member.hospital_id ?? "N/A"}
 									</td>
 									<td className="py-2 px-3 text-gray-800">{member.name}</td>
 									<td className="py-2 px-3 text-gray-800">

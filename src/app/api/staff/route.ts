@@ -4,6 +4,7 @@ import prisma from "@/src/lib/prisma";
 
 // zod validation schemas
 const StaffSchema = z.object({
+	hospital_id: z.coerce.number().int().positive(),
 	name: z.string().min(1).max(50),
 	staff_role: z.enum(["driver", "emt", "paramedic"]),
 	license_no: z
@@ -44,6 +45,17 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = StaffSchema.parse(body);
 
+		// verify hospital exists
+		const hospital = await prisma.hospital.findUnique({
+			where: { hospital_id: validated.hospital_id },
+		});
+		if (!hospital) {
+			return NextResponse.json(
+				{ error: "Hospital not found" },
+				{ status: 400 }
+			);
+		}
+
 		const newStaff = await prisma.staff.create({
 			data: validated,
 		});
@@ -66,6 +78,19 @@ export async function PUT(req: Request) {
 		const body = await req.json();
 		const validated = StaffUpdateSchema.parse(body);
 		const { staff_id, ...data } = validated;
+
+		// verify hospital exists if provided
+		if ((data as any).hospital_id != null) {
+			const hospital = await prisma.hospital.findUnique({
+				where: { hospital_id: (data as any).hospital_id },
+			});
+			if (!hospital) {
+				return NextResponse.json(
+					{ error: "Hospital not found" },
+					{ status: 400 }
+				);
+			}
+		}
 
 		const updatedStaff = await prisma.staff.update({
 			where: { staff_id },

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import FormModal from "../ui/FormModal";
 
@@ -10,6 +10,7 @@ interface Location {
 	street: string;
 	created_at: string;
 	updated_at: string | null;
+	hospital_id: number;
 }
 
 export default function LocationTable({
@@ -21,8 +22,21 @@ export default function LocationTable({
 }) {
 	const [showModal, setShowModal] = useState(false);
 	const [editingLocation, setEditingLocation] = useState<Location | null>(null);
+	const [hospitals, setHospitals] = useState<
+		{ hospital_id: number; hospital_name: string }[]
+	>([]);
 
 	const formFields = [
+		{
+			name: "hospital_id",
+			label: "Hospital",
+			type: "select" as const,
+			required: true,
+			options: hospitals.map((h) => ({
+				value: h.hospital_id.toString(),
+				label: `${h.hospital_name} (ID: ${h.hospital_id})`,
+			})),
+		},
 		{
 			name: "city",
 			label: "City",
@@ -53,11 +67,28 @@ export default function LocationTable({
 		},
 	];
 
+	useEffect(() => {
+		const fetchHospitals = async () => {
+			try {
+				const res = await fetch("/api/hospital");
+				if (res.ok) {
+					const data = await res.json();
+					setHospitals(data || []);
+				}
+			} catch (err) {
+				console.error("Failed to fetch hospitals", err);
+			}
+		};
+
+		fetchHospitals();
+	}, []);
+
 	const handleFormSubmit = async (formData: Record<string, string>) => {
 		try {
 			const payload = {
 				city: formData.city,
 				street: formData.street,
+				hospital_id: parseInt(formData.hospital_id, 10),
 			};
 
 			const url = "/api/reference_loc";
@@ -160,6 +191,7 @@ export default function LocationTable({
 				initialData={
 					editingLocation
 						? {
+								hospital_id: editingLocation?.hospital_id?.toString() || "",
 								city: editingLocation?.city || "",
 								street: editingLocation?.street || "",
 						  }
@@ -175,6 +207,7 @@ export default function LocationTable({
 							<th className="py-2 px-3 text-center font-bold">
 								Ref Location ID
 							</th>
+							<th className="py-2 px-3 text-center font-bold">Hospital ID</th>
 							<th className="py-2 px-3 font-bold">City</th>
 							<th className="py-2 px-3 font-bold">Street</th>
 							<th className="py-2 px-3 font-bold">Date Created</th>
@@ -185,7 +218,7 @@ export default function LocationTable({
 					<tbody>
 						{initialData.length === 0 ? (
 							<tr>
-								<td colSpan={6} className="py-12 text-center">
+								<td colSpan={7} className="py-12 text-center">
 									<p className="text-gray-500 text-base">
 										No location records found. Click &quot;+ Add Location&quot;
 										to get started.
@@ -200,6 +233,9 @@ export default function LocationTable({
 								>
 									<td className="py-4 px-4 font-medium text-center text-gray-900">
 										{loc.ref_location_id}
+									</td>
+									<td className="py-4 px-4 text-gray-800 text-center">
+										{loc.hospital_id ?? "N/A"}
 									</td>
 									<td className="py-4 px-4 text-gray-800">{loc.city}</td>
 									<td className="py-4 px-4 text-gray-800">{loc.street}</td>

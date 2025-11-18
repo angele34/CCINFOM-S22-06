@@ -4,6 +4,7 @@ import prisma from "@/src/lib/prisma";
 
 // zod validation
 const ReferenceLocationSchema = z.object({
+	hospital_id: z.coerce.number().int().positive(),
 	city: z.string().min(1).max(20),
 	street: z.string().min(1).max(20),
 });
@@ -33,6 +34,17 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = ReferenceLocationSchema.parse(body);
 
+		// verify hospital exists
+		const hospital = await prisma.hospital.findUnique({
+			where: { hospital_id: validated.hospital_id },
+		});
+		if (!hospital) {
+			return NextResponse.json(
+				{ error: "Hospital not found" },
+				{ status: 400 }
+			);
+		}
+
 		const newReferenceLocs = await prisma.reference_location.create({
 			data: validated,
 		});
@@ -55,6 +67,19 @@ export async function PUT(req: Request) {
 		const body = await req.json();
 		const validated = ReferenceLocationUpdateSchema.parse(body);
 		const { ref_location_id, ...data } = validated;
+
+		// verify hospital exists if provided
+		if ((data as any).hospital_id != null) {
+			const hospital = await prisma.hospital.findUnique({
+				where: { hospital_id: (data as any).hospital_id },
+			});
+			if (!hospital) {
+				return NextResponse.json(
+					{ error: "Hospital not found" },
+					{ status: 400 }
+				);
+			}
+		}
 
 		const updatedReferenceLoc = await prisma.reference_location.update({
 			where: { ref_location_id },

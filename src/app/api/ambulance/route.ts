@@ -41,6 +41,17 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = AmbulanceSchema.parse(body);
 
+		// verify hospital exists
+		const hospital = await prisma.hospital.findUnique({
+			where: { hospital_id: validated.hospital_id },
+		});
+		if (!hospital) {
+			return NextResponse.json(
+				{ error: "Hospital not found" },
+				{ status: 400 }
+			);
+		}
+
 		const newAmbulance = await prisma.ambulance.create({
 			data: validated,
 		});
@@ -63,6 +74,21 @@ export async function PUT(req: Request) {
 		const body = await req.json();
 		const validated = AmbulanceUpdateSchema.parse(body);
 		const { ambulance_id, ...data } = validated;
+
+		// verify hospital exists if provided
+		const hospitalId = (data as unknown as { hospital_id?: number })
+			.hospital_id;
+		if (hospitalId != null) {
+			const hospital = await prisma.hospital.findUnique({
+				where: { hospital_id: hospitalId },
+			});
+			if (!hospital) {
+				return NextResponse.json(
+					{ error: "Hospital not found" },
+					{ status: 400 }
+				);
+			}
+		}
 
 		const updatedAmbulance = await prisma.ambulance.update({
 			where: { ambulance_id },
