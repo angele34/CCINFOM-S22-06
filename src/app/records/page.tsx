@@ -34,6 +34,7 @@ interface Patient {
 
 interface Location {
 	ref_location_id: number;
+	hospital_id: number;
 	city: string;
 	street: string;
 	created_at: string;
@@ -42,6 +43,7 @@ interface Location {
 
 interface Staff {
 	staff_id: number;
+	hospital_id: number;
 	name: string;
 	staff_role: string;
 	license_no: string;

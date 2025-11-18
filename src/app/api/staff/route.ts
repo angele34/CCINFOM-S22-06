@@ -80,9 +80,9 @@ export async function PUT(req: Request) {
 		const { staff_id, ...data } = validated;
 
 		// verify hospital exists if provided
-		if ((data as any).hospital_id != null) {
+		if (data.hospital_id != null) {
 			const hospital = await prisma.hospital.findUnique({
-				where: { hospital_id: (data as any).hospital_id },
+				where: { hospital_id: data.hospital_id },
 			});
 			if (!hospital) {
 				return NextResponse.json(

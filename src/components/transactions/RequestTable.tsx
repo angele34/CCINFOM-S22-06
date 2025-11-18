@@ -1,40 +1,206 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import FormModal from "../ui/FormModal";
 
-export interface RequestTransaction {
+interface Request {
 	request_id: number;
-	patient_name: string;
+	patient_id: number;
+	ref_location_id: number;
+	hospital_id: number;
+	priority_level: string;
+	request_status: string;
+	requested_on: string;
+	updated_on: string | null;
+}
+
+interface Patient {
+	patient_id: number;
+	name: string;
+	age: number | null;
 	medical_condition: string;
-	contact_number: string;
-	contact_person: string;
-	reference_address: string;
-	status: string;
-	created_at: string;
+	contact_person: string | null;
+	contact_number: string | null;
+}
+
+interface ReferenceLocation {
+	ref_location_id: number;
+	city: string;
+	street: string;
+}
+
+interface Hospital {
+	hospital_id: number;
+	hospital_name: string;
+	city: string;
 }
 
 export default function RequestTable() {
-	const [data, setData] = useState<RequestTransaction[]>([]);
+	const [data, setData] = useState<Request[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [modalOpen, setModalOpen] = useState(false);
 
-	useEffect(() => {
-		let mounted = true;
+	const [patients, setPatients] = useState<Patient[]>([]);
+	const [locations, setLocations] = useState<ReferenceLocation[]>([]);
+	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+
+	const fetchRequests = () => {
 		fetch("/api/request")
 			.then((res) => res.json())
 			.then((json) => {
-				if (!mounted) return;
 				setData(Array.isArray(json) ? json : []);
 			})
 			.catch((err) => {
 				console.error("Failed to fetch requests:", err);
 				setData([]);
 			})
-			.finally(() => mounted && setLoading(false));
-		return () => {
-			mounted = false;
-		};
+			.finally(() => setLoading(false));
+	};
+
+	useEffect(() => {
+		fetchRequests();
+
+		Promise.all([
+			fetch("/api/patient").then((r) => r.json()),
+			fetch("/api/reference_loc").then((r) => r.json()),
+			fetch("/api/hospital").then((r) => r.json()),
+		]).then(([patientsData, locationsData, hospitalsData]) => {
+			setPatients(Array.isArray(patientsData) ? patientsData : []);
+			setLocations(Array.isArray(locationsData) ? locationsData : []);
+			setHospitals(Array.isArray(hospitalsData) ? hospitalsData : []);
+		});
 	}, []);
+
+	const handleCreateRequest = async (values: Record<string, string>) => {
+		if (!values.patient_id || !values.ref_location_id || !values.hospital_id) {
+			alert("Please fill all required fields");
+			return;
+		}
+
+		try {
+			const res = await fetch("/api/request", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					patient_id: Number(values.patient_id),
+					ref_location_id: Number(values.ref_location_id),
+					hospital_id: Number(values.hospital_id),
+					priority_level: values.priority_level ?? "routine",
+				}),
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				alert(`Error: ${error.error || "Failed to create request"}`);
+				return;
+			}
+
+			fetchRequests();
+			setModalOpen(false);
+		} catch (error) {
+			console.error(error);
+			alert("Network error");
+		}
+	};
+
+	const handleAccept = async (request_id: number) => {
+		try {
+			const res = await fetch("/api/request", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					request_id,
+					request_status: "accepted",
+				}),
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				alert(`Error: ${error.error || "Failed to accept request"}`);
+				return;
+			}
+
+			fetchRequests();
+		} catch (error) {
+			console.error(error);
+			alert("Network error");
+		}
+	};
+
+	const handleCancel = async (request_id: number) => {
+		try {
+			const res = await fetch("/api/request", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					request_id,
+					request_status: "cancelled",
+				}),
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				alert(`Error: ${error.error || "Failed to cancel request"}`);
+				return;
+			}
+
+			fetchRequests();
+		} catch (error) {
+			console.error(error);
+			alert("Network error");
+		}
+	};
+
+	const formatPriority = (priority: string) => {
+		return priority.charAt(0).toUpperCase() + priority.slice(1);
+	};
+
+	const formatStatus = (status: string) => {
+		return status.charAt(0).toUpperCase() + status.slice(1);
+	};
+
+	const requestFields = [
+		{
+			name: "patient_id",
+			label: "Patient",
+			type: "select",
+			required: true,
+			options: patients.map((p) => ({
+				value: p.patient_id,
+				label: `${p.name} - ${p.medical_condition}`,
+			})),
+		},
+		{
+			name: "ref_location_id",
+			label: "Reference Location",
+			type: "select",
+			required: true,
+			options: locations.map((loc) => ({
+				value: loc.ref_location_id,
+				label: `${loc.street}, ${loc.city}`,
+			})),
+		},
+		{
+			name: "hospital_id",
+			label: "Hospital",
+			type: "select",
+			required: true,
+			options: hospitals.map((h) => ({
+				value: h.hospital_id,
+				label: `${h.hospital_name} - ${h.city}`,
+			})),
+		},
+		{
+			name: "priority_level",
+			label: "Priority Level",
+			type: "select",
+			options: [
+				{ value: "routine", label: "Routine" },
+				{ value: "moderate", label: "Moderate" },
+				{ value: "critical", label: "Critical" },
+			],
+		},
+	];
 
 	return (
 		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
@@ -47,7 +213,10 @@ export default function RequestTable() {
 						Track patient requests for ambulance services
 					</p>
 				</div>
-				<button className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition">
+				<button
+					onClick={() => setModalOpen(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
 					+ New Request
 				</button>
 			</div>
@@ -57,13 +226,13 @@ export default function RequestTable() {
 					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
 						<tr className="text-ambulance-teal-750">
 							<th className="py-2 px-3 font-bold">Request ID</th>
-							<th className="py-2 px-3 font-bold">Patient Name</th>
-							<th className="py-2 px-3 font-bold">Medical Condition</th>
-							<th className="py-2 px-3 font-bold">Contact Person</th>
-							<th className="py-2 px-3 font-bold">Contact Number</th>
-							<th className="py-2 px-3 font-bold">Reference Address</th>
+							<th className="py-2 px-3 font-bold">Patient ID</th>
+							<th className="py-2 px-3 font-bold">Ref Location ID</th>
+							<th className="py-2 px-3 font-bold">Hospital ID</th>
+							<th className="py-2 px-3 font-bold">Priority Level</th>
 							<th className="py-2 px-3 font-bold">Status</th>
-							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Requested On</th>
+							<th className="py-2 px-3 font-bold">Updated On</th>
 							<th className="py-2 px-3 font-bold">Actions</th>
 						</tr>
 					</thead>
@@ -92,50 +261,67 @@ export default function RequestTable() {
 									<td className="py-3 px-3 font-medium text-gray-900">
 										{item.request_id}
 									</td>
+									<td className="py-3 px-3 text-gray-800">{item.patient_id}</td>
 									<td className="py-3 px-3 text-gray-800">
-										{item.patient_name}
+										{item.ref_location_id}
 									</td>
 									<td className="py-3 px-3 text-gray-800">
-										{item.medical_condition}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.contact_person}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.contact_number}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.reference_address}
+										{item.hospital_id}
 									</td>
 									<td className="py-3 px-3">
 										<span
 											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-												item.status === "pending"
+												item.priority_level === "critical"
+													? "bg-red-100 text-red-800"
+													: item.priority_level === "moderate"
 													? "bg-yellow-100 text-yellow-800"
-													: item.status === "assigned"
-													? "bg-blue-100 text-blue-800"
-													: "bg-green-100 text-green-800"
+													: "bg-blue-100 text-blue-800"
 											}`}
 										>
-											{item.status}
+											{formatPriority(item.priority_level)}
+										</span>
+									</td>
+									<td className="py-3 px-3">
+										<span
+											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+												item.request_status === "pending"
+													? "bg-yellow-100 text-yellow-800"
+													: item.request_status === "accepted"
+													? "bg-green-100 text-green-800"
+													: "bg-gray-100 text-gray-800"
+											}`}
+										>
+											{formatStatus(item.request_status)}
 										</span>
 									</td>
 									<td className="py-3 px-3 text-gray-800">
-										{new Date(item.created_at).toLocaleString()}
+										{new Date(item.requested_on).toLocaleString()}
+									</td>
+									<td className="py-3 px-3 text-gray-800">
+										{item.updated_on
+											? new Date(item.updated_on).toLocaleString()
+											: "N/A"}
 									</td>
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
-											<button
-												className="p-2 hover:bg-blue-100 rounded transition"
-												title="View"
-											>
-												<Image
-													src="/icons/edit.svg"
-													alt="View"
-													width={18}
-													height={18}
-												/>
-											</button>
+											{item.request_status === "pending" && (
+												<>
+													<button
+														onClick={() => handleAccept(item.request_id)}
+														className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
+														title="Accept"
+													>
+														Accept
+													</button>
+													<button
+														onClick={() => handleCancel(item.request_id)}
+														className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
+														title="Cancel"
+													>
+														Cancel
+													</button>
+												</>
+											)}
 										</div>
 									</td>
 								</tr>
@@ -144,6 +330,15 @@ export default function RequestTable() {
 					</tbody>
 				</table>
 			</div>
+
+			<FormModal
+				isOpen={modalOpen}
+				onClose={() => setModalOpen(false)}
+				title="New Ambulance Request"
+				fields={requestFields as any}
+				onSubmit={handleCreateRequest}
+				submitLabel="Submit Request"
+			/>
 		</div>
 	);
 }

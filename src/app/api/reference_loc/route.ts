@@ -5,7 +5,7 @@ import prisma from "@/src/lib/prisma";
 // zod validation
 const ReferenceLocationSchema = z.object({
 	hospital_id: z.coerce.number().int().positive(),
-	city: z.string().min(1).max(20),
+	city: z.enum(["Quezon_City", "Manila_City", "Muntinlupa_City"]),
 	street: z.string().min(1).max(20),
 });
 
@@ -69,9 +69,9 @@ export async function PUT(req: Request) {
 		const { ref_location_id, ...data } = validated;
 
 		// verify hospital exists if provided
-		if ((data as any).hospital_id != null) {
+		if (data.hospital_id != null) {
 			const hospital = await prisma.hospital.findUnique({
-				where: { hospital_id: (data as any).hospital_id },
+				where: { hospital_id: data.hospital_id },
 			});
 			if (!hospital) {
 				return NextResponse.json(
