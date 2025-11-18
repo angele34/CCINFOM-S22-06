@@ -8,16 +8,17 @@ datasource db {
 }
 
 model ambulance {
-  ambulance_id     Int                         @id @default(autoincrement())
-  ambulance_type   ambulance_ambulance_type?
+  ambulance_id     Int                        @id @default(autoincrement())
+  ambulance_type   ambulance_ambulance_type
   hospital_id      Int
-  ambulance_status ambulance_ambulance_status?
-  plate_no         String?                     @db.VarChar(7)
-  created_at       DateTime                    @default(now()) @db.DateTime(0)
-  updated_at       DateTime?                   @default(now()) @db.DateTime(0)
-  is_deleted       Boolean                     @default(false)
-  hospital         hospital                    @relation(fields: [hospital_id], references: [hospital_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_ambulance_hospital_id")
-  ambulance_staff  ambulance_staff[]
+  ambulance_status ambulance_ambulance_status
+  plate_no         String                     @unique(map: "plate_no") @db.VarChar(7)
+  created_at       DateTime                   @default(now()) @db.DateTime(0)
+  updated_at       DateTime?                  @default(now()) @db.DateTime(0)
+  is_deleted       Boolean                    @default(false)
+  hospital         hospital                   @relation(fields: [hospital_id], references: [hospital_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_ambulance_hospital_id")
+  dispatch         dispatch[]
+  preassign        preassign[]
   transfer         transfer[]
 
   @@index([hospital_id], map: "fk_ambulance_hospital_id")
@@ -30,7 +31,9 @@ model hospital {
   street        String        @db.VarChar(20)
   created_at    DateTime      @default(now()) @db.DateTime(0)
   updated_at    DateTime?     @default(now()) @db.DateTime(0)
+  is_deleted    Boolean       @default(false)
   ambulance     ambulance[]
+  request       request[]
   transfer      transfer[]
 }
 
@@ -42,12 +45,13 @@ model patient {
   medical_condition  patient_medical_condition
   priority_level     patient_priority_level
   contact_person     String?                   @db.VarChar(50)
-  contact_number     String?                   @db.Char(11)
+  contact_number     String?                   @unique(map: "contact_number") @db.Char(11)
   transfer_status    patient_transfer_status?
   created_at         DateTime                  @default(now()) @db.DateTime(0)
   updated_at         DateTime?                 @default(now()) @db.DateTime(0)
   is_deleted         Boolean                   @default(false)
   reference_location reference_location        @relation(fields: [ref_location_id], references: [ref_location_id], map: "fk_patient_location")
+  request            request[]
   transfer           transfer[]
 
   @@index([ref_location_id], map: "fk_patient_location")
@@ -60,48 +64,97 @@ model reference_location {
   created_at      DateTime  @default(now()) @db.DateTime(0)
   updated_at      DateTime? @default(now()) @db.DateTime(0)
   patient         patient[]
+  request         request[]
 }
 
 model staff {
-  staff_id        Int                   @id @default(autoincrement())
-  name            String                @db.VarChar(50)
-  staff_role      staff_staff_role
-  license_no      String?               @db.VarChar(11)
-  shift_schedule  staff_shift_schedule?
-  staff_status    staff_staff_status?
-  created_at      DateTime              @default(now()) @db.DateTime(0)
-  updated_at      DateTime?             @default(now()) @db.DateTime(0)
-  is_deleted      Boolean               @default(false)
-  ambulance_staff ambulance_staff[]
+  staff_id       Int                  @id @default(autoincrement())
+  name           String               @db.VarChar(50)
+  staff_role     staff_staff_role
+  license_no     String               @unique(map: "license_no") @db.VarChar(11)
+  shift_schedule staff_shift_schedule
+  staff_status   staff_staff_status
+  created_at     DateTime             @default(now()) @db.DateTime(0)
+  updated_at     DateTime?            @default(now()) @db.DateTime(0)
+  is_deleted     Boolean              @default(false)
+  preassign      preassign[]
 }
 
 model transfer {
-  transfer_id     Int                       @id @default(autoincrement())
+  transfer_id     Int                      @id @default(autoincrement())
   patient_id      Int
   ambulance_id    Int
   hospital_id     Int
-  transfer_date   DateTime                  @db.Date
-  transfer_status transfer_transfer_status?
+  transferred_on  DateTime                 @db.DateTime(0)
+  transfer_status transfer_transfer_status @default(waiting)
   priority_level  transfer_priority_level?
-  created_at      DateTime                  @default(now()) @db.DateTime(0)
-  updated_at      DateTime?                 @default(now()) @db.DateTime(0)
-  ambulance       ambulance                 @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
-  hospital        hospital                  @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
-  patient         patient                   @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
+  created_on      DateTime                 @default(now()) @db.DateTime(0)
+  updated_on      DateTime?                @default(now()) @db.DateTime(0)
+  patient         patient                  @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
+  ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
+  hospital        hospital                 @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
 
-  @@index([ambulance_id], map: "fk_transfer_ambulance")
-  @@index([hospital_id], map: "fk_transfer_hospital")
-  @@index([patient_id], map: "fk_transfer_patient")
+  @@index([ambulance_id], map: "ambulance_id")
+  @@index([hospital_id], map: "hospital_id")
+  @@index([patient_id], map: "patient_id")
 }
 
 model ambulance_staff {
   ambulance_id Int
   staff_id     Int
-  ambulance    ambulance @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: Cascade, onUpdate: NoAction, map: "ambulance_staff_ibfk_1")
-  staff        staff     @relation(fields: [staff_id], references: [staff_id], onDelete: Cascade, onUpdate: NoAction, map: "ambulance_staff_ibfk_2")
 
   @@id([ambulance_id, staff_id])
   @@index([staff_id], map: "staff_id")
+}
+
+model dispatch {
+  dispatch_id     Int                      @id @default(autoincrement())
+  request_id      Int                      @unique(map: "request_id")
+  ambulance_id    Int
+  dispatched_on   DateTime                 @default(now()) @db.DateTime(0)
+  dispatch_status dispatch_dispatch_status
+  created_on      DateTime                 @default(now()) @db.DateTime(0)
+  updated_on      DateTime?                @default(now()) @db.DateTime(0)
+  request         request                  @relation(fields: [request_id], references: [request_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_1")
+  ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_2")
+
+  @@index([ambulance_id], map: "ambulance_id")
+}
+
+model preassign {
+  preassign_id      Int                          @id @default(autoincrement())
+  staff_id          Int
+  staff_role        preassign_staff_role
+  ambulance_id      Int
+  assigned_on       DateTime                     @default(now()) @db.DateTime(0)
+  assignment_status preassign_assignment_status? @default(active)
+  created_on        DateTime                     @default(now()) @db.DateTime(0)
+  updated_on        DateTime?                    @default(now()) @db.DateTime(0)
+  staff             staff                        @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_1")
+  ambulance         ambulance                    @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_2")
+
+  @@unique([ambulance_id, staff_role], map: "unique_ambulance_role")
+  @@unique([staff_id, assigned_on], map: "unique_staff_time")
+}
+
+model request {
+  request_id         Int                    @id @default(autoincrement())
+  patient_id         Int
+  ref_location_id    Int
+  hospital_id        Int
+  priority_level     request_priority_level
+  requested_on       DateTime               @default(now()) @db.DateTime(0)
+  request_status     request_request_status @default(pending)
+  created_on         DateTime               @default(now()) @db.DateTime(0)
+  updated_on         DateTime?              @default(now()) @db.DateTime(0)
+  dispatch           dispatch?
+  patient            patient                @relation(fields: [patient_id], references: [patient_id], onDelete: NoAction, onUpdate: NoAction, map: "request_ibfk_1")
+  reference_location reference_location     @relation(fields: [ref_location_id], references: [ref_location_id], onUpdate: NoAction, map: "request_ibfk_2")
+  hospital           hospital               @relation(fields: [hospital_id], references: [hospital_id], onDelete: NoAction, onUpdate: NoAction, map: "request_ibfk_3")
+
+  @@index([hospital_id], map: "hospital_id")
+  @@index([patient_id], map: "patient_id")
+  @@index([ref_location_id], map: "ref_location_id")
 }
 
 enum ambulance_ambulance_type {
@@ -118,12 +171,6 @@ enum staff_staff_role {
 enum ambulance_ambulance_status {
   available
   on_trip
-}
-
-enum hospital_city {
-  Quezon_City     @map("Quezon City")
-  Manila_City     @map("Manila City")
-  Muntinlupa_City @map("Muntinlupa City")
 }
 
 enum patient_medical_condition {
@@ -167,4 +214,40 @@ enum patient_transfer_status {
   waiting
   in_transfer
   transferred
+}
+
+enum preassign_staff_role {
+  driver
+  emt
+  paramedic
+}
+
+enum hospital_city {
+  Quezon_City
+  Manila_City
+  Muntinlupa_City
+}
+
+enum dispatch_dispatch_status {
+  dispatched
+  completed
+  cancelled
+}
+
+enum request_priority_level {
+  critical
+  moderate
+  routine
+}
+
+enum preassign_assignment_status {
+  active
+  completed
+  cancelled
+}
+
+enum request_request_status {
+  pending
+  completed
+  cancelled
 }
