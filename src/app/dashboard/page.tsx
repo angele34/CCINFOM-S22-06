@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import AmbulanceTable from "../../components/AmbulanceTable";
-import PatientTable from "../../components/PatientTable";
-import LocationTable from "../../components/LocationTable";
-import StaffTable from "../../components/StaffTable";
-import HospitalTable from "../../components/HospitalTable";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import ModeToggle from "../../components/ModeToggle";
+import AmbulanceTable from "../../components/records/AmbulanceTable";
+import PatientTable from "../../components/records/PatientTable";
+import LocationTable from "../../components/records/LocationTable";
+import StaffTable from "../../components/records/StaffTable";
+import HospitalTable from "../../components/records/HospitalTable";
+import Header from "../../components/ui/Header";
+import Footer from "../../components/ui/Footer";
+import ModeToggle from "../../components/ui/ModeToggle";
 import Image from "next/image";
 
 interface Ambulance {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import FormModal from "./FormModal";
+import FormModal from "../ui/FormModal";
 
 interface Patient {
 	patient_id: number;

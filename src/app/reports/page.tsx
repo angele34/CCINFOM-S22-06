@@ -1,7 +1,7 @@
 "use client";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import ModeToggle from "../../components/ModeToggle";
+import Header from "../../components/ui/Header";
+import Footer from "../../components/ui/Footer";
+import ModeToggle from "../../components/ui/ModeToggle";
 
 export default function ReportsPage() {
 	return (

@@ -2,46 +2,38 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import FormModal from "./FormModal";
+import FormModal from "../ui/FormModal";
 
-interface Hospital {
-	hospital_id: number;
-	hospital_name: string;
+interface Location {
+	ref_location_id: number;
 	city: string;
 	street: string;
 	created_at: string;
 	updated_at: string | null;
 }
 
-export default function HospitalTable({
+export default function LocationTable({
 	initialData,
 	onUpdate,
 }: {
-	initialData: Hospital[];
+	initialData: Location[];
 	onUpdate?: () => void;
 }) {
 	const [showModal, setShowModal] = useState(false);
-	const [editingHospital, setEditingHospital] = useState<Hospital | null>(null);
+	const [editingLocation, setEditingLocation] = useState<Location | null>(null);
 
 	const formFields = [
 		{
-			name: "hospital_name",
-			label: "Hospital Name",
-			type: "text" as const,
-			required: true,
-			placeholder: "Enter hospital name",
-			maxLength: 50,
-		},
-		{
 			name: "city",
 			label: "City",
-			type: "select" as const,
+			type: "text" as const,
 			required: true,
-			options: [
-				{ value: "Quezon_City", label: "Quezon City" },
-				{ value: "Manila_City", label: "Manila City" },
-				{ value: "Muntinlupa_City", label: "Muntinlupa City" },
-			],
+			placeholder: "Enter city name",
+			maxLength: 20,
+			customErrorMessages: {
+				required: "City is required",
+				tooLong: "City must not exceed 20 characters",
+			},
 		},
 		{
 			name: "street",
@@ -50,21 +42,24 @@ export default function HospitalTable({
 			required: true,
 			placeholder: "Enter street address",
 			maxLength: 20,
+			customErrorMessages: {
+				required: "Street is required",
+				tooLong: "Street must not exceed 20 characters",
+			},
 		},
 	];
 
 	const handleFormSubmit = async (formData: Record<string, string>) => {
 		try {
 			const payload = {
-				hospital_name: formData.hospital_name,
 				city: formData.city,
 				street: formData.street,
 			};
 
-			const url = "/api/hospital";
-			const method = editingHospital ? "PUT" : "POST";
-			const body = editingHospital
-				? { ...payload, hospital_id: editingHospital.hospital_id }
+			const url = "/api/reference_loc";
+			const method = editingLocation ? "PUT" : "POST";
+			const body = editingLocation
+				? { ...payload, ref_location_id: editingLocation.ref_location_id }
 				: payload;
 
 			const response = await fetch(url, {
@@ -75,7 +70,7 @@ export default function HospitalTable({
 
 			if (response.ok) {
 				setShowModal(false);
-				setEditingHospital(null);
+				setEditingLocation(null);
 				onUpdate?.();
 			} else {
 				const errorData = await response.json();
@@ -93,62 +88,62 @@ export default function HospitalTable({
 				}
 			}
 		} catch (error) {
-			console.error("Error saving hospital:", error);
-			alert("An error occurred while saving the hospital record");
+			console.error("Error saving location:", error);
+			alert("An error occurred while saving the location");
 		}
 	};
 
-	const handleEdit = (hospital: Hospital) => {
-		setEditingHospital(hospital);
+	const handleEdit = (location: Location) => {
+		setEditingLocation(location);
 		setShowModal(true);
 	};
 
-	const handleDelete = async (hospital_id: number) => {
-		if (!confirm("Are you sure you want to delete this hospital?")) {
+	const handleDelete = async (ref_location_id: number) => {
+		if (!confirm("Are you sure you want to delete this location?")) {
 			return;
 		}
 
 		try {
-			const response = await fetch("/api/hospital", {
+			const response = await fetch("/api/reference_loc", {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ hospital_id }),
+				body: JSON.stringify({ ref_location_id }),
 			});
 
 			if (response.ok) {
 				onUpdate?.();
 			} else {
 				const errorData = await response.json();
-				alert(`Error: ${errorData.error || "Failed to delete hospital"}`);
+				alert(`Error: ${errorData.error || "Failed to delete location"}`);
 			}
 		} catch (error) {
-			console.error("Error deleting hospital:", error);
-			alert("An error occurred while deleting the hospital record");
+			console.error("Error deleting location:", error);
+			alert("An error occurred while deleting the location");
 		}
 	};
 
 	const handleCloseModal = () => {
 		setShowModal(false);
-		setEditingHospital(null);
+		setEditingLocation(null);
 	};
 
 	return (
-		<div className="max-w-[1500px] mx-auto px-6 h-full">
+		<div className="max-w-[1200px] mx-auto px-6 h-full">
 			<div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
 				<div className="flex items-center justify-between mb-6">
 					<div>
 						<h2 className="text-xl font-semibold text-ambulance-teal-750">
-							Hospital Record Management
+							Reference Location Record Management
 						</h2>
 						<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-							Manage and track all hospital facilities
+							Viewing a reference location record along with the address
 						</p>
 					</div>
 					<button
 						onClick={() => setShowModal(true)}
 						className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
 					>
-						+ Add Hospital
+						+ Add Location
 					</button>
 				</div>
 
@@ -157,16 +152,15 @@ export default function HospitalTable({
 					onClose={handleCloseModal}
 					onSubmit={handleFormSubmit}
 					title={
-						editingHospital ? "Edit Hospital Record" : "New Hospital Record"
+						editingLocation ? "Edit Location Record" : "New Location Record"
 					}
 					fields={formFields}
-					submitLabel={editingHospital ? "Update Hospital" : "Add Hospital"}
+					submitLabel={editingLocation ? "Update Location" : "Add Location"}
 					initialData={
-						editingHospital
+						editingLocation
 							? {
-									hospital_name: editingHospital.hospital_name || "",
-									city: editingHospital.city || "",
-									street: editingHospital.street || "",
+									city: editingLocation?.city || "",
+									street: editingLocation?.street || "",
 							  }
 							: undefined
 					}
@@ -177,8 +171,9 @@ export default function HospitalTable({
 					<table className="w-full text-left text-sm">
 						<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow-sm">
 							<tr className="text-ambulance-teal-750">
-								<th className="py-2 px-3 font-bold text-center">Hospital ID</th>
-								<th className="py-2 px-3 font-bold">Hospital Name</th>
+								<th className="py-2 px-3 text-center font-bold">
+									Ref Location ID
+								</th>
 								<th className="py-2 px-3 font-bold">City</th>
 								<th className="py-2 px-3 font-bold">Street</th>
 								<th className="py-2 px-3 font-bold">Date Created</th>
@@ -189,45 +184,38 @@ export default function HospitalTable({
 						<tbody>
 							{initialData.length === 0 ? (
 								<tr>
-									<td colSpan={7} className="py-12 text-center">
+									<td colSpan={6} className="py-12 text-center">
 										<p className="text-gray-500 text-base">
-											No hospital records found. Click &quot;+ Add
-											Hospital&quot; to get started.
+											No location records found. Click &quot;+ Add
+											Location&quot; to get started.
 										</p>
 									</td>
 								</tr>
 							) : (
-								initialData.map((hospital) => (
+								initialData.map((loc) => (
 									<tr
-										key={hospital.hospital_id}
+										key={loc.ref_location_id}
 										className="border-b border-gray-100 hover:bg-gray-50"
 									>
-										<td className="py-2 px-1 font-medium text-gray-900 text-center">
-											{hospital.hospital_id}
+										<td className="py-4 px-4 font-medium text-center text-gray-900">
+											{loc.ref_location_id}
 										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{hospital.hospital_name}
+										<td className="py-4 px-4 text-gray-800">{loc.city}</td>
+										<td className="py-4 px-4 text-gray-800">{loc.street}</td>
+										<td className="py-4 px-4 text-gray-800">
+											{new Date(loc.created_at).toLocaleString()}
 										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{hospital.city.replace(/_/g, " ")}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{hospital.street}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{new Date(hospital.created_at).toLocaleString()}
-										</td>
-										<td className="py-2 px-3 text-gray-800">
-											{hospital.updated_at
-												? new Date(hospital.updated_at).toLocaleString()
+										<td className="py-4 px-4 text-gray-800">
+											{loc.updated_at
+												? new Date(loc.updated_at).toLocaleString()
 												: "N/A"}
 										</td>
-										<td className="py-2 px-3">
+										<td className="py-4 px-4">
 											<div className="flex items-center justify-left gap-2">
 												<button
 													className="p-2 hover:bg-blue-100 rounded transition"
 													title="Edit"
-													onClick={() => handleEdit(hospital)}
+													onClick={() => handleEdit(loc)}
 												>
 													<Image
 														src="/icons/edit.svg"
@@ -239,7 +227,7 @@ export default function HospitalTable({
 												<button
 													className="p-2 hover:bg-red-100 rounded transition"
 													title="Delete"
-													onClick={() => handleDelete(hospital.hospital_id)}
+													onClick={() => handleDelete(loc.ref_location_id)}
 												>
 													<Image
 														src="/icons/delete.svg"
