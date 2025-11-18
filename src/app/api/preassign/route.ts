@@ -11,8 +11,12 @@ const PreassignSchema = z.object({
 	assignment_status: z.enum(["active", "completed", "cancelled"]).optional(),
 });
 
-const PreassignUpdateSchema = PreassignSchema.extend({
+const PreassignUpdateSchema = z.object({
 	preassign_id: z.coerce.number().int().positive(),
+	staff_id: z.coerce.number().int().positive().optional(),
+	staff_role: z.enum(["driver", "emt", "paramedic"]).optional(),
+	ambulance_id: z.coerce.number().int().positive().optional(),
+	assignment_status: z.enum(["active", "completed", "cancelled"]).optional(),
 });
 
 const PreassignDeleteSchema = z.object({
@@ -91,6 +95,13 @@ export async function POST(req: Request) {
 					);
 				}
 
+				// verify hospital_id match between ambulance and staff
+				if (ambulance.hospital_id !== staff.hospital_id) {
+					throw new Error(
+						`Hospital mismatch: Ambulance is at hospital ${ambulance.hospital_id}, but staff is at hospital ${staff.hospital_id}`
+					);
+				}
+
 				// check for existing active pre-assignment for this ambulance + role
 				const existingRoleAssignment = await tx.preassign.findFirst({
 					where: {
@@ -151,8 +162,14 @@ export async function POST(req: Request) {
 		return NextResponse.json(result);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{
+					error: `Validation failed: ${fieldErrors}`,
+					details: error.issues,
+				},
 				{ status: 400 }
 			);
 		}
@@ -187,10 +204,19 @@ export async function PUT(req: Request) {
 		return NextResponse.json(updatedPreassign);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{
+					error: `Validation failed: ${fieldErrors}`,
+					details: error.issues,
+				},
 				{ status: 400 }
 			);
+		}
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
 		console.error("UPDATE /preassign error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });
@@ -211,12 +237,21 @@ export async function DELETE(req: Request) {
 		return NextResponse.json(deletedPreassign);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{
+					error: `Validation failed: ${fieldErrors}`,
+					details: error.issues,
+				},
 				{ status: 400 }
 			);
 		}
-		console.error("DELETE /preassign error:", error);
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
+		}
+		console.error("UPDATE /preassign error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });
 	}
 }

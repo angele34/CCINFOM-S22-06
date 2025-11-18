@@ -48,7 +48,7 @@ export default function PreassignTable() {
 			ambulance_id: number;
 			assignment_status: string;
 			assigned_on: string;
-			updated_on: string;
+			updated_on: string | null;
 		}>
 	>([]);
 	const [loading, setLoading] = useState(true);
@@ -209,7 +209,7 @@ export default function PreassignTable() {
 						Pre-assign Staff to Ambulance
 					</h2>
 					<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-						Match available staff to ambulances based on shift and location
+						Assign available staff to ambulances (same hospital only)
 					</p>
 				</div>
 				<button
@@ -224,13 +224,13 @@ export default function PreassignTable() {
 				<table className="w-full text-left text-sm">
 					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
 						<tr className="text-ambulance-teal-750">
-							<th className="py-2 px-3 font-bold text-center">Pre-Assign ID</th>
+							<th className="py-2 px-3 font-bold text-center">Preassign ID</th>
 							<th className="py-2 px-3 font-bold text-center">Staff ID</th>
 							<th className="py-2 px-3 font-bold text-center">Staff Role</th>
 							<th className="py-2 px-3 font-bold text-center">Ambulance ID</th>
-							<th className="py-2 px-3 font-bold">Status</th>
-							<th className="py-2 px-3 font-bold">Date Created</th>
-							<th className="py-2 px-3 font-bold">Date Updated</th>
+							<th className="py-2 px-3 font-bold">Assignment Status</th>
+							<th className="py-2 px-3 font-bold">Assigned On</th>
+							<th className="py-2 px-3 font-bold">Updated On</th>
 							<th className="py-2 px-3 font-bold">Actions</th>
 						</tr>
 					</thead>
@@ -278,14 +278,17 @@ export default function PreassignTable() {
 													: "bg-gray-100 text-gray-800"
 											}`}
 										>
-											{item.assignment_status}
+											{item.assignment_status.charAt(0).toUpperCase() +
+												item.assignment_status.slice(1)}
 										</span>
 									</td>
 									<td className="py-3 px-3 text-gray-800">
 										{new Date(item.assigned_on).toLocaleString()}
 									</td>
 									<td className="py-3 px-3 text-gray-800">
-										{new Date(item.updated_on).toLocaleString()}
+										{item.updated_on
+											? new Date(item.updated_on).toLocaleString()
+											: "N/A"}
 									</td>
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">

@@ -1,41 +1,158 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import FormModal from "../ui/FormModal";
 
-export interface DispatchTransaction {
+interface Dispatch {
 	dispatch_id: number;
-	patient_id: number;
-	patient_name: string;
+	request_id: number;
 	ambulance_id: number;
-	hospital_id: number;
-	hospital_name: string;
-	priority_level: string;
-	status: string;
-	created_at: string;
+	dispatch_status: string;
+	created_on: string;
+	dispatched_on: string | null;
+}
+
+interface Request {
+	request_id: number;
+	patient_id: number;
+	request_status: string;
+}
+
+interface Ambulance {
+	ambulance_id: number;
+	plate_no: string;
+	ambulance_status: string;
 }
 
 export default function DispatchTable() {
-	const [data, setData] = useState<DispatchTransaction[]>([]);
+	const [data, setData] = useState<Dispatch[]>([]);
 	const [loading, setLoading] = useState(true);
+	const [modalOpen, setModalOpen] = useState(false);
+	const [requests, setRequests] = useState<Request[]>([]);
+	const [ambulances, setAmbulances] = useState<Ambulance[]>([]);
 
-	useEffect(() => {
-		let mounted = true;
+	const fetchDispatches = () => {
 		fetch("/api/dispatch")
 			.then((res) => res.json())
 			.then((json) => {
-				if (!mounted) return;
 				setData(Array.isArray(json) ? json : []);
 			})
 			.catch((err) => {
 				console.error("Failed to fetch dispatches:", err);
 				setData([]);
 			})
-			.finally(() => mounted && setLoading(false));
-		return () => {
-			mounted = false;
-		};
+			.finally(() => setLoading(false));
+	};
+
+	useEffect(() => {
+		fetchDispatches();
+
+		// Fetch accepted requests and available ambulances
+		Promise.all([
+			fetch("/api/request").then((r) => r.json()),
+			fetch("/api/ambulance").then((r) => r.json()),
+		]).then(([requestsData, ambulancesData]) => {
+			const acceptedRequests = Array.isArray(requestsData)
+				? requestsData.filter((r) => r.request_status === "accepted")
+				: [];
+			setRequests(acceptedRequests);
+			setAmbulances(Array.isArray(ambulancesData) ? ambulancesData : []);
+		});
 	}, []);
+
+	const handleCreateDispatch = async (values: Record<string, string>) => {
+		if (!values.request_id || !values.ambulance_id) {
+			alert("Please fill all required fields");
+			return;
+		}
+
+		try {
+			const res = await fetch("/api/dispatch", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					request_id: Number(values.request_id),
+					ambulance_id: Number(values.ambulance_id),
+					dispatch_status: "dispatched",
+				}),
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				alert(`Error: ${error.error || "Failed to create dispatch"}`);
+				return;
+			}
+
+			fetchDispatches();
+			setModalOpen(false);
+		} catch (error) {
+			console.error(error);
+			alert("Network error");
+		}
+	};
+
+	const handleUpdateStatus = async (
+		dispatch_id: number,
+		status: "dispatched" | "cancelled"
+	) => {
+		try {
+			const updateData: { dispatch_status: string; dispatched_on?: Date } = {
+				dispatch_status: status,
+			};
+
+			// Set dispatched_on timestamp when status is dispatched
+			if (status === "dispatched") {
+				updateData.dispatched_on = new Date();
+			}
+
+			const res = await fetch("/api/dispatch", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					dispatch_id,
+					...updateData,
+				}),
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				alert(`Error: ${error.error || "Failed to update dispatch"}`);
+				return;
+			}
+
+			fetchDispatches();
+		} catch (error) {
+			console.error(error);
+			alert("Network error");
+		}
+	};
+
+	const formatStatus = (status: string) => {
+		return status.charAt(0).toUpperCase() + status.slice(1);
+	};
+
+	const dispatchFields = [
+		{
+			name: "request_id",
+			label: "Request",
+			type: "select",
+			required: true,
+			options: requests.map((r) => ({
+				value: r.request_id,
+				label: `Request #${r.request_id} - Patient #${r.patient_id}`,
+			})),
+		},
+		{
+			name: "ambulance_id",
+			label: "Ambulance",
+			type: "select",
+			required: true,
+			options: ambulances.map((a) => ({
+				value: a.ambulance_id,
+				label: `Ambulance #${a.ambulance_id} - ${a.plate_no}`,
+			})),
+		},
+	];
 
 	return (
 		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
@@ -45,10 +162,13 @@ export default function DispatchTable() {
 						Dispatch Ambulance
 					</h2>
 					<p className="text-sm text-ambulance-teal-750 text-opacity-80">
-						Assign ambulances to patient requests based on priority
+						Assign ambulances to accepted requests
 					</p>
 				</div>
-				<button className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition">
+				<button
+					onClick={() => setModalOpen(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
 					+ New Dispatch
 				</button>
 			</div>
@@ -58,27 +178,24 @@ export default function DispatchTable() {
 					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
 						<tr className="text-ambulance-teal-750">
 							<th className="py-2 px-3 font-bold">Dispatch ID</th>
-							<th className="py-2 px-3 font-bold">Patient ID</th>
-							<th className="py-2 px-3 font-bold">Patient Name</th>
+							<th className="py-2 px-3 font-bold">Request ID</th>
 							<th className="py-2 px-3 font-bold">Ambulance ID</th>
-							<th className="py-2 px-3 font-bold">Hospital ID</th>
-							<th className="py-2 px-3 font-bold">Hospital Name</th>
-							<th className="py-2 px-3 font-bold">Priority Level</th>
-							<th className="py-2 px-3 font-bold">Status</th>
-							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Dispatch Status</th>
+							<th className="py-2 px-3 font-bold">Created On</th>
+							<th className="py-2 px-3 font-bold">Dispatched On</th>
 							<th className="py-2 px-3 font-bold">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
 						{loading ? (
 							<tr>
-								<td colSpan={10} className="py-12 text-center">
+								<td colSpan={7} className="py-12 text-center">
 									<p className="text-gray-500 text-base">Loading...</p>
 								</td>
 							</tr>
 						) : data.length === 0 ? (
 							<tr>
-								<td colSpan={10} className="py-12 text-center">
+								<td colSpan={7} className="py-12 text-center">
 									<p className="text-gray-500 text-base">
 										No dispatch records found. Click &quot;+ New Dispatch&quot;
 										to get started.
@@ -94,59 +211,53 @@ export default function DispatchTable() {
 									<td className="py-3 px-3 font-medium text-gray-900">
 										{item.dispatch_id}
 									</td>
-									<td className="py-3 px-3 text-gray-800">{item.patient_id}</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.patient_name}
-									</td>
+									<td className="py-3 px-3 text-gray-800">{item.request_id}</td>
 									<td className="py-3 px-3 text-gray-800">
 										{item.ambulance_id}
 									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.hospital_id}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.hospital_name}
-									</td>
 									<td className="py-3 px-3">
 										<span
 											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-												item.priority_level === "critical"
-													? "bg-red-100 text-red-800"
-													: item.priority_level === "moderate"
-													? "bg-yellow-100 text-yellow-800"
-													: "bg-blue-100 text-blue-800"
-											}`}
-										>
-											{item.priority_level}
-										</span>
-									</td>
-									<td className="py-3 px-3">
-										<span
-											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-												item.status === "dispatched"
+												item.dispatch_status === "dispatched"
 													? "bg-green-100 text-green-800"
 													: "bg-gray-100 text-gray-800"
 											}`}
 										>
-											{item.status}
+											{formatStatus(item.dispatch_status)}
 										</span>
 									</td>
 									<td className="py-3 px-3 text-gray-800">
-										{new Date(item.created_at).toLocaleString()}
+										{new Date(item.created_on).toLocaleString()}
+									</td>
+									<td className="py-3 px-3 text-gray-800">
+										{item.dispatched_on
+											? new Date(item.dispatched_on).toLocaleString()
+											: "Not dispatched yet"}
 									</td>
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
-											<button
-												className="p-2 hover:bg-blue-100 rounded transition"
-												title="View"
-											>
-												<Image
-													src="/icons/edit.svg"
-													alt="View"
-													width={18}
-													height={18}
-												/>
-											</button>
+											{item.dispatch_status !== "dispatched" && (
+												<button
+													onClick={() =>
+														handleUpdateStatus(item.dispatch_id, "dispatched")
+													}
+													className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
+													title="Mark as Dispatched"
+												>
+													Dispatch
+												</button>
+											)}
+											{item.dispatch_status !== "cancelled" && (
+												<button
+													onClick={() =>
+														handleUpdateStatus(item.dispatch_id, "cancelled")
+													}
+													className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
+													title="Cancel Dispatch"
+												>
+													Cancel
+												</button>
+											)}
 										</div>
 									</td>
 								</tr>
@@ -155,6 +266,15 @@ export default function DispatchTable() {
 					</tbody>
 				</table>
 			</div>
+
+			<FormModal
+				isOpen={modalOpen}
+				onClose={() => setModalOpen(false)}
+				title="New Dispatch"
+				fields={dispatchFields as any}
+				onSubmit={handleCreateDispatch}
+				submitLabel="Create Dispatch"
+			/>
 		</div>
 	);
 }
