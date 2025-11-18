@@ -10,6 +10,7 @@ interface FormField {
 	maxLength?: number;
 	pattern?: string;
 	transform?: "uppercase" | "lowercase" | "none";
+	onChange?: (value: string) => void;
 	customErrorMessages?: {
 		required?: string;
 		pattern?: string;
@@ -77,6 +78,7 @@ export default function FormModal({
 										name={field.name}
 										required={field.required}
 										defaultValue={initialData?.[field.name] ?? ""}
+										onChange={(e) => field.onChange?.(e.target.value)}
 										className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-gray-900 placeholder-gray-400"
 									>
 										<option value="">-- Select --</option>

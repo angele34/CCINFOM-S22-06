@@ -44,120 +44,173 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = PreassignSchema.parse(body);
 
-		const result = await prisma.$transaction(
-			async (tx: Prisma.TransactionClient) => {
-				// read and verify ambulance is available
-				const ambulance = await tx.ambulance.findUnique({
-					where: { ambulance_id: validated.ambulance_id },
-					include: {
-						hospital: {
-							select: {
-								hospital_name: true,
-								city: true,
-								street: true,
-							},
+		// Perform all validations before transaction
+		// 1. Read and verify ambulance is available
+		const ambulance = await prisma.ambulance.findUnique({
+			where: { ambulance_id: validated.ambulance_id },
+			include: {
+				hospital: {
+					select: {
+						hospital_name: true,
+						city: true,
+						street: true,
+					},
+				},
+			},
+		});
+
+		if (!ambulance) {
+			return NextResponse.json(
+				{ error: "Ambulance not found" },
+				{ status: 404 }
+			);
+		}
+
+		if (ambulance.ambulance_status !== "available") {
+			return NextResponse.json(
+				{
+					error: `Ambulance is not available (current status: ${ambulance.ambulance_status})`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 2. Read and verify staff is available and role matches
+		const staff = await prisma.staff.findUnique({
+			where: { staff_id: validated.staff_id },
+		});
+
+		if (!staff) {
+			return NextResponse.json({ error: "Staff not found" }, { status: 404 });
+		}
+
+		if (staff.is_deleted) {
+			return NextResponse.json(
+				{ error: "Staff is deleted and cannot be assigned" },
+				{ status: 400 }
+			);
+		}
+
+		if (staff.staff_status !== "available") {
+			return NextResponse.json(
+				{
+					error: `Staff is not available (current status: ${staff.staff_status})`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		if (staff.staff_role !== validated.staff_role) {
+			return NextResponse.json(
+				{
+					error: `Staff role mismatch: expected ${validated.staff_role}, got ${staff.staff_role}`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 3. Verify hospital_id match between ambulance and staff
+		if (ambulance.hospital_id !== staff.hospital_id) {
+			return NextResponse.json(
+				{
+					error: `Hospital mismatch: Ambulance is at hospital ${ambulance.hospital_id}, but staff is at hospital ${staff.hospital_id}`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 4. Check for existing active pre-assignment for this ambulance + role
+		const existingRoleAssignment = await prisma.preassign.findFirst({
+			where: {
+				ambulance_id: validated.ambulance_id,
+				staff_role: validated.staff_role,
+				assignment_status: "active",
+			},
+		});
+
+		if (existingRoleAssignment) {
+			return NextResponse.json(
+				{
+					error: `This ambulance already has an active ${validated.staff_role} assigned`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 5. Check if staff is already assigned to another ambulance (only active assignments)
+		const existingStaffAssignment = await prisma.preassign.findFirst({
+			where: {
+				staff_id: validated.staff_id,
+				assignment_status: "active",
+			},
+		});
+
+		if (existingStaffAssignment) {
+			return NextResponse.json(
+				{
+					error: "This staff member is already assigned to another ambulance",
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 6. Check if there's a completed/cancelled preassign for this ambulance+role
+		// If yes, update it instead of creating new one (to avoid unique constraint violation)
+		const existingPreassign = await prisma.preassign.findFirst({
+			where: {
+				ambulance_id: validated.ambulance_id,
+				staff_role: validated.staff_role,
+				assignment_status: { in: ["completed", "cancelled"] },
+			},
+		});
+
+		let newPreassign;
+		if (existingPreassign) {
+			// Update the existing preassign instead of creating new one
+			newPreassign = await prisma.preassign.update({
+				where: { preassign_id: existingPreassign.preassign_id },
+				data: {
+					staff_id: validated.staff_id,
+					assignment_status: validated.assignment_status || "active",
+					assigned_on: new Date(),
+					updated_on: new Date(),
+				},
+				include: {
+					staff: true,
+					ambulance: {
+						include: {
+							hospital: true,
 						},
 					},
-				});
-
-				if (!ambulance) {
-					throw new Error("Ambulance not found");
-				}
-
-				if (ambulance.ambulance_status !== "available") {
-					throw new Error(
-						`Ambulance is not available (current status: ${ambulance.ambulance_status})`
-					);
-				}
-
-				// read and verify staff is available and role matches
-				const staff = await tx.staff.findUnique({
-					where: { staff_id: validated.staff_id },
-				});
-
-				if (!staff) {
-					throw new Error("Staff not found");
-				}
-
-				if (staff.is_deleted) {
-					throw new Error("Staff is deleted");
-				}
-
-				if (staff.staff_status !== "available") {
-					throw new Error(
-						`Staff is not available (current status: ${staff.staff_status})`
-					);
-				}
-
-				if (staff.staff_role !== validated.staff_role) {
-					throw new Error(
-						`Staff role mismatch: expected ${validated.staff_role}, got ${staff.staff_role}`
-					);
-				}
-
-				// verify hospital_id match between ambulance and staff
-				if (ambulance.hospital_id !== staff.hospital_id) {
-					throw new Error(
-						`Hospital mismatch: Ambulance is at hospital ${ambulance.hospital_id}, but staff is at hospital ${staff.hospital_id}`
-					);
-				}
-
-				// check for existing active pre-assignment for this ambulance + role
-				const existingRoleAssignment = await tx.preassign.findFirst({
-					where: {
-						ambulance_id: validated.ambulance_id,
-						staff_role: validated.staff_role,
-						assignment_status: "active",
-					},
-				});
-
-				if (existingRoleAssignment) {
-					throw new Error(
-						`This ambulance already has an active ${validated.staff_role} assigned`
-					);
-				}
-
-				// check if staff is already assigned to another ambulance
-				const existingStaffAssignment = await tx.preassign.findFirst({
-					where: {
-						staff_id: validated.staff_id,
-						assignment_status: "active",
-					},
-				});
-
-				if (existingStaffAssignment) {
-					throw new Error(
-						"This staff member is already assigned to another ambulance"
-					);
-				}
-
-				// create the pre-assignment
-				const newPreassign = await tx.preassign.create({
-					data: {
-						staff_id: validated.staff_id,
-						staff_role: validated.staff_role,
-						ambulance_id: validated.ambulance_id,
-						assignment_status: validated.assignment_status || "active",
-					},
-					include: {
-						staff: true,
-						ambulance: {
-							include: {
-								hospital: true,
-							},
+				},
+			});
+		} else {
+			// Create new preassign
+			newPreassign = await prisma.preassign.create({
+				data: {
+					staff_id: validated.staff_id,
+					staff_role: validated.staff_role,
+					ambulance_id: validated.ambulance_id,
+					assignment_status: validated.assignment_status || "active",
+				},
+				include: {
+					staff: true,
+					ambulance: {
+						include: {
+							hospital: true,
 						},
 					},
-				});
+				},
+			});
+		}
 
-				return {
-					preassign: newPreassign,
-					ambulance_base_location: `${ambulance.hospital.city.replace(
-						/_/g,
-						" "
-					)}, ${ambulance.hospital.street}`,
-				};
-			}
-		);
+		const result = {
+			preassign: newPreassign,
+			ambulance_base_location: `${ambulance.hospital.city.replace(
+				/_/g,
+				" "
+			)}, ${ambulance.hospital.street}`,
+		};
 
 		return NextResponse.json(result);
 	} catch (error) {

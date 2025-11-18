@@ -22,6 +22,13 @@ const RequestDeleteSchema = z.object({
 export async function GET() {
 	try {
 		const requests = await prisma.request.findMany({
+			include: {
+				patient: {
+					select: {
+						name: true,
+					},
+				},
+			},
 			orderBy: { requested_on: "asc" },
 		});
 		return NextResponse.json(requests);
@@ -37,16 +44,69 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = RequestSchema.parse(body);
 
+		// 1. read the patient record to verify patient exists
+		const patient = await prisma.patient.findUnique({
+			where: { patient_id: validated.patient_id },
+		});
+
+		if (!patient) {
+			return NextResponse.json({ error: "Patient not found" }, { status: 404 });
+		}
+
+		// 2. read the reference location record to verify it exists
+		const refLocation = await prisma.reference_location.findUnique({
+			where: { ref_location_id: validated.ref_location_id },
+		});
+
+		if (!refLocation) {
+			return NextResponse.json(
+				{ error: "Reference location not found" },
+				{ status: 404 }
+			);
+		}
+
+		// 3. read the hospital record to verify it exists
+		const hospital = await prisma.hospital.findUnique({
+			where: { hospital_id: validated.hospital_id },
+		});
+
+		if (!hospital) {
+			return NextResponse.json(
+				{ error: "Hospital not found" },
+				{ status: 404 }
+			);
+		}
+
+		// 4. verify hospital_id matches the reference location's hospital_id
+		if (refLocation.hospital_id !== validated.hospital_id) {
+			return NextResponse.json(
+				{
+					error: `Hospital mismatch: reference location belongs to hospital ${refLocation.hospital_id}, but request is for hospital ${validated.hospital_id}`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 5. record the request with default status "pending"
 		const newRequest = await prisma.request.create({
-			data: validated,
+			data: {
+				...validated,
+				request_status: "pending",
+			},
 		});
 		return NextResponse.json(newRequest);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{ error: `Validation failed: ${fieldErrors}`, details: error.issues },
 				{ status: 400 }
 			);
+		}
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
 		console.error("CREATE /request error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });

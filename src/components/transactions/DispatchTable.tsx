@@ -50,16 +50,33 @@ export default function DispatchTable() {
 	useEffect(() => {
 		fetchDispatches();
 
-		// Fetch accepted requests and available ambulances
+		// Fetch pending requests, available ambulances, and preassigns
 		Promise.all([
 			fetch("/api/request").then((r) => r.json()),
 			fetch("/api/ambulance").then((r) => r.json()),
-		]).then(([requestsData, ambulancesData]) => {
-			const acceptedRequests = Array.isArray(requestsData)
-				? requestsData.filter((r) => r.request_status === "accepted")
+			fetch("/api/preassign").then((r) => r.json()),
+		]).then(([requestsData, ambulancesData, preassignsData]) => {
+			const pendingRequests = Array.isArray(requestsData)
+				? requestsData.filter((r) => r.request_status === "pending")
 				: [];
-			setRequests(acceptedRequests);
-			setAmbulances(Array.isArray(ambulancesData) ? ambulancesData : []);
+			setRequests(pendingRequests);
+
+			// Filter for available ambulances with active staff assignments
+			const activePreassigns = Array.isArray(preassignsData)
+				? preassignsData.filter((p) => p.assignment_status === "active")
+				: [];
+			const ambulancesWithStaff = new Set(
+				activePreassigns.map((p) => p.ambulance_id)
+			);
+
+			const availableAmbulancesWithStaff = Array.isArray(ambulancesData)
+				? ambulancesData.filter(
+						(a) =>
+							a.ambulance_status === "available" &&
+							ambulancesWithStaff.has(a.ambulance_id)
+				  )
+				: [];
+			setAmbulances(availableAmbulancesWithStaff);
 		});
 	}, []);
 
@@ -88,42 +105,6 @@ export default function DispatchTable() {
 
 			fetchDispatches();
 			setModalOpen(false);
-		} catch (error) {
-			console.error(error);
-			alert("Network error");
-		}
-	};
-
-	const handleUpdateStatus = async (
-		dispatch_id: number,
-		status: "dispatched" | "cancelled"
-	) => {
-		try {
-			const updateData: { dispatch_status: string; dispatched_on?: Date } = {
-				dispatch_status: status,
-			};
-
-			// Set dispatched_on timestamp when status is dispatched
-			if (status === "dispatched") {
-				updateData.dispatched_on = new Date();
-			}
-
-			const res = await fetch("/api/dispatch", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					dispatch_id,
-					...updateData,
-				}),
-			});
-
-			if (!res.ok) {
-				const error = await res.json();
-				alert(`Error: ${error.error || "Failed to update dispatch"}`);
-				return;
-			}
-
-			fetchDispatches();
 		} catch (error) {
 			console.error(error);
 			alert("Network error");
@@ -238,30 +219,40 @@ export default function DispatchTable() {
 											: "Not dispatched yet"}
 									</td>
 									<td className="py-3 px-3">
-										<div className="flex items-center gap-2">
-											{item.dispatch_status !== "dispatched" && (
-												<button
-													onClick={() =>
-														handleUpdateStatus(item.dispatch_id, "dispatched")
+										{item.dispatch_status === "dispatched" && (
+											<button
+												onClick={async () => {
+													if (confirm("Cancel this dispatch?")) {
+														try {
+															const res = await fetch("/api/dispatch", {
+																method: "PUT",
+																headers: { "Content-Type": "application/json" },
+																body: JSON.stringify({
+																	dispatch_id: item.dispatch_id,
+																	dispatch_status: "cancelled",
+																}),
+															});
+															if (res.ok) {
+																fetchDispatches();
+																alert("Dispatch cancelled");
+															} else {
+																const error = await res.json();
+																alert(
+																	`Error: ${error.error || "Failed to cancel"}`
+																);
+															}
+														} catch (error) {
+															console.error(error);
+															alert("Network error");
+														}
 													}
-													className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
-													title="Mark as Dispatched"
-												>
-													Dispatch
-												</button>
-											)}
-											{item.dispatch_status !== "cancelled" && (
-												<button
-													onClick={() =>
-														handleUpdateStatus(item.dispatch_id, "cancelled")
-													}
-													className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
-													title="Cancel Dispatch"
-												>
-													Cancel
-												</button>
-											)}
-										</div>
+												}}
+												className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
+												title="Cancel Dispatch"
+											>
+												Cancel
+											</button>
+										)}
 									</td>
 								</tr>
 							))

@@ -103,30 +103,6 @@ export default function RequestTable() {
 		}
 	};
 
-	const handleAccept = async (request_id: number) => {
-		try {
-			const res = await fetch("/api/request", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					request_id,
-					request_status: "accepted",
-				}),
-			});
-
-			if (!res.ok) {
-				const error = await res.json();
-				alert(`Error: ${error.error || "Failed to accept request"}`);
-				return;
-			}
-
-			fetchRequests();
-		} catch (error) {
-			console.error(error);
-			alert("Network error");
-		}
-	};
-
 	const handleCancel = async (request_id: number) => {
 		try {
 			const res = await fetch("/api/request", {
@@ -308,22 +284,13 @@ export default function RequestTable() {
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
 											{item.request_status === "pending" && (
-												<>
-													<button
-														onClick={() => handleAccept(item.request_id)}
-														className="px-3 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-700 transition"
-														title="Accept"
-													>
-														Accept
-													</button>
-													<button
-														onClick={() => handleCancel(item.request_id)}
-														className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
-														title="Cancel"
-													>
-														Cancel
-													</button>
-												</>
+												<button
+													onClick={() => handleCancel(item.request_id)}
+													className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
+													title="Cancel"
+												>
+													Cancel
+												</button>
 											)}
 										</div>
 									</td>

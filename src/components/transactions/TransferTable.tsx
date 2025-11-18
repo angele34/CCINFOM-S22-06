@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import FormModal from "../ui/FormModal";
 
@@ -67,25 +66,42 @@ export default function TransferTable() {
 	useEffect(() => {
 		fetchTransfers();
 
-		// Fetch dispatched dispatches, available staff, and hospitals
+		// Fetch active dispatches and hospitals
 		Promise.all([
 			fetch("/api/dispatch").then((r) => r.json()),
-			fetch("/api/staff").then((r) => r.json()),
 			fetch("/api/hospital").then((r) => r.json()),
-		]).then(([dispatchData, staffData, hospitalData]) => {
-			const dispatchedDispatches = Array.isArray(dispatchData)
-				? dispatchData.filter((d) => d.dispatch_status === "dispatched")
+		]).then(([dispatchData, hospitalData]) => {
+			const activeDispatches = Array.isArray(dispatchData)
+				? dispatchData.filter(
+						(d) =>
+							d.dispatch_status !== "cancelled" &&
+							d.dispatch_status === "dispatched"
+				  )
 				: [];
-			setDispatches(dispatchedDispatches);
-
-			const availableStaff = Array.isArray(staffData)
-				? staffData.filter((s) => s.staff_status === "available")
-				: [];
-			setStaffList(availableStaff);
-
+			setDispatches(activeDispatches);
 			setHospitals(Array.isArray(hospitalData) ? hospitalData : []);
 		});
 	}, []);
+
+	const handleDispatchChange = async (dispatchId: string) => {
+		const dispatch = dispatches.find(
+			(d) => d.dispatch_id === Number(dispatchId)
+		);
+		if (dispatch) {
+			try {
+				const res = await fetch(
+					`/api/ambulance_staff?ambulance_id=${dispatch.ambulance_id}`
+				);
+				if (res.ok) {
+					const staffData = await res.json();
+					setStaffList(Array.isArray(staffData) ? staffData : []);
+				}
+			} catch (error) {
+				console.error("Error fetching staff for ambulance:", error);
+				setStaffList([]);
+			}
+		}
+	};
 
 	const handleCompleteTransfer = async (values: Record<string, string>) => {
 		if (!values.dispatch_id || !values.staff_id || !values.hospital_id) {
@@ -156,6 +172,7 @@ export default function TransferTable() {
 								d.request?.patient?.name || "Unknown"
 							}`,
 						})),
+						onChange: handleDispatchChange,
 					},
 					{
 						name: "staff_id",

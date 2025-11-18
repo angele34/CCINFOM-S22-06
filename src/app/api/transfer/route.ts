@@ -164,19 +164,43 @@ export async function POST(req: Request) {
 				data: { staff_status: "available" },
 			});
 
+			// Mark all staff assigned to this ambulance as available
+			const ambulanceStaff = await tx.preassign.findMany({
+				where: {
+					ambulance_id: ambulance.ambulance_id,
+					assignment_status: "completed",
+				},
+			});
+
+			for (const preassign of ambulanceStaff) {
+				await tx.staff.update({
+					where: { staff_id: preassign.staff_id },
+					data: { staff_status: "available" },
+				});
+			}
+
+			// Mark the request as cancelled (transfer completed)
+			await tx.request.update({
+				where: { request_id: dispatch.request_id },
+				data: { request_status: "cancelled" },
+			});
+
 			return newTransfer;
 		});
 
 		return NextResponse.json(result);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
-			const errors = error.issues.map(
-				(issue) => `${issue.path.join(".")}: ${issue.message}`
-			);
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: errors },
+				{ error: `Validation failed: ${fieldErrors}`, details: error.issues },
 				{ status: 400 }
 			);
+		}
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
 		console.error("CREATE /transfer error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });

@@ -125,38 +125,6 @@ export default function PreassignTable() {
 		}
 	};
 
-	const handleCompletePreassign = async (preassign_id: number) => {
-		if (!confirm("Mark this pre-assignment as completed?")) return;
-
-		try {
-			const res = await fetch("/api/preassign", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					preassign_id,
-					assignment_status: "completed",
-				}),
-			});
-
-			if (!res.ok) {
-				const err = await res.json();
-				throw new Error(err.error || "Failed to complete");
-			}
-
-			console.log("Pre-assignment completed successfully");
-			await fetchPreassigns();
-			await fetchAvailableResources();
-			alert("Pre-assignment marked as completed");
-		} catch (error: unknown) {
-			console.error("Complete error:", error);
-			const message =
-				error instanceof Error
-					? error.message
-					: "Failed to complete pre-assignment";
-			alert(message);
-		}
-	};
-
 	const formatRole = (role: string) => {
 		if (role === "emt") return "EMT";
 		return role.charAt(0).toUpperCase() + role.slice(1);
@@ -293,45 +261,34 @@ export default function PreassignTable() {
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
 											{item.assignment_status === "active" && (
-												<>
-													<button
-														onClick={() =>
-															handleCompletePreassign(item.preassign_id)
-														}
-														className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition"
-														title="Complete"
-													>
-														✓ Complete
-													</button>
-													<button
-														onClick={async () => {
-															if (confirm("Cancel this pre-assignment?")) {
-																try {
-																	const res = await fetch("/api/preassign", {
-																		method: "DELETE",
-																		headers: {
-																			"Content-Type": "application/json",
-																		},
-																		body: JSON.stringify({
-																			preassign_id: item.preassign_id,
-																		}),
-																	});
-																	if (res.ok) {
-																		await fetchPreassigns();
-																		alert("Pre-assignment cancelled");
-																	}
-																} catch (error) {
-																	console.error(error);
-																	alert("Failed to cancel");
+												<button
+													onClick={async () => {
+														if (confirm("Cancel this pre-assignment?")) {
+															try {
+																const res = await fetch("/api/preassign", {
+																	method: "DELETE",
+																	headers: {
+																		"Content-Type": "application/json",
+																	},
+																	body: JSON.stringify({
+																		preassign_id: item.preassign_id,
+																	}),
+																});
+																if (res.ok) {
+																	await fetchPreassigns();
+																	alert("Pre-assignment cancelled");
 																}
+															} catch (error) {
+																console.error(error);
+																alert("Failed to cancel");
 															}
-														}}
-														className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
-														title="Cancel"
-													>
-														✗ Cancel
-													</button>
-												</>
+														}
+													}}
+													className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
+													title="Cancel"
+												>
+													✗ Cancel
+												</button>
 											)}
 											{item.assignment_status === "completed" && (
 												<span className="text-gray-500 text-xs">Completed</span>

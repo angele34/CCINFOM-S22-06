@@ -22,7 +22,19 @@ const DispatchDeleteSchema = z.object({
 export async function GET() {
 	// retrieves all columns from the table
 	try {
-		const dispatches = await prisma.dispatch.findMany();
+		const dispatches = await prisma.dispatch.findMany({
+			include: {
+				request: {
+					include: {
+						patient: {
+							select: {
+								name: true,
+							},
+						},
+					},
+				},
+			},
+		});
 		return NextResponse.json(dispatches);
 	} catch (error) {
 		console.error("GET /dispatch error:", error);
@@ -36,26 +48,100 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const validated = DispatchSchema.parse(body);
 
-		// Verify request exists and has been accepted
+		// 1. Verify request exists and is pending
 		const request = await prisma.request.findUnique({
 			where: { request_id: validated.request_id },
+			include: {
+				patient: true,
+				reference_location: true,
+				hospital: true,
+			},
 		});
 
 		if (!request) {
 			return NextResponse.json({ error: "Request not found" }, { status: 404 });
 		}
 
-		if (request.request_status !== "accepted") {
+		if (request.request_status !== "pending") {
 			return NextResponse.json(
-				{ error: "Request must be accepted before dispatch" },
+				{ error: "Request must be pending to create dispatch" },
 				{ status: 400 }
 			);
 		}
 
-		// Create dispatch and mark preassigns as completed in a transaction
+		// 2. Verify ambulance exists and is available
+		const ambulance = await prisma.ambulance.findUnique({
+			where: { ambulance_id: validated.ambulance_id },
+		});
+
+		if (!ambulance) {
+			return NextResponse.json(
+				{ error: "Ambulance not found" },
+				{ status: 404 }
+			);
+		}
+
+		if (ambulance.ambulance_status !== "available") {
+			return NextResponse.json(
+				{
+					error: `Ambulance is not available (current status: ${ambulance.ambulance_status})`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 3. Verify ambulance has active preassigns (must have staff assigned)
+		const activePreassigns = await prisma.preassign.findMany({
+			where: {
+				ambulance_id: validated.ambulance_id,
+				assignment_status: "active",
+			},
+		});
+
+		// Debug: Check all preassigns for this ambulance
+		const allPreassigns = await prisma.preassign.findMany({
+			where: {
+				ambulance_id: validated.ambulance_id,
+			},
+		});
+
+		console.log(
+			`Ambulance ${validated.ambulance_id} preassigns:`,
+			allPreassigns
+		);
+
+		if (activePreassigns.length === 0) {
+			return NextResponse.json(
+				{
+					error: `Ambulance must have active staff assignments before dispatch. Found ${allPreassigns.length} total preassign(s) but none are active.`,
+					debug: allPreassigns.map((p) => ({
+						staff_id: p.staff_id,
+						status: p.assignment_status,
+					})),
+				},
+				{ status: 400 }
+			);
+		}
+
+		// 4. Create dispatch, accept request, update patient priority, mark preassigns as completed, and update ambulance/patient/staff status in a transaction
 		const result = await prisma.$transaction(async (tx) => {
 			const newDispatch = await tx.dispatch.create({
 				data: validated,
+			});
+
+			// Accept the request and update patient priority
+			await tx.request.update({
+				where: { request_id: validated.request_id },
+				data: { request_status: "accepted" },
+			});
+
+			// Update patient priority to match request priority
+			await tx.patient.update({
+				where: { patient_id: request.patient_id },
+				data: {
+					priority_level: request.priority_level,
+					transfer_status: "in_transfer",
+				},
 			});
 
 			// Mark all active preassigns for this ambulance as completed
@@ -70,16 +156,35 @@ export async function POST(req: Request) {
 				},
 			});
 
+			// Update ambulance status to on_trip
+			await tx.ambulance.update({
+				where: { ambulance_id: validated.ambulance_id },
+				data: { ambulance_status: "on_trip" },
+			});
+
+			// Update staff status to in_transfer
+			const staffIds = activePreassigns.map((p) => p.staff_id);
+			await tx.staff.updateMany({
+				where: { staff_id: { in: staffIds } },
+				data: { staff_status: "in_transfer" },
+			});
+
 			return newDispatch;
 		});
 
 		return NextResponse.json(result);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{ error: `Validation failed: ${fieldErrors}`, details: error.issues },
 				{ status: 400 }
 			);
+		}
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
 		console.error("CREATE /dispatch error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });
@@ -95,16 +200,19 @@ export async function PUT(req: Request) {
 
 		// If marking as dispatched, also mark preassigns as completed
 		if (data.dispatch_status === "dispatched") {
+			// Get the dispatch to find ambulance_id
+			const dispatch = await prisma.dispatch.findUnique({
+				where: { dispatch_id },
+			});
+
+			if (!dispatch) {
+				return NextResponse.json(
+					{ error: "Dispatch not found" },
+					{ status: 404 }
+				);
+			}
+
 			const result = await prisma.$transaction(async (tx) => {
-				// Get the dispatch to find ambulance_id
-				const dispatch = await tx.dispatch.findUnique({
-					where: { dispatch_id },
-				});
-
-				if (!dispatch) {
-					throw new Error("Dispatch not found");
-				}
-
 				// Update dispatch
 				const updatedDispatch = await tx.dispatch.update({
 					where: { dispatch_id },
@@ -137,10 +245,16 @@ export async function PUT(req: Request) {
 		return NextResponse.json(updatedDispatch);
 	} catch (error) {
 		if (error instanceof z.ZodError) {
+			const fieldErrors = error.issues
+				.map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+				.join(", ");
 			return NextResponse.json(
-				{ error: "Validation failed", details: error.issues },
+				{ error: `Validation failed: ${fieldErrors}`, details: error.issues },
 				{ status: 400 }
 			);
+		}
+		if (error instanceof Error) {
+			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
 		console.error("UPDATE /dispatch error:", error);
 		return NextResponse.json({ error: String(error) }, { status: 500 });
