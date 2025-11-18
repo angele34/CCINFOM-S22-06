@@ -40,7 +40,7 @@ export default function LoginPage() {
 
 			<div className="absolute inset-0 -z-20">
 				<Aurora
-					colorStops={["#5bd4c2", "#73f0c8", "#27ace6"]}
+					colorStops={["#007c73", "#009387", "#5ce6dc"]}
 					blend={0.5}
 					amplitude={1.0}
 					speed={0.5}
