@@ -14,6 +14,11 @@ export const metadata: Metadata = {
 		template: "%s | PrimeCare",
 	},
 	description: "PrimeCare General Hospital Ambulance Management System",
+	icons: {
+		icon: "/logos/tab_logo.svg",
+		shortcut: "/logos/tab_logo.svg",
+		apple: "/logos/tab_logo.svg",
+	},
 };
 export default function RootLayout({
 	children,

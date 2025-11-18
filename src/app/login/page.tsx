@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 import Aurora from "../../components/Aurora";
 import { useRouter } from "next/navigation";
 
@@ -37,7 +38,6 @@ export default function LoginPage() {
 
 	return (
 		<div className="relative min-h-screen overflow-hidden">
-
 			<div className="absolute inset-0 -z-20">
 				<Aurora
 					colorStops={["#007c73", "#009387", "#5ce6dc"]}
@@ -48,16 +48,16 @@ export default function LoginPage() {
 			</div>
 
 			<div className="min-h-screen flex items-center justify-center">
-
 				<div className="w-full max-w-5xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
-					
 					{/* LEFT SIDE */}
 					<div className="w-full md:w-1/2 bg-linear-to-br from-cyan-600 via-teal-600 to-teal-700 p-12 flex flex-col justify-center">
 						<div className="text-white">
 							<div className="text-lg font text-teal-100 uppercase mb-2">
 								WELCOME BACK
 							</div>
-							<h3 className="text-3xl font-bold mb-6">Log In to your Account</h3>
+							<h3 className="text-3xl font-bold mb-2">
+								Sign in to your account
+							</h3>
 
 							<form onSubmit={handleSubmit} className="space-y-4">
 								<div>
@@ -84,10 +84,16 @@ export default function LoginPage() {
 
 								<div className="flex items-center justify-between text-sm mt-1">
 									<label className="flex items-center gap-2 text-sm">
-										<input type="checkbox" className="w-4 h-4 rounded border-white/40" />
+										<input
+											type="checkbox"
+											className="w-4 h-4 rounded border-white/40"
+										/>
 										<span>Remember me</span>
 									</label>
-									<a href="#" className="text-white/80 hover:text-white transition">
+									<a
+										href="#"
+										className="text-white/80 hover:text-white transition"
+									>
 										Forgot your password?
 									</a>
 								</div>
@@ -100,7 +106,10 @@ export default function LoginPage() {
 								</button>
 
 								<div className="text-center text-white/80 text-sm">
-									New User? <a href="#" className="text-white underline">Sign up</a>
+									New User?{" "}
+									<a href="#" className="text-white underline">
+										Sign up
+									</a>
 								</div>
 							</form>
 						</div>
@@ -111,23 +120,28 @@ export default function LoginPage() {
 						<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"></div>
 						<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500"></div>
 						<div className="absolute bottom-20 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
-						<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-400/50"></div>
-						<div className="absolute bottom-32 right-16 w-10 h-10 rounded-full bg-cyan-500/30"></div>
-
+						<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-600"></div>
+						<div className="absolute bottom-25 right-12 w-10 h-10 rounded-full bg-cyan-800"></div>
 						<div className="absolute top-1/4 right-0 w-32 h-32 border-8 border-teal-500 rounded-full translate-x-1/2"></div>
 						<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
 
 						<div className="relative z-10 text-center">
-							<h2 className="text-2xl font-semibold text-cyan-500">
-								PrimeCare General Hospital
-							</h2>
-							<p className="text-gray-500 mt-2">this is a placeholder</p>
+							<div className="relative inline-block">
+								<Image
+									src="/logos/login_logo.svg"
+									alt="PrimeCare Login"
+									width={400}
+									height={64}
+									priority
+								/>
+								<p className="absolute left-1/2 bottom-4 transform -translate-x-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
+									Precision in care. Speed when it matters
+								</p>
+							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
-			
 		</div>
 	);
 }

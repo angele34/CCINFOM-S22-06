@@ -7,12 +7,12 @@ const RequestSchema = z.object({
     ref_location_id: z.coerce.number().int().positive(),
     hospital_id: z.coerce.number().int().positive(),
     priority_level: z.enum(["critical", "moderate", "routine"]),
-    request_status: z.enum(["pending", "completed", "cancelled"]),
 });
 
 
-const RequestUpdateSchema = RequestSchema.extend({
+const RequestUpdateSchema = z.object({
     request_id: z.coerce.number().int().positive(),
+    request_status: z.enum(["pending", "accepted", "cancelled"]).optional(),
 });
 
 const RequestDeleteSchema = z.object({
@@ -21,9 +21,10 @@ const RequestDeleteSchema = z.object({
 
 // READ
 export async function GET() {
-    // retrieves all columns from the table
     try {
-        const requests = await prisma.request.findMany();
+        const requests = await prisma.request.findMany({
+            orderBy: { requested_on: "asc" },
+        });
         return NextResponse.json(requests);
     } catch (error) {
         console.error("GET /request error:", error);
@@ -61,7 +62,7 @@ export async function PUT(req: Request) {
         const validated = RequestUpdateSchema.parse(body);
 		const { request_id, ...data } = validated;
 
-        const updatedRequest = await prisma.transfer.update({
+        const updatedRequest = await prisma.request.update({
             where: { request_id },
             data,
         });
@@ -84,9 +85,9 @@ export async function DELETE(req: Request) {
         const body = await req.json();
         const { request_id } = RequestDeleteSchema.parse(body);
 
-        const deletedRequest = await prisma.transfer.delete({
+        const deletedRequest = await prisma.request.delete({
             where: { request_id },
-        })
+        });
         return NextResponse.json(deletedRequest);
     } catch (error) {
         if (error instanceof z.ZodError) {
