@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export interface RequestTransaction {
 	request_id: number;
@@ -11,7 +14,28 @@ export interface RequestTransaction {
 	created_at: string;
 }
 
-export default function RequestTable({ data }: { data: RequestTransaction[] }) {
+export default function RequestTable() {
+	const [data, setData] = useState<RequestTransaction[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		let mounted = true;
+		fetch("/api/request")
+			.then((res) => res.json())
+			.then((json) => {
+				if (!mounted) return;
+				setData(Array.isArray(json) ? json : []);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch requests:", err);
+				setData([]);
+			})
+			.finally(() => mounted && setLoading(false));
+		return () => {
+			mounted = false;
+		};
+	}, []);
+
 	return (
 		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
 			<div className="flex items-center justify-between mb-3">
@@ -44,7 +68,13 @@ export default function RequestTable({ data }: { data: RequestTransaction[] }) {
 						</tr>
 					</thead>
 					<tbody>
-						{data.length === 0 ? (
+						{loading ? (
+							<tr>
+								<td colSpan={9} className="py-12 text-center">
+									<p className="text-gray-500 text-base">Loading...</p>
+								</td>
+							</tr>
+						) : data.length === 0 ? (
 							<tr>
 								<td colSpan={9} className="py-12 text-center">
 									<p className="text-gray-500 text-base">

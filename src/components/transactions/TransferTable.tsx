@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export interface TransferTransaction {
 	transfer_id: number;
@@ -12,11 +15,28 @@ export interface TransferTransaction {
 	created_at: string;
 }
 
-export default function TransferTable({
-	data,
-}: {
-	data: TransferTransaction[];
-}) {
+export default function TransferTable() {
+	const [data, setData] = useState<TransferTransaction[]>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		let mounted = true;
+		fetch("/api/transfer")
+			.then((res) => res.json())
+			.then((json) => {
+				if (!mounted) return;
+				setData(Array.isArray(json) ? json : []);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch transfers:", err);
+				setData([]);
+			})
+			.finally(() => mounted && setLoading(false));
+		return () => {
+			mounted = false;
+		};
+	}, []);
+
 	return (
 		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
 			<div className="flex items-center justify-between mb-3">
@@ -50,7 +70,13 @@ export default function TransferTable({
 						</tr>
 					</thead>
 					<tbody>
-						{data.length === 0 ? (
+						{loading ? (
+							<tr>
+								<td colSpan={10} className="py-12 text-center">
+									<p className="text-gray-500 text-base">Loading...</p>
+								</td>
+							</tr>
+						) : data.length === 0 ? (
 							<tr>
 								<td colSpan={10} className="py-12 text-center">
 									<p className="text-gray-500 text-base">
