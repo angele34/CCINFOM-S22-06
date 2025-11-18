@@ -1,4 +1,7 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import FormModal from "@/src/components/ui/FormModal";
 
 export interface PreassignTransaction {
 	preassign_id: number;
@@ -11,11 +14,193 @@ export interface PreassignTransaction {
 	created_at: string;
 }
 
-export default function PreassignTable({
-	data,
-}: {
-	data: PreassignTransaction[];
-}) {
+type Staff = {
+	staff_id: number;
+	name: string;
+	staff_role: string;
+	staff_status: string;
+	shift_schedule: string;
+	is_deleted: boolean;
+};
+
+type Ambulance = {
+	ambulance_id: number;
+	ambulance_type: string;
+	ambulance_status: string;
+	plate_no: string;
+	is_deleted: boolean;
+	hospital?: {
+		hospital_name: string;
+	};
+};
+
+export default function PreassignTable() {
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [availableStaff, setAvailableStaff] = useState<Staff[]>([]);
+	const [availableAmbulances, setAvailableAmbulances] = useState<Ambulance[]>(
+		[]
+	);
+	const [preassigns, setPreassigns] = useState<
+		Array<{
+			preassign_id: number;
+			staff_id: number;
+			staff_role: string;
+			ambulance_id: number;
+			assignment_status: string;
+			assigned_on: string;
+			updated_on: string;
+		}>
+	>([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		fetchPreassigns();
+		fetchAvailableResources();
+	}, []);
+
+	const fetchPreassigns = async () => {
+		try {
+			const res = await fetch("/api/preassign");
+			const data = await res.json();
+			setPreassigns(data);
+		} catch (error) {
+			console.error("Error fetching preassigns:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const fetchAvailableResources = async () => {
+		try {
+			const staffRes = await fetch("/api/staff");
+			const staffData: Staff[] = await staffRes.json();
+			const available = staffData.filter(
+				(s) => s.staff_status === "available" && !s.is_deleted
+			);
+			setAvailableStaff(available);
+
+			const ambulanceRes = await fetch("/api/ambulance");
+			const ambulanceData: Ambulance[] = await ambulanceRes.json();
+			const availableAmb = ambulanceData.filter(
+				(a) => a.ambulance_status === "available" && !a.is_deleted
+			);
+			setAvailableAmbulances(availableAmb);
+		} catch (error) {
+			console.error("Error fetching available resources:", error);
+		}
+	};
+
+	const handleCreatePreassign = async (formData: Record<string, string>) => {
+		try {
+			console.log("Creating pre-assignment with data:", formData);
+
+			const res = await fetch("/api/preassign", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(formData),
+			});
+
+			console.log("Response status:", res.status);
+
+			if (!res.ok) {
+				const errorData = await res.json();
+				console.error("API Error:", errorData);
+				throw new Error(errorData.error || "Failed to create pre-assignment");
+			}
+
+			const result = await res.json();
+			console.log("Pre-assignment created:", result);
+
+			await fetchAvailableResources();
+			await fetchPreassigns();
+			setIsModalOpen(false);
+			alert("Pre-assignment created successfully!");
+		} catch (error) {
+			console.error("Error creating pre-assignment:", error);
+			alert(
+				error instanceof Error
+					? error.message
+					: "Failed to create pre-assignment"
+			);
+		}
+	};
+
+	const handleCompletePreassign = async (preassign_id: number) => {
+		if (!confirm("Mark this pre-assignment as completed?")) return;
+
+		try {
+			const res = await fetch("/api/preassign", {
+				method: "PUT",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					preassign_id,
+					assignment_status: "completed",
+				}),
+			});
+
+			if (!res.ok) {
+				const err = await res.json();
+				throw new Error(err.error || "Failed to complete");
+			}
+
+			console.log("Pre-assignment completed successfully");
+			await fetchPreassigns();
+			await fetchAvailableResources();
+			alert("Pre-assignment marked as completed");
+		} catch (error: unknown) {
+			console.error("Complete error:", error);
+			const message =
+				error instanceof Error
+					? error.message
+					: "Failed to complete pre-assignment";
+			alert(message);
+		}
+	};
+
+	const formatRole = (role: string) => {
+		if (role === "emt") return "EMT";
+		return role.charAt(0).toUpperCase() + role.slice(1);
+	};
+
+	const preassignFields: Array<{
+		name: string;
+		label: string;
+		type: "select";
+		required: boolean;
+		options: { value: string | number; label: string }[];
+	}> = [
+		{
+			name: "ambulance_id",
+			label: "Ambulance",
+			type: "select",
+			required: true,
+			options: availableAmbulances.map((amb) => ({
+				value: amb.ambulance_id,
+				label: `${amb.plate_no} - ${amb.ambulance_type.replace(/_/g, " ")}`,
+			})),
+		},
+		{
+			name: "staff_id",
+			label: "Staff Member",
+			type: "select",
+			required: true,
+			options: availableStaff.map((staff) => ({
+				value: staff.staff_id,
+				label: `${staff.name} - ${formatRole(staff.staff_role)}`,
+			})),
+		},
+		{
+			name: "staff_role",
+			label: "Role",
+			type: "select",
+			required: true,
+			options: [
+				{ value: "driver", label: "Driver" },
+				{ value: "emt", label: "EMT" },
+				{ value: "paramedic", label: "Paramedic" },
+			],
+		},
+	];
 	return (
 		<div className="flex-1 bg-white rounded-2xl shadow-lg p-6 flex flex-col overflow-hidden">
 			<div className="flex items-center justify-between mb-3">
@@ -27,7 +212,10 @@ export default function PreassignTable({
 						Match available staff to ambulances based on shift and location
 					</p>
 				</div>
-				<button className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition">
+				<button
+					onClick={() => setIsModalOpen(true)}
+					className="px-5 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition"
+				>
 					+ New Pre-assignment
 				</button>
 			</div>
@@ -36,21 +224,26 @@ export default function PreassignTable({
 				<table className="w-full text-left text-sm">
 					<thead className="border-b border-gray-200 sticky top-0 bg-white z-10 shadow">
 						<tr className="text-ambulance-teal-750">
-							<th className="py-2 px-3 font-bold">ID</th>
-							<th className="py-2 px-3 font-bold">Ambulance ID</th>
-							<th className="py-2 px-3 font-bold">Staff IDs</th>
-							<th className="py-2 px-3 font-bold">Ambulance Type</th>
-							<th className="py-2 px-3 font-bold">Base Location</th>
-							<th className="py-2 px-3 font-bold">Shift Schedule</th>
+							<th className="py-2 px-3 font-bold text-center">Pre-Assign ID</th>
+							<th className="py-2 px-3 font-bold text-center">Staff ID</th>
+							<th className="py-2 px-3 font-bold text-center">Staff Role</th>
+							<th className="py-2 px-3 font-bold text-center">Ambulance ID</th>
 							<th className="py-2 px-3 font-bold">Status</th>
 							<th className="py-2 px-3 font-bold">Date Created</th>
+							<th className="py-2 px-3 font-bold">Date Updated</th>
 							<th className="py-2 px-3 font-bold">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						{data.length === 0 ? (
+						{loading ? (
 							<tr>
-								<td colSpan={9} className="py-12 text-center">
+								<td colSpan={8} className="py-12 text-center">
+									<p className="text-gray-500 text-base">Loading...</p>
+								</td>
+							</tr>
+						) : preassigns.length === 0 ? (
+							<tr>
+								<td colSpan={8} className="py-12 text-center">
 									<p className="text-gray-500 text-base">
 										No pre-assignment records found. Click &quot;+ New
 										Pre-assignment&quot; to get started.
@@ -58,54 +251,91 @@ export default function PreassignTable({
 								</td>
 							</tr>
 						) : (
-							data.map((item) => (
+							preassigns.map((item) => (
 								<tr
 									key={item.preassign_id}
 									className="border-b border-gray-100 hover:bg-gray-50"
 								>
-									<td className="py-3 px-3 font-medium text-gray-900">
+									<td className="py-3 px-3 text-center text-gray-900">
 										{item.preassign_id}
 									</td>
-									<td className="py-3 px-3 text-gray-800">
+									<td className="py-3 px-3 text-center text-gray-800">
+										{item.staff_id}
+									</td>
+									<td className="py-3 px-3 text-center text-gray-800">
+										{item.staff_role}
+									</td>
+									<td className="py-3 px-3 text-center text-gray-800">
 										{item.ambulance_id}
-									</td>
-									<td className="py-3 px-3 text-gray-800">{item.staff_ids}</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.ambulance_type}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.base_location}
-									</td>
-									<td className="py-3 px-3 text-gray-800">
-										{item.shift_schedule}
 									</td>
 									<td className="py-3 px-3">
 										<span
 											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-												item.status === "active"
+												item.assignment_status === "active"
 													? "bg-green-100 text-green-800"
+													: item.assignment_status === "completed"
+													? "bg-blue-100 text-blue-800"
 													: "bg-gray-100 text-gray-800"
 											}`}
 										>
-											{item.status}
+											{item.assignment_status}
 										</span>
 									</td>
 									<td className="py-3 px-3 text-gray-800">
-										{new Date(item.created_at).toLocaleString()}
+										{new Date(item.assigned_on).toLocaleString()}
+									</td>
+									<td className="py-3 px-3 text-gray-800">
+										{new Date(item.updated_on).toLocaleString()}
 									</td>
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
-											<button
-												className="p-2 hover:bg-blue-100 rounded transition"
-												title="View"
-											>
-												<Image
-													src="/icons/edit.svg"
-													alt="View"
-													width={18}
-													height={18}
-												/>
-											</button>
+											{item.assignment_status === "active" && (
+												<>
+													<button
+														onClick={() =>
+															handleCompletePreassign(item.preassign_id)
+														}
+														className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition"
+														title="Complete"
+													>
+														✓ Complete
+													</button>
+													<button
+														onClick={async () => {
+															if (confirm("Cancel this pre-assignment?")) {
+																try {
+																	const res = await fetch("/api/preassign", {
+																		method: "DELETE",
+																		headers: {
+																			"Content-Type": "application/json",
+																		},
+																		body: JSON.stringify({
+																			preassign_id: item.preassign_id,
+																		}),
+																	});
+																	if (res.ok) {
+																		await fetchPreassigns();
+																		alert("Pre-assignment cancelled");
+																	}
+																} catch (error) {
+																	console.error(error);
+																	alert("Failed to cancel");
+																}
+															}
+														}}
+														className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
+														title="Cancel"
+													>
+														✗ Cancel
+													</button>
+												</>
+											)}
+											{item.assignment_status === "completed" && (
+												<span className="text-gray-500 text-xs">Completed</span>
+											)}
+											{item.assignment_status === "cancelled" && (
+												<span className="text-gray-500 text-xs">Cancelled</span>
+											)}
 										</div>
 									</td>
 								</tr>
@@ -114,6 +344,14 @@ export default function PreassignTable({
 					</tbody>
 				</table>
 			</div>
+
+			<FormModal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				title="New Staff Pre-Assignment"
+				fields={preassignFields}
+				onSubmit={handleCreatePreassign}
+			/>
 		</div>
 	);
 }

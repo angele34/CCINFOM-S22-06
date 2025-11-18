@@ -1,5 +1,4 @@
 "use client";
-"use client";
 
 interface FormField {
 	name: string;
@@ -7,7 +6,7 @@ interface FormField {
 	type: "text" | "number" | "date" | "email" | "tel" | "select";
 	required?: boolean;
 	placeholder?: string;
-	options?: { value: string; label?: string }[];
+	options?: { value: string | number; label?: string }[];
 	maxLength?: number;
 	pattern?: string;
 	transform?: "uppercase" | "lowercase" | "none";

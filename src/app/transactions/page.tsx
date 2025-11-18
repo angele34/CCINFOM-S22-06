@@ -2,29 +2,17 @@
 import { useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
 import Image from "next/image";
-import PreassignTable, {
-	type PreassignTransaction,
-} from "../../components/transactions/PreassignTable";
-import RequestTable, {
-	type RequestTransaction,
-} from "../../components/transactions/RequestTable";
-import DispatchTable, {
-	type DispatchTransaction,
-} from "../../components/transactions/DispatchTable";
-import TransferTable, {
-	type TransferTransaction,
-} from "../../components/transactions/TransferTable";
+import PreassignTable from "../../components/transactions/PreassignTable";
+import RequestTable from "../../components/transactions/RequestTable";
+import DispatchTable from "../../components/transactions/DispatchTable";
+import TransferTable from "../../components/transactions/TransferTable";
 
 type TransactionTab = "preassign" | "request" | "dispatch" | "transfer";
 
 export default function TransactionsPage() {
 	const [activeTab, setActiveTab] = useState<TransactionTab>("preassign");
 
-	// mock data
-	const preassignData: PreassignTransaction[] = [];
-	const requestData: RequestTransaction[] = [];
-	const dispatchData: DispatchTransaction[] = [];
-	const transferData: TransferTransaction[] = [];
+	// tables fetch their own data; no mock props needed
 
 	const tabs: { key: TransactionTab; name: string; icon: string }[] = [
 		{ key: "preassign", name: "Pre-assign", icon: "/icons/ambulance.svg" },
@@ -73,10 +61,10 @@ export default function TransactionsPage() {
 				</div>
 
 				{/* main content */}
-				{activeTab === "preassign" && <PreassignTable data={preassignData} />}
-				{activeTab === "request" && <RequestTable data={requestData} />}
-				{activeTab === "dispatch" && <DispatchTable data={dispatchData} />}
-				{activeTab === "transfer" && <TransferTable data={transferData} />}
+				{activeTab === "preassign" && <PreassignTable />}
+				{activeTab === "request" && <RequestTable />}
+				{activeTab === "dispatch" && <DispatchTable />}
+				{activeTab === "transfer" && <TransferTable />}
 			</div>
 		</AppLayout>
 	);

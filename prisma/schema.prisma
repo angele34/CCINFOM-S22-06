@@ -222,12 +222,6 @@ enum preassign_assignment_status {
   cancelled
 }
 
-enum request_request_status {
-  pending
-  completed
-  cancelled
-}
-
 enum dispatch_dispatch_status {
   dispatched
   cancelled
@@ -236,4 +230,10 @@ enum dispatch_dispatch_status {
 enum transfer_transfer_status {
   in_transfer
   transferred
+}
+
+enum request_request_status {
+  pending
+  accepted
+  cancelled
 }
