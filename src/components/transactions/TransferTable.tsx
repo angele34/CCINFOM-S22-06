@@ -21,6 +21,9 @@ interface Dispatch {
 	request_id: number;
 	ambulance_id: number;
 	dispatch_status: string;
+	ambulance: {
+		plate_no: string;
+	};
 	request: {
 		patient_id: number;
 		patient: {
@@ -149,9 +152,9 @@ export default function TransferTable() {
 						required: true,
 						options: dispatches.map((d) => ({
 							value: d.dispatch_id,
-							label: `Dispatch #${d.dispatch_id} - Patient: ${
-								d.request?.patient?.name || d.request?.patient_id || "Unknown"
-							} (Ambulance #${d.ambulance_id})`,
+							label: `Dispatch #${d.dispatch_id} - ${
+								d.request?.patient?.name || "Unknown"
+							}`,
 						})),
 					},
 					{
@@ -161,7 +164,7 @@ export default function TransferTable() {
 						required: true,
 						options: staffList.map((s) => ({
 							value: s.staff_id,
-							label: `${s.name} (ID: ${s.staff_id})`,
+							label: s.name,
 						})),
 					},
 					{

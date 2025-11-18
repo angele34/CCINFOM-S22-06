@@ -167,7 +167,10 @@ export default function RequestTable() {
 			required: true,
 			options: patients.map((p) => ({
 				value: p.patient_id,
-				label: `${p.name} - ${p.medical_condition}`,
+				label: `${p.name} - ${
+					p.medical_condition.charAt(0).toUpperCase() +
+					p.medical_condition.slice(1)
+				}`,
 			})),
 		},
 		{
@@ -177,7 +180,7 @@ export default function RequestTable() {
 			required: true,
 			options: locations.map((loc) => ({
 				value: loc.ref_location_id,
-				label: `${loc.street}, ${loc.city}`,
+				label: `${loc.street}, ${loc.city.replace(/_/g, " ")}`,
 			})),
 		},
 		{
@@ -187,7 +190,7 @@ export default function RequestTable() {
 			required: true,
 			options: hospitals.map((h) => ({
 				value: h.hospital_id,
-				label: `${h.hospital_name} - ${h.city}`,
+				label: h.hospital_name,
 			})),
 		},
 		{

@@ -16,6 +16,9 @@ interface Request {
 	request_id: number;
 	patient_id: number;
 	request_status: string;
+	patient?: {
+		name: string;
+	};
 }
 
 interface Ambulance {
@@ -139,7 +142,7 @@ export default function DispatchTable() {
 			required: true,
 			options: requests.map((r) => ({
 				value: r.request_id,
-				label: `Request #${r.request_id} - Patient #${r.patient_id}`,
+				label: `Request #${r.request_id} - ${r.patient?.name || "Unknown"}`,
 			})),
 		},
 		{

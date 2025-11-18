@@ -176,7 +176,7 @@ export default function PreassignTable() {
 			required: true,
 			options: availableAmbulances.map((amb) => ({
 				value: amb.ambulance_id,
-				label: `${amb.plate_no} - ${amb.ambulance_type.replace(/_/g, " ")}`,
+				label: `Ambulance #${amb.ambulance_id} - ${amb.plate_no}`,
 			})),
 		},
 		{
