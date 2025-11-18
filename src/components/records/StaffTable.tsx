@@ -32,7 +32,13 @@ export default function StaffTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter staff name",
+			minLength: 1,
 			maxLength: 50,
+			customErrorMessages: {
+				required: "Staff name is required",
+				minLength: "Staff name is required",
+				maxLength: "Staff name must not exceed 50 characters",
+			},
 		},
 		{
 			name: "staff_role",
@@ -51,12 +57,14 @@ export default function StaffTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "LIC-NNN-NNN (e.g., LIC-123-456)",
+			minLength: 11,
 			maxLength: 11,
 			pattern: "^LIC-\\d{3}-\\d{3}$",
 			customErrorMessages: {
 				required: "License number is required",
 				pattern: "License must be in format LIC-NNN-NNN (e.g., LIC-123-456)",
-				tooLong: "License must be exactly 11 characters",
+				minLength: "License must be exactly 11 characters",
+				maxLength: "License must be exactly 11 characters",
 			},
 		},
 		{

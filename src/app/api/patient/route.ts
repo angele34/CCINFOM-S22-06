@@ -6,7 +6,7 @@ import prisma from "@/src/lib/prisma";
 const PatientSchema = z.object({
 	ref_location_id: z.coerce.number().int().positive(),
 	name: z.string().min(1).max(50),
-	age: z.coerce.number().int().min(0).nullable().optional(),
+	age: z.coerce.number().int().min(0).max(120).nullable().optional(),
 	medical_condition: z.enum([
 		"cardiac",
 		"trauma",
@@ -18,6 +18,7 @@ const PatientSchema = z.object({
 	contact_person: z.string().max(50).nullable().optional(),
 	contact_number: z
 		.string()
+		.length(11, "Contact number must be exactly 11 digits")
 		.regex(/^09[0-9]{9}$/, "Must be 11 digits starting with 09")
 		.nullable()
 		.optional(),

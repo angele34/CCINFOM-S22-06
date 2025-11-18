@@ -70,7 +70,13 @@ export default function PatientTable({
 			type: "text" as const,
 			required: true,
 			placeholder: "Enter patient name",
+			minLength: 1,
 			maxLength: 50,
+			customErrorMessages: {
+				required: "Patient name is required",
+				minLength: "Patient name is required",
+				maxLength: "Patient name must not exceed 50 characters",
+			},
 		},
 		{
 			name: "age",
@@ -78,6 +84,12 @@ export default function PatientTable({
 			type: "number" as const,
 			required: false,
 			placeholder: "Enter age",
+			min: 0,
+			max: 120,
+			customErrorMessages: {
+				min: "Age must be 0 or greater",
+				max: "Age must be 120 or less",
+			},
 		},
 		{
 			name: "medical_condition",
@@ -117,11 +129,13 @@ export default function PatientTable({
 			type: "text" as const,
 			required: false,
 			placeholder: "09XXXXXXXXX (11 digits)",
+			minLength: 11,
 			maxLength: 11,
 			pattern: "^09[0-9]{9}$",
 			customErrorMessages: {
-				required: "Contact number is required",
 				pattern: "Must be 11 digits starting with 09 (e.g., 09123456789)",
+				minLength: "Contact number must be exactly 11 digits",
+				maxLength: "Contact number must be exactly 11 digits",
 			},
 		},
 		{

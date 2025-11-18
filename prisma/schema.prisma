@@ -99,14 +99,6 @@ model transfer {
   @@index([patient_id], map: "patient_id")
 }
 
-model ambulance_staff {
-  ambulance_id Int
-  staff_id     Int
-
-  @@id([ambulance_id, staff_id])
-  @@index([staff_id], map: "staff_id")
-}
-
 model dispatch {
   dispatch_id     Int                      @id @default(autoincrement())
   request_id      Int                      @unique(map: "request_id")

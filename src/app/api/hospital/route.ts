@@ -20,7 +20,9 @@ const HospitalDeleteSchema = z.object({
 // READ
 export async function GET() {
 	try {
-		const hospitals = await prisma.hospital.findMany();
+		const hospitals = await prisma.hospital.findMany({
+			where: { is_deleted: false },
+		});
 		return NextResponse.json(hospitals);
 	} catch (error) {
 		console.error("GET /hospital error:", error);
@@ -74,14 +76,15 @@ export async function PUT(req: Request) {
 	}
 }
 
-// DELETE
+// DELETE (soft delete)
 export async function DELETE(req: Request) {
 	try {
 		const body = await req.json();
 		const { hospital_id } = HospitalDeleteSchema.parse(body);
 
-		const deletedHospital = await prisma.hospital.delete({
+		const deletedHospital = await prisma.hospital.update({
 			where: { hospital_id },
+			data: { is_deleted: true, updated_at: new Date() },
 		});
 		return NextResponse.json(deletedHospital);
 	} catch (error) {
