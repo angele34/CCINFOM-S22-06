@@ -128,13 +128,13 @@ export default function LoginPage() {
 						<div className="relative z-10 text-center">
 							<div className="relative inline-block">
 								<Image
-									src="/logos/login_logo.svg"
+									src="/logos/login_logo2.svg"
 									alt="PrimeCare Login"
-									width={385}
-									height={60}
+									width={360}
+									height={50}
 									priority
 								/>
-								<p className="absolute left-1/2 bottom-4 transform -translate-x-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
+								<p className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/4 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
 									Precision in care. Speed when it matters
 								</p>
 							</div>
