@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
-import { PatientTransferReport } from "../../components/reports";
+import {
+	PatientTransferReport,
+	StaffPerformanceReport,
+	AmbulanceUtilizationReport,
+} from "../../components/reports";
 import { Users, UserCog, Ambulance, Building2, FileText } from "lucide-react";
 
 type ReportType =
@@ -40,7 +44,6 @@ export default function ReportsPage() {
 			icon: UserCog,
 			description:
 				"Number of transfers handled and average per shift for a given month and year",
-			disabled: true,
 		},
 		{
 			id: "ambulance-utilization" as ReportType,
@@ -48,7 +51,6 @@ export default function ReportsPage() {
 			icon: Ambulance,
 			description:
 				"Total number of transfers per ambulance for a given month and year",
-			disabled: true,
 		},
 		{
 			id: "hospital-admissions" as ReportType,
@@ -137,27 +139,19 @@ export default function ReportsPage() {
 				);
 			case "staff-performance":
 				return (
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
-						<UserCog className="w-16 h-16 text-gray-400 mb-4" />
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							Coming Soon
-						</h3>
-						<p className="text-gray-600 text-center max-w-md">
-							Staff Performance Report is under development.
-						</p>
-					</div>
+					<StaffPerformanceReport
+						startDate={startDate}
+						endDate={endDate}
+						onExportPDF={handleExportPDF}
+					/>
 				);
 			case "ambulance-utilization":
 				return (
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
-						<Ambulance className="w-16 h-16 text-gray-400 mb-4" />
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							Coming Soon
-						</h3>
-						<p className="text-gray-600 text-center max-w-md">
-							Ambulance Utilization Report is under development.
-						</p>
-					</div>
+					<AmbulanceUtilizationReport
+						startDate={startDate}
+						endDate={endDate}
+						onExportPDF={handleExportPDF}
+					/>
 				);
 			case "hospital-admissions":
 				return (
