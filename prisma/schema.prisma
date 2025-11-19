@@ -33,6 +33,7 @@ model hospital {
   updated_at         DateTime?            @default(now()) @db.DateTime(0)
   is_deleted         Boolean              @default(false)
   ambulance          ambulance[]
+  preassign          preassign[]
   reference_location reference_location[]
   request            request[]
   staff              staff[]
@@ -48,7 +49,7 @@ model patient {
   priority_level     patient_priority_level
   contact_person     String?                   @db.VarChar(50)
   contact_number     String?                   @unique(map: "contact_number") @db.Char(11)
-  transfer_status    patient_transfer_status?
+  transfer_status    patient_transfer_status
   created_at         DateTime                  @default(now()) @db.DateTime(0)
   updated_at         DateTime?                 @default(now()) @db.DateTime(0)
   is_deleted         Boolean                   @default(false)
@@ -99,7 +100,7 @@ model transfer {
   hospital_id     Int
   transferred_on  DateTime                 @db.DateTime(0)
   transfer_status transfer_transfer_status
-  priority_level  transfer_priority_level?
+  priority_level  transfer_priority_level
   updated_on      DateTime?                @default(now()) @db.DateTime(0)
   patient         patient                  @relation(fields: [patient_id], references: [patient_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_transfer_patient")
   ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onUpdate: NoAction, map: "fk_transfer_ambulance")
@@ -127,17 +128,20 @@ model dispatch {
 
 model preassign {
   preassign_id      Int                          @id @default(autoincrement())
+  hospital_id       Int
   staff_id          Int
   staff_role        preassign_staff_role
   ambulance_id      Int
   assignment_status preassign_assignment_status? @default(active)
   assigned_on       DateTime                     @default(now()) @db.DateTime(0)
   updated_on        DateTime?                    @default(now()) @db.DateTime(0)
-  staff             staff                        @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_1")
-  ambulance         ambulance                    @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ibfk_2")
+  hospital          hospital                     @relation(fields: [hospital_id], references: [hospital_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_hospital_fk")
+  staff             staff                        @relation(fields: [staff_id], references: [staff_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_staff_fk")
+  ambulance         ambulance                    @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "preassign_ambulance_fk")
 
   @@unique([ambulance_id, staff_role], map: "unique_ambulance_role")
   @@unique([staff_id, assigned_on], map: "unique_staff_time")
+  @@index([hospital_id], map: "hospital_id")
 }
 
 model request {

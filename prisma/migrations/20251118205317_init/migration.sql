@@ -77,7 +77,7 @@ CREATE TABLE `patient` (
   `priority_level` ENUM('critical', 'moderate', 'routine') NOT NULL,
   `contact_person` VARCHAR(50),
   `contact_number` CHAR(11) UNIQUE,
-  `transfer_status` ENUM('waiting', 'in_transfer', 'transferred'),
+  `transfer_status` ENUM('waiting', 'in_transfer', 'transferred') NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
@@ -94,6 +94,7 @@ CREATE TABLE `patient` (
 
 CREATE TABLE `preassign` (
 	`preassign_id` INT NOT NULL AUTO_INCREMENT,
+    `hospital_id` INT NOT NULL,
     `staff_id` INT NOT NULL,
     `staff_role` ENUM('driver', 'emt', 'paramedic') NOT NULL, 
     `ambulance_id` INT NOT NULL,
@@ -101,6 +102,7 @@ CREATE TABLE `preassign` (
 	`assigned_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_on` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`preassign_id`),
+    FOREIGN KEY (`hospital_id`) REFERENCES `hospital`(`hospital_id`),
     FOREIGN KEY (`staff_id`) REFERENCES `staff`(`staff_id`),
     FOREIGN KEY (`ambulance_id`) REFERENCES `ambulance`(`ambulance_id`),
     UNIQUE KEY unique_ambulance_role (`ambulance_id`, `staff_role`), 
@@ -143,7 +145,7 @@ CREATE TABLE `transfer` (
   `hospital_id` INT NOT NULL,
   `transferred_on` DATETIME NOT NULL,
   `transfer_status` ENUM('transferred') NOT NULL,
-  `priority_level` ENUM('critical', 'moderate', 'routine'),
+  `priority_level` ENUM('critical', 'moderate', 'routine') NOT NULL,
   `updated_on` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`transfer_id`),
   FOREIGN KEY (`patient_id`) REFERENCES patient(`patient_id`) ON DELETE CASCADE,
