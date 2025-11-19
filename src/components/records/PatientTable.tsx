@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import FormModal from "../ui/FormModal";
+import RecordFormModal from "./RecordFormModal";
 
 interface Patient {
 	patient_id: number;
@@ -254,7 +254,8 @@ export default function PatientTable({
 				</button>
 			</div>
 
-			<FormModal
+			<RecordFormModal
+				key={editingPatient?.patient_id ?? "new"}
 				isOpen={showModal}
 				onClose={handleCloseModal}
 				onSubmit={handleFormSubmit}
@@ -333,8 +334,7 @@ export default function PatientTable({
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-priority-level-critical text-xs font-medium">
 													Critical
 												</span>
-											) :
-											patient.priority_level === "moderate" ? (
+											) : patient.priority_level === "moderate" ? (
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-priority-level-moderate text-xs font-medium">
 													Moderate
 												</span>

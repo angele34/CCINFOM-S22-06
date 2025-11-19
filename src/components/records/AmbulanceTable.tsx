@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import FormModal from "../ui/FormModal";
+import RecordFormModal from "./RecordFormModal";
 
 interface Ambulance {
 	ambulance_id: number;
@@ -201,7 +201,8 @@ export default function AmbulanceTable({
 				</button>
 			</div>
 
-			<FormModal
+			<RecordFormModal
+				key={editingAmbulance?.ambulance_id ?? "new"}
 				isOpen={showModal}
 				onClose={handleCloseModal}
 				onSubmit={handleFormSubmit}

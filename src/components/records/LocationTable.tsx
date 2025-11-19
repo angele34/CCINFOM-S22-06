@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import FormModal from "../ui/FormModal";
+import RecordFormModal from "./RecordFormModal";
 
 interface Location {
 	ref_location_id: number;
@@ -181,7 +181,8 @@ export default function LocationTable({
 				</button>
 			</div>
 
-			<FormModal
+			<RecordFormModal
+				key={editingLocation?.ref_location_id ?? "new"}
 				isOpen={showModal}
 				onClose={handleCloseModal}
 				onSubmit={handleFormSubmit}
@@ -243,8 +244,7 @@ export default function LocationTable({
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-qc text-xs font-medium">
 													Quezon City
 												</span>
-											) :
-											loc.city === "Manila_City" ? (
+											) : loc.city === "Manila_City" ? (
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mnl text-xs font-medium">
 													Manila City
 												</span>
@@ -253,9 +253,7 @@ export default function LocationTable({
 													Muntinlupa City
 												</span>
 											) : (
-												<span className="text-gray-600">
-													{loc.city}
-												</span>
+												<span className="text-gray-600">{loc.city}</span>
 											)
 										) : (
 											<span className="text-gray-600">N/A</span>

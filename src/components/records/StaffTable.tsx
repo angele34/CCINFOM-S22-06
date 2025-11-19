@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import FormModal from "../ui/FormModal";
+import RecordFormModal from "./RecordFormModal";
 
 interface Staff {
 	staff_id: number;
@@ -220,7 +220,8 @@ export default function StaffTable({
 				</button>
 			</div>
 
-			<FormModal
+			<RecordFormModal
+				key={editingStaff?.staff_id ?? "new"}
 				isOpen={showModal}
 				onClose={handleCloseModal}
 				onSubmit={handleFormSubmit}
@@ -288,7 +289,7 @@ export default function StaffTable({
 										{member.license_no}
 									</td>
 									<td className="py-2 px-3">
-										{member.shift_schedule? (
+										{member.shift_schedule ? (
 											member.shift_schedule === "night" ? (
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-staff-shift-status-night text-xs font-medium">
 													Night

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import FormModal from "../ui/FormModal";
+import RecordFormModal from "./RecordFormModal";
 
 interface Hospital {
 	hospital_id: number;
@@ -163,7 +163,8 @@ export default function HospitalTable({
 				</button>
 			</div>
 
-			<FormModal
+			<RecordFormModal
+				key={editingHospital?.hospital_id ?? "new"}
 				isOpen={showModal}
 				onClose={handleCloseModal}
 				onSubmit={handleFormSubmit}
@@ -223,8 +224,7 @@ export default function HospitalTable({
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-qc text-xs font-medium">
 													Quezon City
 												</span>
-											) :
-											hospital.city === "Manila_City" ? (
+											) : hospital.city === "Manila_City" ? (
 												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mnl text-xs font-medium">
 													Manila City
 												</span>
@@ -233,9 +233,7 @@ export default function HospitalTable({
 													Muntinlupa City
 												</span>
 											) : (
-												<span className="text-gray-600">
-													{hospital.city}
-												</span>
+												<span className="text-gray-600">{hospital.city}</span>
 											)
 										) : (
 											<span className="text-gray-600">N/A</span>
