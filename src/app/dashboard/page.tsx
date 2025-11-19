@@ -69,7 +69,7 @@ export default function DashboardPage() {
 							<h3 className="text-sm font-medium text-gray-600">
 								Total Records
 							</h3>
-							<div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+							<div className="w-10 h-10 bg-teal-50  rounded-lg flex items-center justify-center">
 								<svg
 									className="w-5 h-5 text-blue-600"
 									fill="none"
@@ -119,7 +119,7 @@ export default function DashboardPage() {
 					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
 						<div className="flex items-center justify-between mb-2">
 							<h3 className="text-sm font-medium text-gray-600">Patients</h3>
-							<div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+							<div className="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center">
 								<Image
 									src="/icons/patients.svg"
 									alt="Patients"
@@ -139,7 +139,7 @@ export default function DashboardPage() {
 					<div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
 						<div className="flex items-center justify-between mb-2">
 							<h3 className="text-sm font-medium text-gray-600">Staff</h3>
-							<div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+							<div className="w-10 h-10 bg-teal-50 rounded-lg flex items-center justify-center">
 								<Image
 									src="/icons/staff.svg"
 									alt="Staff"
