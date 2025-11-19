@@ -135,6 +135,7 @@ export async function POST(req: Request) {
 			newPreassign = await prisma.preassign.update({
 				where: { preassign_id: existingRoleAssignment.preassign_id },
 				data: {
+					hospital_id: ambulance.hospital_id,
 					staff_id: validated.staff_id,
 					assignment_status: validated.assignment_status || "active",
 					assigned_on: new Date(),
@@ -182,6 +183,7 @@ export async function POST(req: Request) {
 				newPreassign = await prisma.preassign.update({
 					where: { preassign_id: existingPreassign.preassign_id },
 					data: {
+						hospital_id: ambulance.hospital_id,
 						staff_id: validated.staff_id,
 						assignment_status: validated.assignment_status || "active",
 						assigned_on: new Date(),
@@ -200,6 +202,7 @@ export async function POST(req: Request) {
 				// Create new preassign
 				newPreassign = await prisma.preassign.create({
 					data: {
+						hospital_id: ambulance.hospital_id,
 						staff_id: validated.staff_id,
 						staff_role: validated.staff_role,
 						ambulance_id: validated.ambulance_id,
