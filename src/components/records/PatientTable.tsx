@@ -327,8 +327,29 @@ export default function PatientTable({
 									<td className="py-2 px-3 text-gray-800">
 										{patient.medical_condition}
 									</td>
-									<td className="py-2 px-3 text-gray-800">
-										{patient.priority_level}
+									<td className="py-2 px-3">
+										{patient.priority_level ? (
+											patient.priority_level === "critical" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-priority-level-critical text-xs font-medium">
+													Critical
+												</span>
+											) :
+											patient.priority_level === "moderate" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-priority-level-moderate text-xs font-medium">
+													Moderate
+												</span>
+											) : patient.priority_level === "routine" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-priority-level-routine text-xs font-medium">
+													Routine
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{patient.priority_level}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
 									</td>
 									<td className="py-2 px-3 text-gray-800">
 										{patient.contact_person ?? "N/A"}

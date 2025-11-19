@@ -50,6 +50,18 @@ body {
 .text-ambulance-ontrip {
 	color: #003533;
 }
+
+.bg-priority-level-critical {
+	background-color: #c24e05;
+}
+
+.bg-priority-level-moderate {
+	background-color: #e2bd2b;
+}
+
+.bg-priority-level-routine {
+	background-color: #149c63;
+}
 /* Print styles for PDF export - Only show header and detailed table */
 @media print {
 	nav,
