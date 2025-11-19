@@ -40,7 +40,7 @@ export default function LoginPage() {
 		<div className="relative min-h-screen overflow-hidden">
 			<div className="absolute inset-0 -z-20">
 				<Aurora
-					colorStops={["#007c73", "#009387", "#5ce6dc"]}
+					colorStops={["#32a88d", "#009387", "#32a87d"]}
 					blend={0.5}
 					amplitude={1.0}
 					speed={0.5}
@@ -130,8 +130,8 @@ export default function LoginPage() {
 								<Image
 									src="/logos/login_logo.svg"
 									alt="PrimeCare Login"
-									width={400}
-									height={64}
+									width={385}
+									height={60}
 									priority
 								/>
 								<p className="absolute left-1/2 bottom-4 transform -translate-x-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
