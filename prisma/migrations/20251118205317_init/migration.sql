@@ -30,6 +30,8 @@ CREATE TABLE `reference_location` (
   `street` VARCHAR(20) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_deleted` BOOLEAN NOT NULL DEFAULT FALSE,
+  
   PRIMARY KEY (`ref_location_id`),
   KEY `fk_reflocation_hospital` (`hospital_id`),
   CONSTRAINT `fk_reflocation_hospital`
@@ -153,3 +155,4 @@ CREATE TABLE `transfer` (
   FOREIGN KEY (`hospital_id`) REFERENCES hospital(`hospital_id`) ON DELETE RESTRICT,
   FOREIGN KEY (`staff_id`) REFERENCES staff(`staff_id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
