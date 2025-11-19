@@ -50,7 +50,24 @@ export default function DispatchTable() {
 		fetch("/api/dispatch")
 			.then((res) => res.json())
 			.then((json) => {
-				setData(Array.isArray(json) ? json : []);
+				const dispatches = Array.isArray(json) ? json : [];
+				// sort by status
+				const sorted = dispatches.sort((a, b) => {
+					// prio is dispatched status comes first
+					if (
+						a.dispatch_status === "dispatched" &&
+						b.dispatch_status !== "dispatched"
+					)
+						return -1;
+					if (
+						a.dispatch_status !== "dispatched" &&
+						b.dispatch_status === "dispatched"
+					)
+						return 1;
+					// second prio is sort by ID descending (newest first)
+					return b.dispatch_id - a.dispatch_id;
+				});
+				setData(sorted);
 			})
 			.catch((err) => {
 				console.error("Failed to fetch dispatches:", err);
