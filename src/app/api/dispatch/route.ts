@@ -5,12 +5,15 @@ import prisma from "@/src/lib/prisma";
 const DispatchSchema = z.object({
 	request_id: z.coerce.number().int().positive(),
 	ambulance_id: z.coerce.number().int().positive(),
-	dispatch_status: z.enum(["dispatched", "cancelled"]),
+	dispatch_status: z
+		.enum(["completed", "dispatched", "cancelled"])
+		.optional()
+		.default("dispatched"),
 });
 
 const DispatchUpdateSchema = z.object({
 	dispatch_id: z.coerce.number().int().positive(),
-	dispatch_status: z.enum(["dispatched", "cancelled"]).optional(),
+	dispatch_status: z.enum(["completed", "dispatched", "cancelled"]).optional(),
 	dispatched_on: z.coerce.date().optional(),
 });
 
@@ -31,6 +34,18 @@ export async function GET() {
 								name: true,
 							},
 						},
+						hospital: {
+							select: {
+								hospital_id: true,
+								hospital_name: true,
+								city: true,
+							},
+						},
+					},
+				},
+				ambulance: {
+					select: {
+						plate_no: true,
 					},
 				},
 			},
@@ -123,19 +138,23 @@ export async function POST(req: Request) {
 			);
 		}
 
-		// 4. Create dispatch, accept request, update patient priority, mark preassigns as completed, and update ambulance/patient/staff status in a transaction
+		// 4. Create dispatch with dispatched status and update all statuses immediately
 		const result = await prisma.$transaction(async (tx) => {
 			const newDispatch = await tx.dispatch.create({
-				data: validated,
+				data: {
+					request_id: validated.request_id,
+					ambulance_id: validated.ambulance_id,
+					dispatch_status: "dispatched",
+				},
 			});
 
-			// Accept the request and update patient priority
+			// Accept the request
 			await tx.request.update({
 				where: { request_id: validated.request_id },
 				data: { request_status: "accepted" },
 			});
 
-			// Update patient priority to match request priority
+			// Update patient priority and transfer status
 			await tx.patient.update({
 				where: { patient_id: request.patient_id },
 				data: {
@@ -144,17 +163,7 @@ export async function POST(req: Request) {
 				},
 			});
 
-			// Mark all active preassigns for this ambulance as completed
-			await tx.preassign.updateMany({
-				where: {
-					ambulance_id: validated.ambulance_id,
-					assignment_status: "active",
-				},
-				data: {
-					assignment_status: "completed",
-					updated_on: new Date(),
-				},
-			});
+			// Preassignments remain "active" - they will be manually completed via PreassignTable
 
 			// Update ambulance status to on_trip
 			await tx.ambulance.update({
@@ -164,10 +173,12 @@ export async function POST(req: Request) {
 
 			// Update staff status to in_transfer
 			const staffIds = activePreassigns.map((p) => p.staff_id);
-			await tx.staff.updateMany({
-				where: { staff_id: { in: staffIds } },
-				data: { staff_status: "in_transfer" },
-			});
+			if (staffIds.length > 0) {
+				await tx.staff.updateMany({
+					where: { staff_id: { in: staffIds } },
+					data: { staff_status: "in_transfer" },
+				});
+			}
 
 			return newDispatch;
 		});
@@ -198,46 +209,30 @@ export async function PUT(req: Request) {
 		const validated = DispatchUpdateSchema.parse(body);
 		const { dispatch_id, ...data } = validated;
 
-		// If marking as dispatched, also mark preassigns as completed
-		if (data.dispatch_status === "dispatched") {
-			// Get the dispatch to find ambulance_id
-			const dispatch = await prisma.dispatch.findUnique({
-				where: { dispatch_id },
-			});
+		// Get the current dispatch status
+		const currentDispatch = await prisma.dispatch.findUnique({
+			where: { dispatch_id },
+		});
 
-			if (!dispatch) {
-				return NextResponse.json(
-					{ error: "Dispatch not found" },
-					{ status: 404 }
-				);
-			}
-
-			const result = await prisma.$transaction(async (tx) => {
-				// Update dispatch
-				const updatedDispatch = await tx.dispatch.update({
-					where: { dispatch_id },
-					data,
-				});
-
-				// Mark all active preassigns for this ambulance as completed
-				await tx.preassign.updateMany({
-					where: {
-						ambulance_id: dispatch.ambulance_id,
-						assignment_status: "active",
-					},
-					data: {
-						assignment_status: "completed",
-						updated_on: new Date(),
-					},
-				});
-
-				return updatedDispatch;
-			});
-
-			return NextResponse.json(result);
+		if (!currentDispatch) {
+			return NextResponse.json(
+				{ error: "Dispatch not found" },
+				{ status: 404 }
+			);
 		}
 
-		// Normal update without preassign changes
+		// Only allow cancellation if dispatch is dispatched
+		if (
+			data.dispatch_status === "cancelled" &&
+			currentDispatch.dispatch_status !== "dispatched"
+		) {
+			return NextResponse.json(
+				{ error: "Can only cancel dispatch when status is dispatched" },
+				{ status: 400 }
+			);
+		}
+
+		// Normal update
 		const updatedDispatch = await prisma.dispatch.update({
 			where: { dispatch_id },
 			data,

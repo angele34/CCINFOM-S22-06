@@ -127,7 +127,7 @@ CREATE TABLE `dispatch` (
 	`request_id` INT NOT NULL,
 	`ambulance_id` INT NOT NULL,
     `dispatched_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `dispatch_status` ENUM('pending', 'dispatched', 'cancelled') NOT NULL,
+    `dispatch_status` ENUM('completed', 'dispatched', 'cancelled') NOT NULL DEFAULT 'dispatched',
     `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`dispatch_id`),
     FOREIGN KEY (`request_id`) REFERENCES `request`(`request_id`),

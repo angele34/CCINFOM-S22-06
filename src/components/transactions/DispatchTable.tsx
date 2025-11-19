@@ -16,8 +16,12 @@ interface Request {
 	request_id: number;
 	patient_id: number;
 	request_status: string;
+	hospital_id: number;
 	patient?: {
 		name: string;
+	};
+	hospital?: {
+		city: string;
 	};
 }
 
@@ -25,6 +29,10 @@ interface Ambulance {
 	ambulance_id: number;
 	plate_no: string;
 	ambulance_status: string;
+	hospital_id: number;
+	hospital?: {
+		city: string;
+	};
 }
 
 export default function DispatchTable() {
@@ -33,6 +41,10 @@ export default function DispatchTable() {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [requests, setRequests] = useState<Request[]>([]);
 	const [ambulances, setAmbulances] = useState<Ambulance[]>([]);
+	const [allAmbulances, setAllAmbulances] = useState<Ambulance[]>([]);
+	const [selectedRequestId, setSelectedRequestId] = useState<number | null>(
+		null
+	);
 
 	const fetchDispatches = () => {
 		fetch("/api/dispatch")
@@ -76,13 +88,62 @@ export default function DispatchTable() {
 							ambulancesWithStaff.has(a.ambulance_id)
 				  )
 				: [];
+			setAllAmbulances(availableAmbulancesWithStaff);
 			setAmbulances(availableAmbulancesWithStaff);
 		});
 	}, []);
 
+	// Filter ambulances based on selected request's hospital city
+	useEffect(() => {
+		if (!selectedRequestId) {
+			setAmbulances(allAmbulances);
+			return;
+		}
+
+		const selectedRequest = requests.find(
+			(r) => r.request_id === selectedRequestId
+		);
+
+		if (!selectedRequest || !selectedRequest.hospital?.city) {
+			setAmbulances(allAmbulances);
+			return;
+		}
+
+		// Filter ambulances from the same city as the request's destination hospital
+		const filteredByCity = allAmbulances.filter(
+			(a) => a.hospital?.city === selectedRequest.hospital?.city
+		);
+
+		setAmbulances(filteredByCity);
+	}, [selectedRequestId, allAmbulances, requests]);
+
 	const handleCreateDispatch = async (values: Record<string, string>) => {
 		if (!values.request_id || !values.ambulance_id) {
 			alert("Please fill all required fields");
+			return;
+		}
+
+		// Get the patient_id from the selected request
+		const selectedRequest = requests.find(
+			(r) => r.request_id === Number(values.request_id)
+		);
+
+		if (!selectedRequest) {
+			alert("Selected request not found");
+			return;
+		}
+
+		// Check if there's already an ongoing dispatch for this patient
+		const existingDispatch = data.find(
+			(d) =>
+				d.request?.patient_id === selectedRequest.patient_id &&
+				d.dispatch_status === "dispatched"
+		);
+
+		if (existingDispatch) {
+			alert(
+				"This patient already has an ongoing dispatch. Please wait for the current dispatch to be completed or cancelled."
+			);
 			return;
 		}
 
@@ -93,7 +154,6 @@ export default function DispatchTable() {
 				body: JSON.stringify({
 					request_id: Number(values.request_id),
 					ambulance_id: Number(values.ambulance_id),
-					dispatch_status: "dispatched",
 				}),
 			});
 
@@ -105,6 +165,7 @@ export default function DispatchTable() {
 
 			fetchDispatches();
 			setModalOpen(false);
+			setSelectedRequestId(null);
 		} catch (error) {
 			console.error(error);
 			alert("Network error");
@@ -125,6 +186,9 @@ export default function DispatchTable() {
 				value: r.request_id,
 				label: `Request #${r.request_id} - ${r.patient?.name || "Unknown"}`,
 			})),
+			onChange: (value: string) => {
+				setSelectedRequestId(Number(value));
+			},
 		},
 		{
 			name: "ambulance_id",
@@ -203,6 +267,8 @@ export default function DispatchTable() {
 										<span
 											className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
 												item.dispatch_status === "dispatched"
+													? "bg-yellow-100 text-yellow-800"
+													: item.dispatch_status === "completed"
 													? "bg-green-100 text-green-800"
 													: "bg-gray-100 text-gray-800"
 											}`}
@@ -219,40 +285,46 @@ export default function DispatchTable() {
 											: "Not dispatched yet"}
 									</td>
 									<td className="py-3 px-3">
-										{item.dispatch_status === "dispatched" && (
-											<button
-												onClick={async () => {
-													if (confirm("Cancel this dispatch?")) {
-														try {
-															const res = await fetch("/api/dispatch", {
-																method: "PUT",
-																headers: { "Content-Type": "application/json" },
-																body: JSON.stringify({
-																	dispatch_id: item.dispatch_id,
-																	dispatch_status: "cancelled",
-																}),
-															});
-															if (res.ok) {
-																fetchDispatches();
-																alert("Dispatch cancelled");
-															} else {
-																const error = await res.json();
-																alert(
-																	`Error: ${error.error || "Failed to cancel"}`
-																);
+										<div className="flex items-center gap-2">
+											{item.dispatch_status === "dispatched" && (
+												<button
+													onClick={async () => {
+														if (confirm("Cancel this dispatch?")) {
+															try {
+																const res = await fetch("/api/dispatch", {
+																	method: "PUT",
+																	headers: {
+																		"Content-Type": "application/json",
+																	},
+																	body: JSON.stringify({
+																		dispatch_id: item.dispatch_id,
+																		dispatch_status: "cancelled",
+																	}),
+																});
+																if (res.ok) {
+																	fetchDispatches();
+																	alert("Dispatch cancelled");
+																} else {
+																	const error = await res.json();
+																	alert(
+																		`Error: ${
+																			error.error || "Failed to cancel"
+																		}`
+																	);
+																}
+															} catch (error) {
+																console.error(error);
+																alert("Network error");
 															}
-														} catch (error) {
-															console.error(error);
-															alert("Network error");
 														}
-													}
-												}}
-												className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
-												title="Cancel Dispatch"
-											>
-												Cancel
-											</button>
-										)}
+													}}
+													className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition"
+													title="Cancel Dispatch"
+												>
+													Cancel
+												</button>
+											)}
+										</div>
 									</td>
 								</tr>
 							))
@@ -263,11 +335,19 @@ export default function DispatchTable() {
 
 			<FormModal
 				isOpen={modalOpen}
-				onClose={() => setModalOpen(false)}
+				onClose={() => {
+					setModalOpen(false);
+					setSelectedRequestId(null);
+				}}
 				title="New Dispatch"
 				fields={dispatchFields as any}
 				onSubmit={handleCreateDispatch}
 				submitLabel="Create Dispatch"
+				initialData={
+					selectedRequestId
+						? { request_id: selectedRequestId.toString() }
+						: undefined
+				}
 			/>
 		</div>
 	);

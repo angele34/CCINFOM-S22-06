@@ -28,6 +28,11 @@ export async function GET() {
 						name: true,
 					},
 				},
+				hospital: {
+					select: {
+						city: true,
+					},
+				},
 			},
 			orderBy: { requested_on: "asc" },
 		});

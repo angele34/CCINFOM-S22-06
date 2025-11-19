@@ -21,6 +21,7 @@ type Staff = {
 	staff_status: string;
 	shift_schedule: string;
 	is_deleted: boolean;
+	hospital_id: number;
 };
 
 type Ambulance = {
@@ -29,6 +30,7 @@ type Ambulance = {
 	ambulance_status: string;
 	plate_no: string;
 	is_deleted: boolean;
+	hospital_id: number;
 	hospital?: {
 		hospital_name: string;
 	};
@@ -37,9 +39,15 @@ type Ambulance = {
 export default function PreassignTable() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [availableStaff, setAvailableStaff] = useState<Staff[]>([]);
+	const [allStaff, setAllStaff] = useState<Staff[]>([]);
 	const [availableAmbulances, setAvailableAmbulances] = useState<Ambulance[]>(
 		[]
 	);
+	const [selectedAmbulanceId, setSelectedAmbulanceId] = useState<number | null>(
+		null
+	);
+	const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
+	const [selectedStaffRole, setSelectedStaffRole] = useState<string>("");
 	const [preassigns, setPreassigns] = useState<
 		Array<{
 			preassign_id: number;
@@ -77,6 +85,7 @@ export default function PreassignTable() {
 			const available = staffData.filter(
 				(s) => s.staff_status === "available" && !s.is_deleted
 			);
+			setAllStaff(staffData);
 			setAvailableStaff(available);
 
 			const ambulanceRes = await fetch("/api/ambulance");
@@ -93,6 +102,45 @@ export default function PreassignTable() {
 	const handleCreatePreassign = async (formData: Record<string, string>) => {
 		try {
 			console.log("Creating pre-assignment with data:", formData);
+
+			// Validate that the staff is not already assigned to a DIFFERENT ambulance
+			const staffAlreadyAssigned = preassigns.some(
+				(p) =>
+					p.staff_id === Number(formData.staff_id) &&
+					p.assignment_status === "active" &&
+					p.ambulance_id !== Number(formData.ambulance_id)
+			);
+
+			if (staffAlreadyAssigned) {
+				alert(
+					"This staff member is already assigned to another ambulance. Please select a different staff member."
+				);
+				return;
+			}
+
+			// Check if role is already filled - if yes, confirm replacement
+			const existingRoleAssignment = preassigns.find(
+				(p) =>
+					p.ambulance_id === Number(formData.ambulance_id) &&
+					p.staff_role === formData.staff_role &&
+					p.assignment_status === "active"
+			);
+
+			if (existingRoleAssignment) {
+				const existingStaff = allStaff.find(
+					(s) => s.staff_id === existingRoleAssignment.staff_id
+				);
+				const confirmed = confirm(
+					`This ambulance already has ${
+						existingStaff?.name || "a staff member"
+					} assigned as ${
+						formData.staff_role
+					}. Do you want to replace them with the newly selected staff member?`
+				);
+				if (!confirmed) {
+					return;
+				}
+			}
 
 			const res = await fetch("/api/preassign", {
 				method: "POST",
@@ -114,6 +162,10 @@ export default function PreassignTable() {
 			await fetchAvailableResources();
 			await fetchPreassigns();
 			setIsModalOpen(false);
+			// Reset form state
+			setSelectedAmbulanceId(null);
+			setSelectedStaffId(null);
+			setSelectedStaffRole("");
 			alert("Pre-assignment created successfully!");
 		} catch (error) {
 			console.error("Error creating pre-assignment:", error);
@@ -125,10 +177,36 @@ export default function PreassignTable() {
 		}
 	};
 
-	const formatRole = (role: string) => {
-		if (role === "emt") return "EMT";
-		return role.charAt(0).toUpperCase() + role.slice(1);
-	};
+	// Filter ambulances to only show those that are available
+	const filteredAmbulances = availableAmbulances;
+
+	// Check if selected ambulance has all roles filled
+	const selectedAmbulanceHasAllRoles = selectedAmbulanceId
+		? preassigns.filter(
+				(p) =>
+					p.ambulance_id === selectedAmbulanceId &&
+					p.assignment_status === "active"
+		  ).length >= 3
+		: false;
+
+	// Filter staff based on selected ambulance's hospital
+	const filteredStaff = selectedAmbulanceId
+		? availableStaff.filter((staff) => {
+				const ambulance = filteredAmbulances.find(
+					(a) => a.ambulance_id === selectedAmbulanceId
+				);
+				// Filter by hospital match
+				if (!ambulance || staff.hospital_id !== ambulance.hospital_id) {
+					return false;
+				}
+				// Filter out staff who already have active preassignments
+				const hasActiveAssignment = preassigns.some(
+					(p) =>
+						p.staff_id === staff.staff_id && p.assignment_status === "active"
+				);
+				return !hasActiveAssignment;
+		  })
+		: availableStaff;
 
 	const preassignFields: Array<{
 		name: string;
@@ -136,26 +214,45 @@ export default function PreassignTable() {
 		type: "select";
 		required: boolean;
 		options: { value: string | number; label: string }[];
+		onChange?: (value: string) => void;
+		readOnly?: boolean;
+		emptyPlaceholder?: string;
 	}> = [
 		{
 			name: "ambulance_id",
 			label: "Ambulance",
 			type: "select",
 			required: true,
-			options: availableAmbulances.map((amb) => ({
+			options: filteredAmbulances.map((amb) => ({
 				value: amb.ambulance_id,
 				label: `Ambulance #${amb.ambulance_id} - ${amb.plate_no}`,
 			})),
+			onChange: (value: string) => {
+				setSelectedAmbulanceId(Number(value));
+				setSelectedStaffId(null);
+				setSelectedStaffRole("");
+			},
 		},
 		{
 			name: "staff_id",
 			label: "Staff Member",
 			type: "select",
 			required: true,
-			options: availableStaff.map((staff) => ({
+			options: filteredStaff.map((staff) => ({
 				value: staff.staff_id,
-				label: `${staff.name} - ${formatRole(staff.staff_role)}`,
+				label: staff.name,
 			})),
+			onChange: (value: string) => {
+				const staffId = Number(value);
+				setSelectedStaffId(staffId);
+				const staff = allStaff.find((s) => s.staff_id === staffId);
+				if (staff) {
+					setSelectedStaffRole(staff.staff_role);
+				}
+			},
+			emptyPlaceholder: selectedAmbulanceHasAllRoles
+				? "All roles filled - no available staff"
+				: "Select an ambulance first",
 		},
 		{
 			name: "staff_role",
@@ -167,6 +264,8 @@ export default function PreassignTable() {
 				{ value: "emt", label: "EMT" },
 				{ value: "paramedic", label: "Paramedic" },
 			],
+			readOnly: true,
+			emptyPlaceholder: "Select a staff member first",
 		},
 	];
 	return (
@@ -261,34 +360,71 @@ export default function PreassignTable() {
 									<td className="py-3 px-3">
 										<div className="flex items-center gap-2">
 											{item.assignment_status === "active" && (
-												<button
-													onClick={async () => {
-														if (confirm("Cancel this pre-assignment?")) {
-															try {
-																const res = await fetch("/api/preassign", {
-																	method: "DELETE",
-																	headers: {
-																		"Content-Type": "application/json",
-																	},
-																	body: JSON.stringify({
-																		preassign_id: item.preassign_id,
-																	}),
-																});
-																if (res.ok) {
-																	await fetchPreassigns();
-																	alert("Pre-assignment cancelled");
+												<>
+													<button
+														onClick={async () => {
+															if (
+																confirm(
+																	"Mark this pre-assignment as completed? This will unassign the staff member."
+																)
+															) {
+																try {
+																	const res = await fetch("/api/preassign", {
+																		method: "PUT",
+																		headers: {
+																			"Content-Type": "application/json",
+																		},
+																		body: JSON.stringify({
+																			preassign_id: item.preassign_id,
+																			assignment_status: "completed",
+																		}),
+																	});
+																	if (res.ok) {
+																		await fetchPreassigns();
+																		await fetchAvailableResources();
+																		alert("Pre-assignment completed");
+																	}
+																} catch (error) {
+																	console.error(error);
+																	alert("Failed to complete");
 																}
-															} catch (error) {
-																console.error(error);
-																alert("Failed to cancel");
 															}
-														}
-													}}
-													className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
-													title="Cancel"
-												>
-													✗ Cancel
-												</button>
+														}}
+														className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition"
+														title="Complete"
+													>
+														Complete
+													</button>
+													<button
+														onClick={async () => {
+															if (confirm("Cancel this pre-assignment?")) {
+																try {
+																	const res = await fetch("/api/preassign", {
+																		method: "DELETE",
+																		headers: {
+																			"Content-Type": "application/json",
+																		},
+																		body: JSON.stringify({
+																			preassign_id: item.preassign_id,
+																		}),
+																	});
+																	if (res.ok) {
+																		await fetchPreassigns();
+																		await fetchAvailableResources();
+																		alert("Pre-assignment cancelled");
+																	}
+																} catch (error) {
+																	console.error(error);
+																	alert("Failed to cancel");
+																}
+															}
+														}}
+														className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
+														title="Cancel"
+													>
+														Cancel
+													</button>
+												</>
 											)}
 											{item.assignment_status === "completed" && (
 												<span className="text-gray-500 text-xs">Completed</span>
@@ -307,9 +443,19 @@ export default function PreassignTable() {
 
 			<FormModal
 				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
+				onClose={() => {
+					setIsModalOpen(false);
+					setSelectedAmbulanceId(null);
+					setSelectedStaffId(null);
+					setSelectedStaffRole("");
+				}}
 				title="New Staff Pre-Assignment"
 				fields={preassignFields}
+				initialData={{
+					ambulance_id: selectedAmbulanceId?.toString() ?? "",
+					staff_id: selectedStaffId?.toString() ?? "",
+					staff_role: selectedStaffRole,
+				}}
 				onSubmit={handleCreatePreassign}
 			/>
 		</div>

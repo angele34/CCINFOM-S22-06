@@ -25,8 +25,14 @@ interface Dispatch {
 	};
 	request: {
 		patient_id: number;
+		hospital_id: number;
 		patient: {
 			name: string;
+		};
+		hospital: {
+			hospital_id: number;
+			hospital_name: string;
+			city: string;
 		};
 	};
 }
@@ -49,6 +55,12 @@ export default function TransferTable() {
 	const [dispatches, setDispatches] = useState<Dispatch[]>([]);
 	const [staffList, setStaffList] = useState<Staff[]>([]);
 	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+	const [selectedDispatchId, setSelectedDispatchId] = useState<number | null>(
+		null
+	);
+	const [selectedHospitalId, setSelectedHospitalId] = useState<number | null>(
+		null
+	);
 
 	const fetchTransfers = () => {
 		fetch("/api/transfer")
@@ -88,6 +100,10 @@ export default function TransferTable() {
 			(d) => d.dispatch_id === Number(dispatchId)
 		);
 		if (dispatch) {
+			setSelectedDispatchId(dispatch.dispatch_id);
+			// Auto-select hospital from the request
+			setSelectedHospitalId(dispatch.request.hospital_id);
+
 			try {
 				const res = await fetch(
 					`/api/ambulance_staff?ambulance_id=${dispatch.ambulance_id}`
@@ -128,6 +144,10 @@ export default function TransferTable() {
 
 			fetchTransfers();
 			setModalOpen(false);
+			// Reset form state
+			setSelectedDispatchId(null);
+			setSelectedHospitalId(null);
+			setStaffList([]);
 			alert("Transfer completed successfully!");
 		} catch (error) {
 			console.error(error);
@@ -156,7 +176,12 @@ export default function TransferTable() {
 
 			<FormModal
 				isOpen={modalOpen}
-				onClose={() => setModalOpen(false)}
+				onClose={() => {
+					setModalOpen(false);
+					setSelectedDispatchId(null);
+					setSelectedHospitalId(null);
+					setStaffList([]);
+				}}
 				onSubmit={handleCompleteTransfer}
 				title="Complete Patient Transfer"
 				submitLabel="Complete Transfer"
@@ -193,8 +218,14 @@ export default function TransferTable() {
 							value: h.hospital_id,
 							label: h.hospital_name,
 						})),
+						readOnly: true,
+						emptyPlaceholder: "Select a dispatch first",
 					},
 				]}
+				initialData={{
+					dispatch_id: selectedDispatchId?.toString() ?? "",
+					hospital_id: selectedHospitalId?.toString() ?? "",
+				}}
 			/>
 
 			<div className="overflow-auto flex-1 border-b border-gray-200">

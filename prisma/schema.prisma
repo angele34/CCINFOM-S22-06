@@ -106,10 +106,10 @@ model transfer {
   hospital        hospital                 @relation(fields: [hospital_id], references: [hospital_id], onUpdate: NoAction, map: "fk_transfer_hospital")
   staff           staff                    @relation(fields: [staff_id], references: [staff_id], onUpdate: NoAction, map: "transfer_ibfk_4")
 
+  @@index([staff_id], map: "staff_id")
   @@index([ambulance_id], map: "ambulance_id")
   @@index([hospital_id], map: "hospital_id")
   @@index([patient_id], map: "patient_id")
-  @@index([staff_id], map: "staff_id")
 }
 
 model dispatch {
@@ -117,7 +117,7 @@ model dispatch {
   request_id      Int                      @unique(map: "request_id")
   ambulance_id    Int
   dispatched_on   DateTime                 @default(now()) @db.DateTime(0)
-  dispatch_status dispatch_dispatch_status
+  dispatch_status dispatch_dispatch_status @default(dispatched)
   created_on      DateTime                 @default(now()) @db.DateTime(0)
   request         request                  @relation(fields: [request_id], references: [request_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_1")
   ambulance       ambulance                @relation(fields: [ambulance_id], references: [ambulance_id], onDelete: NoAction, onUpdate: NoAction, map: "dispatch_ibfk_2")
@@ -236,11 +236,6 @@ enum preassign_assignment_status {
   cancelled
 }
 
-enum dispatch_dispatch_status {
-  dispatched
-  cancelled
-}
-
 enum request_request_status {
   pending
   accepted
@@ -255,4 +250,10 @@ enum reference_location_city {
 
 enum transfer_transfer_status {
   transferred
+}
+
+enum dispatch_dispatch_status {
+  completed
+  dispatched
+  cancelled
 }

@@ -165,10 +165,11 @@ export async function POST(req: Request) {
 			});
 
 			// Mark all staff assigned to this ambulance as available
+			// But keep preassignments as "active" so they stay assigned to the ambulance
 			const ambulanceStaff = await tx.preassign.findMany({
 				where: {
 					ambulance_id: ambulance.ambulance_id,
-					assignment_status: "completed",
+					assignment_status: "active",
 				},
 			});
 
@@ -179,10 +180,16 @@ export async function POST(req: Request) {
 				});
 			}
 
-			// Mark the request as cancelled (transfer completed)
+			// Mark the request as accepted (transfer completed)
 			await tx.request.update({
 				where: { request_id: dispatch.request_id },
-				data: { request_status: "cancelled" },
+				data: { request_status: "accepted" },
+			});
+
+			// Mark the dispatch as completed
+			await tx.dispatch.update({
+				where: { dispatch_id: dispatch.dispatch_id },
+				data: { dispatch_status: "completed" },
 			});
 
 			return newTransfer;

@@ -27,6 +27,13 @@ export async function GET() {
 	try {
 		const ambulances = await prisma.ambulance.findMany({
 			where: { is_deleted: false },
+			include: {
+				hospital: {
+					select: {
+						city: true,
+					},
+				},
+			},
 		});
 		return NextResponse.json(ambulances);
 	} catch (error) {

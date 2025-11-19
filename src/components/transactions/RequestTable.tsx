@@ -21,6 +21,7 @@ interface Patient {
 	medical_condition: string;
 	contact_person: string | null;
 	contact_number: string | null;
+	ref_location_id: number;
 }
 
 interface ReferenceLocation {
@@ -43,6 +44,15 @@ export default function RequestTable() {
 	const [patients, setPatients] = useState<Patient[]>([]);
 	const [locations, setLocations] = useState<ReferenceLocation[]>([]);
 	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+	const [selectedPatientId, setSelectedPatientId] = useState<number | null>(
+		null
+	);
+	const [selectedRefLocationId, setSelectedRefLocationId] = useState<
+		number | string
+	>("");
+	const [selectedHospitalId, setSelectedHospitalId] = useState<number | string>(
+		""
+	);
 
 	const fetchRequests = () => {
 		fetch("/api/request")
@@ -77,6 +87,20 @@ export default function RequestTable() {
 			return;
 		}
 
+		// Check if there's already a pending request for this patient
+		const existingRequest = data.find(
+			(r) =>
+				r.patient_id === Number(values.patient_id) &&
+				r.request_status === "pending"
+		);
+
+		if (existingRequest) {
+			alert(
+				"This patient already has a pending request. Please wait for the current request to be completed or cancelled."
+			);
+			return;
+		}
+
 		try {
 			const res = await fetch("/api/request", {
 				method: "POST",
@@ -97,6 +121,10 @@ export default function RequestTable() {
 
 			fetchRequests();
 			setModalOpen(false);
+			// Reset form state
+			setSelectedPatientId(null);
+			setSelectedRefLocationId("");
+			setSelectedHospitalId("");
 		} catch (error) {
 			console.error(error);
 			alert("Network error");
@@ -135,6 +163,18 @@ export default function RequestTable() {
 		return status.charAt(0).toUpperCase() + status.slice(1);
 	};
 
+	// Filter reference locations based on selected patient
+	const filteredLocations = selectedPatientId
+		? locations.filter((loc) => {
+				const patient = patients.find(
+					(p) => p.patient_id === selectedPatientId
+				);
+				return patient
+					? loc.ref_location_id === patient.ref_location_id
+					: false;
+		  })
+		: locations;
+
 	const requestFields = [
 		{
 			name: "patient_id",
@@ -143,21 +183,46 @@ export default function RequestTable() {
 			required: true,
 			options: patients.map((p) => ({
 				value: p.patient_id,
-				label: `${p.name} - ${
-					p.medical_condition.charAt(0).toUpperCase() +
-					p.medical_condition.slice(1)
-				}`,
+				label: p.name,
 			})),
+			onChange: (value: string) => {
+				const patientId = Number(value);
+				setSelectedPatientId(patientId);
+
+				// Find the patient and auto-select their reference location
+				const patient = patients.find((p) => p.patient_id === patientId);
+				if (patient) {
+					setSelectedRefLocationId(patient.ref_location_id);
+
+					// Find the location to get its city
+					const location = locations.find(
+						(loc) => loc.ref_location_id === patient.ref_location_id
+					);
+
+					if (location) {
+						// Find nearest hospital in the same city
+						const nearestHospital = hospitals.find(
+							(h) => h.city === location.city
+						);
+
+						if (nearestHospital) {
+							setSelectedHospitalId(nearestHospital.hospital_id);
+						}
+					}
+				}
+			},
 		},
 		{
 			name: "ref_location_id",
 			label: "Reference Location",
 			type: "select",
 			required: true,
-			options: locations.map((loc) => ({
+			options: filteredLocations.map((loc) => ({
 				value: loc.ref_location_id,
 				label: `${loc.street}, ${loc.city.replace(/_/g, " ")}`,
 			})),
+			readOnly: true,
+			emptyPlaceholder: "Select a patient first",
 		},
 		{
 			name: "hospital_id",
@@ -168,6 +233,8 @@ export default function RequestTable() {
 				value: h.hospital_id,
 				label: h.hospital_name,
 			})),
+			readOnly: true,
+			emptyPlaceholder: "Select a patient first",
 		},
 		{
 			name: "priority_level",
@@ -303,9 +370,19 @@ export default function RequestTable() {
 
 			<FormModal
 				isOpen={modalOpen}
-				onClose={() => setModalOpen(false)}
+				onClose={() => {
+					setModalOpen(false);
+					setSelectedPatientId(null);
+					setSelectedRefLocationId("");
+					setSelectedHospitalId("");
+				}}
 				title="New Ambulance Request"
 				fields={requestFields as any}
+				initialData={{
+					patient_id: selectedPatientId?.toString() ?? "",
+					ref_location_id: String(selectedRefLocationId),
+					hospital_id: String(selectedHospitalId),
+				}}
 				onSubmit={handleCreateRequest}
 				submitLabel="Submit Request"
 			/>
