@@ -85,7 +85,6 @@ export default function PreassignTable() {
 			const res = await fetch("/api/hospital");
 			const data: Hospital[] = await res.json();
 			const filteredHospitals = data.filter((h) => !h.is_deleted);
-			console.log("Fetched hospitals:", filteredHospitals);
 			setHospitals(filteredHospitals);
 		} catch (error) {
 			console.error("Error fetching hospitals:", error);
@@ -127,8 +126,6 @@ export default function PreassignTable() {
 
 	const handleCreatePreassign = async (formData: Record<string, string>) => {
 		try {
-			console.log("Creating pre-assignment with data:", formData);
-
 			// Validate that the staff is not already assigned to a DIFFERENT ambulance
 			const staffAlreadyAssigned = preassigns.some(
 				(p) =>
@@ -174,16 +171,10 @@ export default function PreassignTable() {
 				body: JSON.stringify(formData),
 			});
 
-			console.log("Response status:", res.status);
-
 			if (!res.ok) {
 				const errorData = await res.json();
-				console.error("API Error:", errorData);
 				throw new Error(errorData.error || "Failed to create pre-assignment");
 			}
-
-			const result = await res.json();
-			console.log("Pre-assignment created:", result);
 
 			await fetchAvailableResources();
 			await fetchPreassigns();
@@ -218,24 +209,32 @@ export default function PreassignTable() {
 		  ).length >= 3
 		: false;
 
-	// Filter staff based on selected ambulance's hospital
-	const filteredStaff = selectedAmbulanceId
-		? availableStaff.filter((staff) => {
-				const ambulance = filteredAmbulances.find(
-					(a) => a.ambulance_id === selectedAmbulanceId
-				);
-				// Filter by hospital match
-				if (!ambulance || staff.hospital_id !== ambulance.hospital_id) {
-					return false;
-				}
-				// Filter out staff who already have active preassignments
-				const hasActiveAssignment = preassigns.some(
-					(p) =>
-						p.staff_id === staff.staff_id && p.assignment_status === "active"
-				);
-				return !hasActiveAssignment;
-		  })
-		: availableStaff;
+	// Filter staff based on selected ambulance's hospital and role
+	const filteredStaff =
+		selectedAmbulanceId && selectedStaffRole
+			? availableStaff.filter((staff) => {
+					const ambulance = filteredAmbulances.find(
+						(a) => a.ambulance_id === selectedAmbulanceId
+					);
+
+					// Filter by hospital match and role match
+					if (!ambulance || staff.hospital_id !== ambulance.hospital_id) {
+						return false;
+					}
+
+					// Must match the selected role
+					if (staff.staff_role !== selectedStaffRole) {
+						return false;
+					}
+
+					// Filter out staff who already have active preassignments
+					const hasActiveAssignment = preassigns.some(
+						(p) =>
+							p.staff_id === staff.staff_id && p.assignment_status === "active"
+					);
+					return !hasActiveAssignment;
+			  })
+			: [];
 
 	const preassignFields: Array<{
 		name: string;
@@ -252,13 +251,10 @@ export default function PreassignTable() {
 			label: "Hospital Branch",
 			type: "select",
 			required: true,
-			options: hospitals.map((h) => {
-				console.log("Mapping hospital:", h);
-				return {
-					value: h.hospital_id,
-					label: h.hospital_name,
-				};
-			}),
+			options: hospitals.map((h) => ({
+				value: h.hospital_id,
+				label: h.hospital_name,
+			})),
 			onChange: (value: string) => {
 				setSelectedHospitalId(Number(value));
 				setSelectedAmbulanceId(null);
@@ -309,12 +305,10 @@ export default function PreassignTable() {
 			label: "Staff Member",
 			type: "select",
 			required: true,
-			options: filteredStaff
-				.filter((staff) => staff.staff_role === selectedStaffRole)
-				.map((staff) => ({
-					value: staff.staff_id,
-					label: staff.name,
-				})),
+			options: filteredStaff.map((staff) => ({
+				value: staff.staff_id,
+				label: staff.name,
+			})),
 			onChange: (value: string) => {
 				setSelectedStaffId(Number(value));
 			},
@@ -499,6 +493,7 @@ export default function PreassignTable() {
 			</div>
 
 			<FormModal
+				key={`${selectedHospitalId}-${selectedAmbulanceId}-${selectedStaffRole}-${selectedStaffId}`}
 				isOpen={isModalOpen}
 				onClose={() => {
 					setIsModalOpen(false);
