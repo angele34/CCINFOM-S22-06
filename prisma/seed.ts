@@ -13,6 +13,7 @@ const prisma = new PrismaClient();
 
 async function main() {
 	// Delete in dependency order: children first to avoid FK constraint errors
+	await prisma.transfer.deleteMany({});
 	await prisma.dispatch.deleteMany({});
 	await prisma.preassign.deleteMany({});
 	await prisma.request.deleteMany({});
