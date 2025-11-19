@@ -50,3 +50,47 @@ body {
 .text-ambulance-ontrip {
 	color: #003533;
 }
+/* Print styles for PDF export - Only show header and detailed table */
+@media print {
+	nav,
+	aside,
+	button:not(.no-print-hide) {
+		display: none !important;
+	}
+
+	body {
+		background: white;
+		color: #003533;
+	}
+
+	* {
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
+		color-adjust: exact !important;
+	}
+
+	@page {
+		size: auto;
+		margin: 10mm;
+	}
+
+	/* Hide everything except header and detailed transfer records table */
+	.space-y-4 > *:not(:first-child):not(:nth-last-child(2)) {
+		display: none !important;
+	}
+
+	/* Remove scrollable containers for print */
+	.overflow-hidden,
+	.overflow-y-auto,
+	.overflow-x-auto,
+	.max-h-\[400px\] {
+		overflow: visible !important;
+		max-height: none !important;
+	}
+
+	/* Prevent page breaks inside table rows */
+	table tr {
+		page-break-inside: avoid;
+		break-inside: avoid;
+	}
+}
