@@ -8,9 +8,11 @@ const AmbulanceSchema = z.object({
 	ambulance_status: z.enum(["available", "on_trip"]),
 	plate_no: z
 		.string()
-		.min(1)
-		.max(7)
-		.transform((val) => val.toUpperCase().slice(0, 7)),
+		.length(7, { message: "Plate number must be exactly 7 characters" })
+		.regex(/^[A-Z]{3}[0-9]{4}$/, {
+			message: "Plate must be 3 letters followed by 4 numbers (e.g., ABC1234)",
+		})
+		.transform((val) => val.toUpperCase()),
 });
 
 const AmbulanceUpdateSchema = AmbulanceSchema.extend({
@@ -59,6 +61,20 @@ export async function POST(req: Request) {
 			);
 		}
 
+		// check for duplicate plate number
+		const existingPlate = await prisma.ambulance.findFirst({
+			where: {
+				plate_no: validated.plate_no,
+				is_deleted: false,
+			},
+		});
+		if (existingPlate) {
+			return NextResponse.json(
+				{ error: `Plate number ${validated.plate_no} is already in use` },
+				{ status: 400 }
+			);
+		}
+
 		const newAmbulance = await prisma.ambulance.create({
 			data: validated,
 		});
@@ -82,6 +98,18 @@ export async function PUT(req: Request) {
 		const validated = AmbulanceUpdateSchema.parse(body);
 		const { ambulance_id, ...data } = validated;
 
+		// check if ambulance exists
+		const existingAmbulance = await prisma.ambulance.findUnique({
+			where: { ambulance_id },
+		});
+
+		if (!existingAmbulance) {
+			return NextResponse.json(
+				{ error: "Ambulance not found" },
+				{ status: 404 }
+			);
+		}
+
 		// verify hospital exists if provided
 		const hospitalId = (data as unknown as { hospital_id?: number })
 			.hospital_id;
@@ -92,6 +120,63 @@ export async function PUT(req: Request) {
 			if (!hospital) {
 				return NextResponse.json(
 					{ error: "Hospital not found" },
+					{ status: 400 }
+				);
+			}
+
+			// prevent changing hospital if ambulance has active assignments or dispatches
+			if (hospitalId !== existingAmbulance.hospital_id) {
+				const hasActiveAssignments = await prisma.preassign.findFirst({
+					where: {
+						ambulance_id: ambulance_id,
+						assignment_status: "active",
+					},
+				});
+
+				if (hasActiveAssignments) {
+					return NextResponse.json(
+						{
+							error:
+								"Cannot change hospital while ambulance has active staff assignments",
+						},
+						{ status: 400 }
+					);
+				}
+
+				const hasActiveDispatches = await prisma.dispatch.findFirst({
+					where: {
+						ambulance_id: ambulance_id,
+						dispatch_status: "dispatched",
+					},
+				});
+
+				if (hasActiveDispatches) {
+					return NextResponse.json(
+						{
+							error:
+								"Cannot change hospital while ambulance has active dispatches",
+						},
+						{ status: 400 }
+					);
+				}
+			}
+		}
+
+		// check for duplicate plate number (excluding current ambulance)
+		const plateNo = (data as unknown as { plate_no?: string }).plate_no;
+		if (plateNo) {
+			const existingPlate = await prisma.ambulance.findFirst({
+				where: {
+					plate_no: plateNo,
+					is_deleted: false,
+					NOT: {
+						ambulance_id: ambulance_id,
+					},
+				},
+			});
+			if (existingPlate) {
+				return NextResponse.json(
+					{ error: `Plate number ${plateNo} is already in use` },
 					{ status: 400 }
 				);
 			}
@@ -119,6 +204,54 @@ export async function DELETE(req: Request) {
 	try {
 		const body = await req.json();
 		const { ambulance_id } = AmbulanceDeleteSchema.parse(body);
+
+		// check if ambulance exists
+		const ambulance = await prisma.ambulance.findUnique({
+			where: { ambulance_id },
+		});
+
+		if (!ambulance) {
+			return NextResponse.json(
+				{ error: "Ambulance not found" },
+				{ status: 404 }
+			);
+		}
+
+		// check if ambulance has active preassignments
+		const activePreassignments = await prisma.preassign.findFirst({
+			where: {
+				ambulance_id: ambulance_id,
+				assignment_status: "active",
+			},
+		});
+
+		if (activePreassignments) {
+			return NextResponse.json(
+				{
+					error:
+						"Cannot delete ambulance with active staff assignments. Please cancel or complete assignments first.",
+				},
+				{ status: 400 }
+			);
+		}
+
+		// check if ambulance has active dispatches
+		const activeDispatches = await prisma.dispatch.findFirst({
+			where: {
+				ambulance_id: ambulance_id,
+				dispatch_status: "dispatched",
+			},
+		});
+
+		if (activeDispatches) {
+			return NextResponse.json(
+				{
+					error:
+						"Cannot delete ambulance with active dispatches. Please complete or cancel dispatches first.",
+				},
+				{ status: 400 }
+			);
+		}
 
 		const deletedAmbulance = await prisma.ambulance.update({
 			where: { ambulance_id },

@@ -369,6 +369,7 @@ export default function RequestTable() {
 			</div>
 
 			<FormModal
+				key={`${selectedPatientId}-${selectedRefLocationId}-${selectedHospitalId}`}
 				isOpen={modalOpen}
 				onClose={() => {
 					setModalOpen(false);
