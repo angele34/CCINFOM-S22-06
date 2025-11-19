@@ -58,7 +58,22 @@ export default function RequestTable() {
 		fetch("/api/request")
 			.then((res) => res.json())
 			.then((json) => {
-				setData(Array.isArray(json) ? json : []);
+				const requests = Array.isArray(json) ? json : [];
+				// Sort by status: pending first, then accepted, then cancelled
+				const sorted = requests.sort((a, b) => {
+					const statusOrder = { pending: 1, accepted: 2, cancelled: 3 };
+					const statusA =
+						statusOrder[a.request_status as keyof typeof statusOrder] || 4;
+					const statusB =
+						statusOrder[b.request_status as keyof typeof statusOrder] || 4;
+
+					if (statusA !== statusB) {
+						return statusA - statusB;
+					}
+					// If same status, sort by newest first (higher ID)
+					return b.request_id - a.request_id;
+				});
+				setData(sorted);
 			})
 			.catch((err) => {
 				console.error("Failed to fetch requests:", err);
