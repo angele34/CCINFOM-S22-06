@@ -36,28 +36,27 @@ export default function ReportsPage() {
 			label: "Patient Transfer Summary",
 			icon: Users,
 			description:
-				"Number of transfers per patient with priority levels for a given month and year",
+				"Number of transfers per patient with priority levels for a given date",
 		},
 		{
 			id: "staff-performance" as ReportType,
 			label: "Staff Performance",
 			icon: UserCog,
 			description:
-				"Number of transfers handled and average per shift for a given month and year",
+				"Number of transfers handled and average per shift for a given date",
 		},
 		{
 			id: "ambulance-utilization" as ReportType,
 			label: "Ambulance Utilization",
 			icon: Ambulance,
-			description:
-				"Total number of transfers per ambulance for a given month and year",
+			description: "Total number of transfers per ambulance for a given date",
 		},
 		{
 			id: "hospital-admissions" as ReportType,
 			label: "Hospital Admissions",
 			icon: Building2,
 			description:
-				"Total patients received per hospital branch for a given month and year",
+				"Total patients received per hospital branch for a given date",
 			disabled: true,
 		},
 	];
@@ -199,7 +198,7 @@ export default function ReportsPage() {
 										? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
 										: activeReport === report.id
 										? "border-teal-600 bg-teal-50"
-										: "border-gray-200 hover:border-teal-300"
+										: "border-gray-200 hover:border-teal-600"
 								}`}
 							>
 								<report.icon
