@@ -109,8 +109,8 @@ export default function FormModal({
 												required={field.required}
 												value={formValues[field.name] ?? ""}
 												onChange={(e) => {
-													handleFieldChange(field.name, e.target.value);
-													field.onChange?.(e.target.value);
+													const target = e.target as HTMLInputElement;
+													handleFieldChange(field.name, target.value); 
 												}}
 												className={`w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none bg-white ${
 													formValues[field.name]
@@ -212,9 +212,7 @@ export default function FormModal({
 												return;
 											}
 										}}
-										onChange={(e) => {
-											(e.target as HTMLInputElement).setCustomValidity("");
-										}}
+								
 									/>
 								)}
 							</div>
