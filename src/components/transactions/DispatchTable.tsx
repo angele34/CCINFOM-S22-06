@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import FormModal from "../ui/FormModal";
 
 interface Dispatch {
@@ -10,6 +10,9 @@ interface Dispatch {
 	dispatch_status: string;
 	created_on: string;
 	dispatched_on: string | null;
+	request?: {
+		patient_id: number;
+	};
 }
 
 interface Request {
@@ -40,11 +43,30 @@ export default function DispatchTable() {
 	const [loading, setLoading] = useState(true);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [requests, setRequests] = useState<Request[]>([]);
-	const [ambulances, setAmbulances] = useState<Ambulance[]>([]);
 	const [allAmbulances, setAllAmbulances] = useState<Ambulance[]>([]);
 	const [selectedRequestId, setSelectedRequestId] = useState<number | null>(
 		null
 	);
+
+	// Filter ambulances based on selected request's hospital city
+	const ambulances = useMemo(() => {
+		if (!selectedRequestId) {
+			return allAmbulances;
+		}
+
+		const selectedRequest = requests.find(
+			(r) => r.request_id === selectedRequestId
+		);
+
+		if (!selectedRequest || !selectedRequest.hospital?.city) {
+			return allAmbulances;
+		}
+
+		// Filter ambulances from the same city as the request's destination hospital
+		return allAmbulances.filter(
+			(a) => a.hospital?.city === selectedRequest.hospital?.city
+		);
+	}, [selectedRequestId, allAmbulances, requests]);
 
 	const fetchDispatches = () => {
 		fetch("/api/dispatch")
@@ -106,33 +128,8 @@ export default function DispatchTable() {
 				  )
 				: [];
 			setAllAmbulances(availableAmbulancesWithStaff);
-			setAmbulances(availableAmbulancesWithStaff);
 		});
 	}, []);
-
-	// Filter ambulances based on selected request's hospital city
-	useEffect(() => {
-		if (!selectedRequestId) {
-			setAmbulances(allAmbulances);
-			return;
-		}
-
-		const selectedRequest = requests.find(
-			(r) => r.request_id === selectedRequestId
-		);
-
-		if (!selectedRequest || !selectedRequest.hospital?.city) {
-			setAmbulances(allAmbulances);
-			return;
-		}
-
-		// Filter ambulances from the same city as the request's destination hospital
-		const filteredByCity = allAmbulances.filter(
-			(a) => a.hospital?.city === selectedRequest.hospital?.city
-		);
-
-		setAmbulances(filteredByCity);
-	}, [selectedRequestId, allAmbulances, requests]);
 
 	const handleCreateDispatch = async (values: Record<string, string>) => {
 		if (!values.request_id || !values.ambulance_id) {
@@ -197,7 +194,7 @@ export default function DispatchTable() {
 		{
 			name: "request_id",
 			label: "Request",
-			type: "select",
+			type: "select" as const,
 			required: true,
 			options: requests.map((r) => ({
 				value: r.request_id,
@@ -210,7 +207,7 @@ export default function DispatchTable() {
 		{
 			name: "ambulance_id",
 			label: "Ambulance",
-			type: "select",
+			type: "select" as const,
 			required: true,
 			options: ambulances.map((a) => ({
 				value: a.ambulance_id,
@@ -357,7 +354,7 @@ export default function DispatchTable() {
 					setSelectedRequestId(null);
 				}}
 				title="New Dispatch"
-				fields={dispatchFields as any}
+				fields={dispatchFields}
 				onSubmit={handleCreateDispatch}
 				submitLabel="Create Dispatch"
 				initialData={

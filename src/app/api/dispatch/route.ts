@@ -84,9 +84,31 @@ export async function POST(req: Request) {
 			);
 		}
 
+		// Check for existing dispatch for this request
+		const existingDispatch = await prisma.dispatch.findFirst({
+			where: {
+				request_id: validated.request_id,
+				dispatch_status: { not: "cancelled" },
+			},
+		});
+
+		if (existingDispatch) {
+			return NextResponse.json(
+				{
+					error: "A dispatch already exists for this request",
+				},
+				{ status: 400 }
+			);
+		}
+
 		// 2. Verify ambulance exists and is available
 		const ambulance = await prisma.ambulance.findUnique({
 			where: { ambulance_id: validated.ambulance_id },
+			include: {
+				hospital: {
+					select: { city: true },
+				},
+			},
 		});
 
 		if (!ambulance) {
@@ -100,6 +122,16 @@ export async function POST(req: Request) {
 			return NextResponse.json(
 				{
 					error: `Ambulance is not available (current status: ${ambulance.ambulance_status})`,
+				},
+				{ status: 400 }
+			);
+		}
+
+		// Verify ambulance is from the same city as destination hospital
+		if (ambulance.hospital?.city !== request.hospital?.city) {
+			return NextResponse.json(
+				{
+					error: `Ambulance must be from the same city as destination hospital. Ambulance is from ${ambulance.hospital?.city}, hospital is in ${request.hospital?.city}`,
 				},
 				{ status: 400 }
 			);
@@ -230,6 +262,58 @@ export async function PUT(req: Request) {
 				{ error: "Can only cancel dispatch when status is dispatched" },
 				{ status: 400 }
 			);
+		}
+
+		// If cancelling, rollback all status changes in a transaction
+		if (data.dispatch_status === "cancelled") {
+			const result = await prisma.$transaction(async (tx) => {
+				// Update dispatch status
+				const updatedDispatch = await tx.dispatch.update({
+					where: { dispatch_id },
+					data: { dispatch_status: "cancelled" },
+					include: {
+						request: true,
+					},
+				});
+
+				// Rollback request status to pending
+				await tx.request.update({
+					where: { request_id: updatedDispatch.request_id },
+					data: { request_status: "pending" },
+				});
+
+				// Rollback patient status to waiting
+				await tx.patient.update({
+					where: { patient_id: updatedDispatch.request.patient_id },
+					data: { transfer_status: "waiting" },
+				});
+
+				// Rollback ambulance status to available
+				await tx.ambulance.update({
+					where: { ambulance_id: updatedDispatch.ambulance_id },
+					data: { ambulance_status: "available" },
+				});
+
+				// Rollback staff status to available
+				const activePreassigns = await tx.preassign.findMany({
+					where: {
+						ambulance_id: updatedDispatch.ambulance_id,
+						assignment_status: "active",
+					},
+				});
+
+				const staffIds = activePreassigns.map((p) => p.staff_id);
+				if (staffIds.length > 0) {
+					await tx.staff.updateMany({
+						where: { staff_id: { in: staffIds } },
+						data: { staff_status: "available" },
+					});
+				}
+
+				return updatedDispatch;
+			});
+
+			return NextResponse.json(result);
 		}
 
 		// Normal update
