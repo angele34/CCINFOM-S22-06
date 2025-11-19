@@ -49,17 +49,13 @@ export default function Sidebar({ className = "", sidebarOpen }: SidebarProps) {
 			} bg-gradient-to-b from-teal-700 to-teal-900 text-white transition-all duration-300 overflow-hidden flex flex-col ${className}`}
 		>
 			{/* Logo Section */}
-			<div className="p-6 border-b border-white/10">
-				<div className="flex items-center gap-3">
-					<div className="bg-white/20 p-2 rounded-lg">
-						<Ambulance className="w-6 h-6" />
-					</div>
-					<div className="overflow-hidden">
-						<h2 className="text-white whitespace-nowrap">PrimeCare</h2>
-						<p className="text-xs text-teal-100 whitespace-nowrap">
-							Hospital Management
-						</p>
-					</div>
+			<div className="p-5 border-b border-white/10">
+				<div className="flex items-center justify-center">
+					<img
+						src="/logos/side_logo.svg"
+						alt="PrimeCare General Hospital"
+						className="w-full h-auto max-w-[800px]"
+					/>
 				</div>
 			</div>
 

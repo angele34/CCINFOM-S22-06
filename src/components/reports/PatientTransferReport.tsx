@@ -265,7 +265,7 @@ export default function PatientTransferReport({
 				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-xs text-gray-600">Avg Transfers/Patient</p>
+							<p className="text-xs text-gray-600">Avg Transfers per Patient</p>
 							<h2 className="text-2xl font-bold text-ambulance-teal-750 mt-0.5">
 								{data.summary.avg_transfers_per_patient}
 							</h2>
@@ -354,7 +354,7 @@ export default function PatientTransferReport({
 					</h3>
 					<div className="border rounded-lg overflow-hidden">
 						<table className="w-full text-sm">
-							<thead className="bg-teal-700">
+							<thead className="bg-teal-700 shadow-md">
 								<tr>
 									<th className="px-3 py-2 text-left font-semibold text-white text-sm">
 										Patient Name
@@ -428,7 +428,7 @@ export default function PatientTransferReport({
 				</p>
 				<div className="border rounded-lg overflow-hidden max-h-[400px] overflow-y-auto">
 					<table className="w-full text-sm">
-						<thead className="sticky top-0 bg-teal-700 z-10">
+						<thead className="sticky top-0 bg-teal-700 z-10 shadow-md">
 							<tr>
 								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
 									Transfer ID
@@ -454,8 +454,15 @@ export default function PatientTransferReport({
 							</tr>
 						</thead>
 						<tbody>
-							{data.patient_transfers.flatMap((patient) =>
-								patient.transfers.map((transfer) => (
+							{data.patient_transfers
+								.flatMap((patient) =>
+									patient.transfers.map((transfer) => ({
+										patient_name: patient.patient_name,
+										...transfer,
+									}))
+								)
+								.sort((a, b) => a.transfer_id - b.transfer_id)
+								.map((transfer) => (
 									<tr
 										key={transfer.transfer_id}
 										className="border-b border-gray-100 hover:bg-gray-50"
@@ -464,7 +471,7 @@ export default function PatientTransferReport({
 											#{transfer.transfer_id.toString().padStart(4, "0")}
 										</td>
 										<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
-											{patient.patient_name}
+											{transfer.patient_name}
 										</td>
 										<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
 											{formatDate(transfer.transferred_on)}
@@ -492,8 +499,7 @@ export default function PatientTransferReport({
 											{transfer.staff_name}
 										</td>
 									</tr>
-								))
-							)}
+								))}
 							{data.patient_transfers.length === 0 && (
 								<tr>
 									<td

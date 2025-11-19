@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import AppLayout from "../../components/ui/AppLayout";
-import { PatientTransferReport } from "../../components/reports";
+import {
+	PatientTransferReport,
+	StaffPerformanceReport,
+	AmbulanceUtilizationReport,
+} from "../../components/reports";
 import { Users, UserCog, Ambulance, Building2, FileText } from "lucide-react";
 
 type ReportType =
@@ -32,30 +36,27 @@ export default function ReportsPage() {
 			label: "Patient Transfer Summary",
 			icon: Users,
 			description:
-				"Number of transfers per patient with priority levels for a given month and year",
+				"Number of transfers per patient with priority levels for a given date",
 		},
 		{
 			id: "staff-performance" as ReportType,
 			label: "Staff Performance",
 			icon: UserCog,
 			description:
-				"Number of transfers handled and average per shift for a given month and year",
-			disabled: true,
+				"Number of transfers handled and average per shift for a given date",
 		},
 		{
 			id: "ambulance-utilization" as ReportType,
 			label: "Ambulance Utilization",
 			icon: Ambulance,
-			description:
-				"Total number of transfers per ambulance for a given month and year",
-			disabled: true,
+			description: "Total number of transfers per ambulance for a given date",
 		},
 		{
 			id: "hospital-admissions" as ReportType,
 			label: "Hospital Admissions",
 			icon: Building2,
 			description:
-				"Total patients received per hospital branch for a given month and year",
+				"Total patients received per hospital branch for a given date",
 			disabled: true,
 		},
 	];
@@ -137,27 +138,19 @@ export default function ReportsPage() {
 				);
 			case "staff-performance":
 				return (
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
-						<UserCog className="w-16 h-16 text-gray-400 mb-4" />
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							Coming Soon
-						</h3>
-						<p className="text-gray-600 text-center max-w-md">
-							Staff Performance Report is under development.
-						</p>
-					</div>
+					<StaffPerformanceReport
+						startDate={startDate}
+						endDate={endDate}
+						onExportPDF={handleExportPDF}
+					/>
 				);
 			case "ambulance-utilization":
 				return (
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
-						<Ambulance className="w-16 h-16 text-gray-400 mb-4" />
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							Coming Soon
-						</h3>
-						<p className="text-gray-600 text-center max-w-md">
-							Ambulance Utilization Report is under development.
-						</p>
-					</div>
+					<AmbulanceUtilizationReport
+						startDate={startDate}
+						endDate={endDate}
+						onExportPDF={handleExportPDF}
+					/>
 				);
 			case "hospital-admissions":
 				return (
@@ -205,7 +198,7 @@ export default function ReportsPage() {
 										? "border-gray-200 bg-gray-50 opacity-50 cursor-not-allowed"
 										: activeReport === report.id
 										? "border-teal-600 bg-teal-50"
-										: "border-gray-200 hover:border-teal-300"
+										: "border-gray-200 hover:border-teal-600"
 								}`}
 							>
 								<report.icon

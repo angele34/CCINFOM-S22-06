@@ -117,13 +117,13 @@ export default function LoginPage() {
 
 					{/* RIGHT SIDE */}
 					<div className="w-full md:w-1/2 bg-white p-12 flex flex-col justify-center items-center relative overflow-hidden">
-						<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-600"></div>
-						<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500"></div>
-						<div className="absolute bottom-20 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
+						<div className="absolute top-8 right-8 w-16 h-16 rounded-full bg-gradient-to-br from-teal-500 to-cyan-700"></div>
+						<div className="absolute top-20 right-20 w-8 h-8 rounded-full bg-gradient-to-br from-teal-700 to-teal-500"></div>
+						<div className="absolute bottom-15 left-8 w-12 h-12 rounded-full bg-gradient-to-br from-cyan-600 to-teal-700"></div>
 						<div className="absolute top-32 left-16 w-6 h-6 rounded-full bg-teal-600"></div>
-						<div className="absolute bottom-25 right-12 w-10 h-10 rounded-full bg-cyan-800"></div>
+						<div className="absolute bottom-35 right-9 w-10 h-10 rounded-full bg-cyan-700"></div>
 						<div className="absolute top-1/4 right-0 w-32 h-32 border-8 border-teal-500 rounded-full translate-x-1/2"></div>
-						<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-cyan-400 rounded-full -translate-x-1/2"></div>
+						<div className="absolute bottom-1/4 left-0 w-40 h-40 border-8 border-teal-600 rounded-full -translate-x-1/2"></div>
 
 						<div className="relative z-10 text-center">
 							<div className="relative inline-block">
@@ -134,7 +134,7 @@ export default function LoginPage() {
 									height={50}
 									priority
 								/>
-								<p className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/4 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
+								<p className="absolute left-1/2 bottom-4 transform -translate-x-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
 									Precision in care. Speed when it matters
 								</p>
 							</div>
