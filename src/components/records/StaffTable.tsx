@@ -287,8 +287,24 @@ export default function StaffTable({
 									<td className="py-2 px-3 text-gray-800">
 										{member.license_no}
 									</td>
-									<td className="py-2 px-3 text-gray-800">
-										{member.shift_schedule}
+									<td className="py-2 px-3">
+										{member.shift_schedule? (
+											member.shift_schedule === "night" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-staff-shift-status-night text-xs font-medium">
+													Night
+												</span>
+											) : member.shift_schedule === "morning" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-staff-shift-status-morning text-xs font-medium">
+													Morning
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{member.shift_schedule}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
 									</td>
 									<td className="py-2 px-3 text-gray-800">
 										{member.staff_status}

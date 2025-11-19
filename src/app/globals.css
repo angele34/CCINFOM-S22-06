@@ -62,6 +62,14 @@ body {
 .bg-priority-level-routine {
 	background-color: #149c63;
 }
+
+.bg-staff-shift-status-night {
+	background-color: #0a574f;
+}
+
+.bg-staff-shift-status-morning {
+	background-color: #d1ac17;
+}
 /* Print styles for PDF export - Only show header and detailed table */
 @media print {
 	nav,
