@@ -52,15 +52,15 @@ body {
 }
 
 .bg-priority-level-critical {
-	background-color: #c24e05;
+	background-color: #22847a;
 }
 
 .bg-priority-level-moderate {
-	background-color: #e2bd2b;
+	background-color: #284f7e;
 }
 
 .bg-priority-level-routine {
-	background-color: #149c63;
+	background-color: #149c48;
 }
 
 .bg-staff-shift-status-night {
@@ -68,7 +68,7 @@ body {
 }
 
 .bg-staff-shift-status-morning {
-	background-color: #d1ac17;
+	background-color: #d6a80e;
 }
 
 .bg-city-qc {
