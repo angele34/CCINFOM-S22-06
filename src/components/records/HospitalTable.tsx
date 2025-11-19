@@ -218,7 +218,28 @@ export default function HospitalTable({
 										{hospital.hospital_name}
 									</td>
 									<td className="py-2 px-3 text-gray-800">
-										{hospital.city.replace(/_/g, " ")}
+										{hospital.city.replace(/_/g, " ") ? (
+											hospital.city === "Quezon_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-qc text-xs font-medium">
+													Quezon City
+												</span>
+											) :
+											hospital.city === "Manila_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mnl text-xs font-medium">
+													Manila City
+												</span>
+											) : hospital.city === "Muntinlupa_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mtl text-xs font-medium">
+													Muntinlupa City
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{hospital.city}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
 									</td>
 									<td className="py-2 px-3 text-gray-800">{hospital.street}</td>
 									<td className="py-2 px-3 text-gray-800">

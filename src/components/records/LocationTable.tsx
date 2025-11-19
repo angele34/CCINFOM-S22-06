@@ -237,7 +237,30 @@ export default function LocationTable({
 									<td className="py-4 px-4 text-gray-800 text-center">
 										{loc.hospital_id ?? "N/A"}
 									</td>
-									<td className="py-4 px-4 text-gray-800">{loc.city}</td>
+									<td className="py-4 px-4 text-gray-800">
+										{loc.city ? (
+											loc.city === "Quezon_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-qc text-xs font-medium">
+													Quezon City
+												</span>
+											) :
+											loc.city === "Manila_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mnl text-xs font-medium">
+													Manila City
+												</span>
+											) : loc.city === "Muntinlupa_City" ? (
+												<span className="inline-block px-3 py-1 rounded-full text-white bg-city-mtl text-xs font-medium">
+													Muntinlupa City
+												</span>
+											) : (
+												<span className="text-gray-600">
+													{loc.city}
+												</span>
+											)
+										) : (
+											<span className="text-gray-600">N/A</span>
+										)}
+									</td>
 									<td className="py-4 px-4 text-gray-800">{loc.street}</td>
 									<td className="py-4 px-4 text-gray-800">
 										{new Date(loc.created_at).toLocaleString()}

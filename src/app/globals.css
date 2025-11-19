@@ -70,6 +70,19 @@ body {
 .bg-staff-shift-status-morning {
 	background-color: #d1ac17;
 }
+
+.bg-city-qc {
+	background-color: #00897b;
+}
+
+.bg-city-mnl {
+	background-color: #9e364b;
+}
+
+.bg-city-mtl {
+	background-color: #19298c;
+}
+
 /* Print styles for PDF export - Only show header and detailed table */
 @media print {
 	nav,
