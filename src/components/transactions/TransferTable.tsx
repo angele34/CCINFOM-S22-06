@@ -175,6 +175,7 @@ export default function TransferTable() {
 			</div>
 
 			<FormModal
+				key={`${selectedDispatchId}-${selectedHospitalId}`}
 				isOpen={modalOpen}
 				onClose={() => {
 					setModalOpen(false);
@@ -208,6 +209,7 @@ export default function TransferTable() {
 							value: s.staff_id,
 							label: s.name,
 						})),
+						emptyPlaceholder: "Select a dispatch first",
 					},
 					{
 						name: "hospital_id",
