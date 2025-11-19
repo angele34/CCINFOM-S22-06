@@ -90,6 +90,8 @@ CREATE TABLE `patient` (
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Transactions
+
 CREATE TABLE `preassign` (
 	`preassign_id` INT NOT NULL AUTO_INCREMENT,
     `staff_id` INT NOT NULL,
@@ -125,7 +127,7 @@ CREATE TABLE `dispatch` (
 	`request_id` INT NOT NULL,
 	`ambulance_id` INT NOT NULL,
     `dispatched_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `dispatch_status` ENUM('dispatched', 'cancelled') NOT NULL,
+    `dispatch_status` ENUM('pending', 'dispatched', 'cancelled') NOT NULL,
     `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`dispatch_id`),
     FOREIGN KEY (`request_id`) REFERENCES `request`(`request_id`),
