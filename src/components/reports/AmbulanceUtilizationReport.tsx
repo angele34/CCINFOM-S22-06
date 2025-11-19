@@ -314,7 +314,7 @@ export function AmbulanceUtilizationReport({
 							<Bar
 								dataKey="routine"
 								stackId="a"
-								fill="#00897b"
+								fill="#2ca37f"
 								stroke="none"
 								name="Routine"
 								radius={[0, 0, 0, 0]}
@@ -322,7 +322,7 @@ export function AmbulanceUtilizationReport({
 							<Bar
 								dataKey="moderate"
 								stackId="a"
-								fill="#d4a80e"
+								fill="#00897b"
 								stroke="none"
 								name="Moderate"
 								radius={[0, 0, 0, 0]}
@@ -330,7 +330,7 @@ export function AmbulanceUtilizationReport({
 							<Bar
 								dataKey="critical"
 								stackId="a"
-								fill="#9e364b"
+								fill="#0a574f"
 								stroke="none"
 								name="Critical"
 								radius={[4, 4, 0, 0]}
