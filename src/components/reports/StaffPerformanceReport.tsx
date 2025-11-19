@@ -336,7 +336,7 @@ export function StaffPerformanceReport({
 							<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
 								Transfers by Shift
 							</h3>
-							<ResponsiveContainer width="100%" height={240}>
+							<ResponsiveContainer width="100%" height={280}>
 								<PieChart>
 									<Pie
 										data={shiftData}
@@ -363,7 +363,7 @@ export function StaffPerformanceReport({
 											borderRadius: "8px",
 										}}
 									/>
-									<Legend iconMargin={8} />
+									<Legend />
 								</PieChart>
 							</ResponsiveContainer>
 						</div>{" "}
@@ -399,7 +399,7 @@ export function StaffPerformanceReport({
 											borderRadius: "8px",
 										}}
 									/>
-									<Legend iconMargin={8} />
+									<Legend verticalAlign="bottom" height={36} />
 								</PieChart>
 							</ResponsiveContainer>
 						</div>
@@ -407,7 +407,7 @@ export function StaffPerformanceReport({
 				</div>{" "}
 				{/* Right Column: Top Performers */}
 				<div className="lg:col-span-1">
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 h-full flex flex-col">
+					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3 h-full flex flex-col">
 						<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
 							Top Performers by Transfer Count
 						</h3>
@@ -418,7 +418,7 @@ export function StaffPerformanceReport({
 								.map((staff, index) => (
 									<div
 										key={staff.staff_id}
-										className="flex items-center justify-between p-[7px] bg-gray-50 border border-gray-200 rounded-lg"
+										className="flex items-center justify-between p-[9px] bg-gray-50 border border-gray-200 rounded-lg"
 									>
 										<div className="flex items-center gap-2">
 											<div
@@ -469,6 +469,9 @@ export function StaffPerformanceReport({
 						<thead className="sticky top-0 bg-teal-700 z-10 shadow-md">
 							<tr>
 								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
+									Staff Number
+								</th>
+								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
 									Staff Name
 								</th>
 								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
@@ -501,55 +504,60 @@ export function StaffPerformanceReport({
 							{data.staff_performance.length === 0 ? (
 								<tr>
 									<td
-										colSpan={9}
+										colSpan={10}
 										className="px-3 py-8 text-center text-gray-500 text-sm"
 									>
 										No detailed staff performance records available
 									</td>
 								</tr>
 							) : (
-								data.staff_performance.map((staff) => (
-									<tr
-										key={staff.staff_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
-											{staff.staff_name}
-										</td>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
-											{staff.staff_role === "emt"
-												? "EMT"
-												: staff.staff_role.charAt(0).toUpperCase() +
-												  staff.staff_role.slice(1)}
-										</td>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
-											{staff.hospital_name}
-										</td>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm capitalize">
-											{staff.shift_schedule}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{staff.preassignments}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm border-l-2 border-gray-200">
-											{staff.routine}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{staff.moderate}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{staff.critical}
-										</td>
-										<td className="px-3 py-2 text-center">
-											<span
-												className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-												style={{ backgroundColor: "#00897b" }}
-											>
-												{staff.total_transfers}
-											</span>
-										</td>
-									</tr>
-								))
+								data.staff_performance
+									.sort((a, b) => a.staff_id - b.staff_id)
+									.map((staff) => (
+										<tr
+											key={staff.staff_id}
+											className="border-b border-gray-100 hover:bg-gray-50"
+										>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
+												Staff #{staff.staff_id}
+											</td>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
+												{staff.staff_name}
+											</td>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
+												{staff.staff_role === "emt"
+													? "EMT"
+													: staff.staff_role.charAt(0).toUpperCase() +
+													  staff.staff_role.slice(1)}
+											</td>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
+												{staff.hospital_name}
+											</td>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm capitalize">
+												{staff.shift_schedule}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{staff.preassignments}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm border-l-2 border-gray-200">
+												{staff.routine}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{staff.moderate}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{staff.critical}
+											</td>
+											<td className="px-3 py-2 text-center">
+												<span
+													className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
+													style={{ backgroundColor: "#00897b" }}
+												>
+													{staff.total_transfers}
+												</span>
+											</td>
+										</tr>
+									))
 							)}
 						</tbody>
 					</table>

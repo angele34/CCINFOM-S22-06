@@ -129,7 +129,7 @@ export function AmbulanceUtilizationReport({
 		.filter((amb) => amb.plate_number && amb.plate_number.trim() !== "")
 		.sort((a, b) => b.total_transfers - a.total_transfers)
 		.map((amb) => ({
-			ambulance: amb.plate_number,
+			ambulance: `Ambulance #${amb.ambulance_id}`,
 			routine: amb.routine,
 			moderate: amb.moderate,
 			critical: amb.critical,
@@ -340,77 +340,6 @@ export function AmbulanceUtilizationReport({
 				</div>
 			)}
 
-			{/* Ambulance Utilization Data Table */}
-			<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 print:hidden">
-				<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
-					Ambulance Utilization Data
-				</h3>
-				<div className="border rounded-lg overflow-hidden">
-					<table className="w-full text-sm">
-						<thead className="bg-teal-700 shadow-md">
-							<tr>
-								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
-									Ambulance Number
-								</th>
-								<th className="px-3 py-2 text-left font-semibold text-white text-sm">
-									Plate Number
-								</th>
-								<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-									Type
-								</th>
-								<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-									Transfers
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							{data.ambulance_utilization.length === 0 ? (
-								<tr>
-									<td
-										colSpan={4}
-										className="px-3 py-8 text-center text-gray-500 text-sm"
-									>
-										No ambulance utilization data available for this period
-									</td>
-								</tr>
-							) : (
-								data.ambulance_utilization.map((ambulance) => (
-									<tr
-										key={ambulance.ambulance_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
-											Ambulance #{ambulance.ambulance_id}
-										</td>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
-											{ambulance.plate_number}
-										</td>
-										<td className="px-3 py-2 text-center">
-											<span
-												className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-												style={{ backgroundColor: "#00897b" }}
-											>
-												{ambulance.ambulance_type === "type_1"
-													? "Type 1"
-													: "Type 2"}
-											</span>
-										</td>
-										<td className="px-3 py-2 text-center">
-											<span
-												className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-												style={{ backgroundColor: "#00897b" }}
-											>
-												{ambulance.total_transfers}
-											</span>
-										</td>
-									</tr>
-								))
-							)}
-						</tbody>
-					</table>
-				</div>
-			</div>
-
 			{/* Detailed Ambulance Utilization Records */}
 			<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
 				<h3 className="text-lg font-bold text-ambulance-teal-750 mb-1">
@@ -460,49 +389,51 @@ export function AmbulanceUtilizationReport({
 									</td>
 								</tr>
 							) : (
-								data.ambulance_utilization.map((ambulance) => (
-									<tr
-										key={ambulance.ambulance_id}
-										className="border-b border-gray-100 hover:bg-gray-50"
-									>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
-											Ambulance #{ambulance.ambulance_id}
-										</td>
-										<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
-											{ambulance.plate_number}
-										</td>
-										<td className="px-3 py-2 text-center">
-											<span
-												className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-												style={{ backgroundColor: "#00897b" }}
-											>
-												{ambulance.ambulance_type === "type_1"
-													? "Type 1"
-													: "Type 2"}
-											</span>
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{ambulance.total_dispatches}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm border-l-2 border-gray-200">
-											{ambulance.routine}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{ambulance.moderate}
-										</td>
-										<td className="px-3 py-2 text-center text-gray-700 text-sm">
-											{ambulance.critical}
-										</td>
-										<td className="px-3 py-2 text-center">
-											<span
-												className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-												style={{ backgroundColor: "#00897b" }}
-											>
-												{ambulance.total_transfers}
-											</span>
-										</td>
-									</tr>
-								))
+								data.ambulance_utilization
+									.sort((a, b) => a.ambulance_id - b.ambulance_id)
+									.map((ambulance) => (
+										<tr
+											key={ambulance.ambulance_id}
+											className="border-b border-gray-100 hover:bg-gray-50"
+										>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
+												Ambulance #{ambulance.ambulance_id}
+											</td>
+											<td className="px-3 py-2 text-ambulance-teal-750 text-sm font-medium">
+												{ambulance.plate_number}
+											</td>
+											<td className="px-3 py-2 text-center">
+												<span
+													className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
+													style={{ backgroundColor: "#00897b" }}
+												>
+													{ambulance.ambulance_type === "type_1"
+														? "Type 1"
+														: "Type 2"}
+												</span>
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{ambulance.total_dispatches}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm border-l-2 border-gray-200">
+												{ambulance.routine}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{ambulance.moderate}
+											</td>
+											<td className="px-3 py-2 text-center text-gray-700 text-sm">
+												{ambulance.critical}
+											</td>
+											<td className="px-3 py-2 text-center">
+												<span
+													className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
+													style={{ backgroundColor: "#00897b" }}
+												>
+													{ambulance.total_transfers}
+												</span>
+											</td>
+										</tr>
+									))
 							)}
 						</tbody>
 					</table>

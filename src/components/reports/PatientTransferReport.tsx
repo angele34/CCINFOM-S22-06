@@ -227,7 +227,6 @@ export default function PatientTransferReport({
 					</button>
 				)}
 			</div>
-
 			{/* Summary Cards */}
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-3">
@@ -279,9 +278,8 @@ export default function PatientTransferReport({
 					</div>
 				</div>
 			</div>
-
-			{/* Bar Chart and Patient Transfer Data - Side by Side */}
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+			{/* Bar Chart, Top Patients, and Priority Distribution - Three Containers */}
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 				{/* Bar Chart */}
 				{chartData.length > 0 && (
 					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
@@ -347,77 +345,86 @@ export default function PatientTransferReport({
 					</div>
 				)}
 
-				{/* Patient Transfer Data Table */}
-				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+				{/* Top Patients */}
+				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 h-full flex flex-col">
 					<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
-						Patient Transfer Data
+						Top Patients by Transfer Count
 					</h3>
-					<div className="border rounded-lg overflow-hidden">
-						<table className="w-full text-sm">
-							<thead className="bg-teal-700 shadow-md">
-								<tr>
-									<th className="px-3 py-2 text-left font-semibold text-white text-sm">
-										Patient Name
-									</th>
-									<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-										Routine
-									</th>
-									<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-										Moderate
-									</th>
-									<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-										Critical
-									</th>
-									<th className="px-3 py-2 text-center font-semibold text-white text-sm">
-										Total Transfers
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.patient_transfers.length === 0 ? (
-									<tr>
-										<td
-											colSpan={5}
-											className="px-3 py-8 text-center text-gray-500 text-sm"
+					<div className="space-y-2 overflow-y-auto">
+						{data.patient_transfers
+							.sort((a, b) => b.total_transfers - a.total_transfers)
+							.slice(0, 5)
+							.map((patient, index) => (
+								<div
+									key={patient.patient_id}
+									className="flex items-center justify-between p-[12px] bg-gray-50 border border-gray-200 rounded-lg"
+								>
+									<div className="flex items-center gap-2">
+										<div
+											className="w-7 h-7 rounded-full flex items-center justify-center text-white font-bold text-sm"
+											style={{ backgroundColor: "#066961" }}
 										>
-											No transfer data available for this period
-										</td>
-									</tr>
-								) : (
-									data.patient_transfers.map((patient) => (
-										<tr
-											key={patient.patient_id}
-											className="border-b border-gray-100 hover:bg-gray-50"
-										>
-											<td className="px-3 py-2 text-ambulance-teal-750 text-sm">
+											{index + 1}
+										</div>
+										<div>
+											<p className="font-semibold text-ambulance-teal-750 text-sm">
 												{patient.patient_name}
-											</td>
-											<td className="px-3 py-2 text-center text-gray-700 text-sm">
-												{patient.routine}
-											</td>
-											<td className="px-3 py-2 text-center text-gray-700 text-sm">
-												{patient.moderate}
-											</td>
-											<td className="px-3 py-2 text-center text-gray-700 text-sm">
-												{patient.critical}
-											</td>
-											<td className="px-3 py-2 text-center">
-												<span
-													className="inline-block px-3 py-1 rounded-full text-xs font-bold text-white"
-													style={{ backgroundColor: "#00897b" }}
-												>
-													{patient.total_transfers}
-												</span>
-											</td>
-										</tr>
-									))
-								)}
-							</tbody>
-						</table>
+											</p>
+										</div>
+									</div>
+									<div className="text-right">
+										<p className="text-base font-bold text-ambulance-teal-750">
+											{patient.total_transfers}
+										</p>
+										<p className="text-[12px] text-gray-600">transfers</p>
+									</div>
+								</div>
+							))}
+						{data.patient_transfers.length === 0 && (
+							<p className="text-center text-gray-500 py-6 text-sm">
+								No patient data available
+							</p>
+						)}
 					</div>
 				</div>
-			</div>
 
+				{/* Priority Level Distribution */}
+				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+					<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
+						Priority Level Distribution
+					</h3>
+					<ResponsiveContainer width="100%" height={280}>
+						<PieChart>
+							<Pie
+								data={pieData}
+								cx="50%"
+								cy="50%"
+								labelLine={false}
+								label={({ name, value }) => `${name}:  ${value}`}
+								outerRadius={90}
+								fill="#8884d8"
+								dataKey="value"
+							>
+								{pieData.map((entry, index) => (
+									<Cell
+										key={`cell-${index}`}
+										fill={entry.color}
+										stroke="none"
+									/>
+								))}
+							</Pie>
+							<Tooltip
+								contentStyle={{
+									backgroundColor: "#fff",
+									border: "1px solid #00a894",
+									borderRadius: "8px",
+								}}
+							/>
+							<Legend verticalAlign="bottom" height={0} />
+						</PieChart>
+					</ResponsiveContainer>
+				</div>
+			</div>{" "}
 			{/* Detailed Transfer Records */}
 			<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
 				<h3 className="text-lg font-bold text-ambulance-teal-750 mb-1">
@@ -512,87 +519,6 @@ export default function PatientTransferReport({
 							)}
 						</tbody>
 					</table>
-				</div>
-			</div>
-
-			{/* Priority Distribution and Top Patients */}
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-				{/* Pie Chart */}
-				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-					<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
-						Priority Level Distribution
-					</h3>
-					<ResponsiveContainer width="100%" height={280}>
-						<PieChart>
-							<Pie
-								data={pieData}
-								cx="50%"
-								cy="50%"
-								labelLine={false}
-								label={({ name, value }) => `${name}:  ${value}`}
-								outerRadius={90}
-								fill="#8884d8"
-								dataKey="value"
-							>
-								{pieData.map((entry, index) => (
-									<Cell
-										key={`cell-${index}`}
-										fill={entry.color}
-										stroke="none"
-									/>
-								))}
-							</Pie>
-							<Tooltip
-								contentStyle={{
-									backgroundColor: "#fff",
-									border: "1px solid #00a894",
-									borderRadius: "8px",
-								}}
-							/>
-							<Legend />
-						</PieChart>
-					</ResponsiveContainer>
-				</div>
-
-				{/* Top Patients */}
-				<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-					<h3 className="text-lg font-bold text-ambulance-teal-750 mb-3">
-						Top Patients by Transfer Count
-					</h3>
-					<div className="space-y-2">
-						{data.patient_transfers
-							.sort((a, b) => b.total_transfers - a.total_transfers)
-							.slice(0, 5)
-							.map((patient, index) => (
-								<div
-									key={patient.patient_id}
-									className="flex items-center justify-between p-2 bg-gray-50 rounded-lg"
-								>
-									<div className="flex items-center gap-2">
-										<div
-											className="flex items-center justify-center w-7 h-7 rounded-full font-semibold text-sm"
-											style={{ backgroundColor: "#066961", color: "#ffffff" }}
-										>
-											{index + 1}
-										</div>
-										<span className="text-ambulance-teal-750 text-sm">
-											{patient.patient_name}
-										</span>
-									</div>
-									<span
-										className="font-medium text-sm"
-										style={{ color: "#066961" }}
-									>
-										{patient.total_transfers} transfers
-									</span>
-								</div>
-							))}
-						{data.patient_transfers.length === 0 && (
-							<p className="text-center text-gray-500 py-6 text-sm">
-								No patient data available
-							</p>
-						)}
-					</div>
 				</div>
 			</div>
 		</div>
