@@ -40,15 +40,15 @@ export default function LocationTable({
 		{
 			name: "city",
 			label: "City",
-			type: "text" as const,
+			type: "select" as const,
 			required: true,
-			placeholder: "Enter city name",
-			minLength: 1,
-			maxLength: 20,
+			options: [
+				{ value: "Quezon_City", label: "Quezon City" },
+				{ value: "Manila_City", label: "Manila City" },
+				{ value: "Muntinlupa_City", label: "Muntinlupa City" },
+			],
 			customErrorMessages: {
 				required: "City is required",
-				minLength: "City is required",
-				maxLength: "City must not exceed 20 characters",
 			},
 		},
 		{
