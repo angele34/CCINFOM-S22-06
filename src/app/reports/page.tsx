@@ -38,6 +38,7 @@ export default function ReportsPage() {
 			icon: Users,
 			description:
 				"Number of transfers per patient with priority levels for a given date",
+			disabled: false,
 		},
 		{
 			id: "staff-performance" as ReportType,
@@ -45,12 +46,14 @@ export default function ReportsPage() {
 			icon: UserCog,
 			description:
 				"Number of transfers handled and average per shift for a given date",
+			disabled: false,
 		},
 		{
 			id: "ambulance-utilization" as ReportType,
 			label: "Ambulance Utilization",
 			icon: Ambulance,
 			description: "Total number of transfers per ambulance for a given date",
+			disabled: false,
 		},
 		{
 			id: "hospital-admissions" as ReportType,
@@ -58,6 +61,7 @@ export default function ReportsPage() {
 			icon: Building2,
 			description:
 				"Total patients received per hospital branch for a given date",
+			disabled: false,
 		},
 	];
 

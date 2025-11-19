@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Check, X } from "lucide-react";
 import FormModal from "@/src/components/ui/FormModal";
 
 export interface PreassignTransaction {
@@ -36,12 +37,24 @@ type Ambulance = {
 	};
 };
 
+type Hospital = {
+	hospital_id: number;
+	hospital_name: string;
+	city: string;
+	street: string;
+	is_deleted: boolean;
+};
+
 export default function PreassignTable() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [availableStaff, setAvailableStaff] = useState<Staff[]>([]);
 	const [allStaff, setAllStaff] = useState<Staff[]>([]);
 	const [availableAmbulances, setAvailableAmbulances] = useState<Ambulance[]>(
 		[]
+	);
+	const [hospitals, setHospitals] = useState<Hospital[]>([]);
+	const [selectedHospitalId, setSelectedHospitalId] = useState<number | null>(
+		null
 	);
 	const [selectedAmbulanceId, setSelectedAmbulanceId] = useState<number | null>(
 		null
@@ -64,7 +77,20 @@ export default function PreassignTable() {
 	useEffect(() => {
 		fetchPreassigns();
 		fetchAvailableResources();
+		fetchHospitals();
 	}, []);
+
+	const fetchHospitals = async () => {
+		try {
+			const res = await fetch("/api/hospital");
+			const data: Hospital[] = await res.json();
+			const filteredHospitals = data.filter((h) => !h.is_deleted);
+			console.log("Fetched hospitals:", filteredHospitals);
+			setHospitals(filteredHospitals);
+		} catch (error) {
+			console.error("Error fetching hospitals:", error);
+		}
+	};
 
 	const fetchPreassigns = async () => {
 		try {
@@ -163,6 +189,7 @@ export default function PreassignTable() {
 			await fetchPreassigns();
 			setIsModalOpen(false);
 			// Reset form state
+			setSelectedHospitalId(null);
 			setSelectedAmbulanceId(null);
 			setSelectedStaffId(null);
 			setSelectedStaffRole("");
@@ -177,8 +204,10 @@ export default function PreassignTable() {
 		}
 	};
 
-	// Filter ambulances to only show those that are available
-	const filteredAmbulances = availableAmbulances;
+	// Filter ambulances to only show those that are available and match selected hospital
+	const filteredAmbulances = selectedHospitalId
+		? availableAmbulances.filter((a) => a.hospital_id === selectedHospitalId)
+		: [];
 
 	// Check if selected ambulance has all roles filled
 	const selectedAmbulanceHasAllRoles = selectedAmbulanceId
@@ -219,40 +248,45 @@ export default function PreassignTable() {
 		emptyPlaceholder?: string;
 	}> = [
 		{
-			name: "ambulance_id",
-			label: "Ambulance",
+			name: "hospital_id",
+			label: "Hospital Branch",
 			type: "select",
 			required: true,
-			options: filteredAmbulances.map((amb) => ({
-				value: amb.ambulance_id,
-				label: `Ambulance #${amb.ambulance_id} - ${amb.plate_no}`,
-			})),
+			options: hospitals.map((h) => {
+				console.log("Mapping hospital:", h);
+				return {
+					value: h.hospital_id,
+					label: h.hospital_name,
+				};
+			}),
 			onChange: (value: string) => {
-				setSelectedAmbulanceId(Number(value));
+				setSelectedHospitalId(Number(value));
+				setSelectedAmbulanceId(null);
 				setSelectedStaffId(null);
 				setSelectedStaffRole("");
 			},
 		},
 		{
-			name: "staff_id",
-			label: "Staff Member",
+			name: "ambulance_id",
+			label: "Ambulance",
 			type: "select",
 			required: true,
-			options: filteredStaff.map((staff) => ({
-				value: staff.staff_id,
-				label: staff.name,
-			})),
+			options: filteredAmbulances.map((amb) => {
+				// Format ambulance type: type_1 -> Type 1, type_2 -> Type 2
+				const formattedType = amb.ambulance_type
+					.replace(/_/g, " ")
+					.replace(/\b\w/g, (char) => char.toUpperCase());
+				return {
+					value: amb.ambulance_id,
+					label: `Ambulance #${amb.ambulance_id} - ${amb.plate_no} (${formattedType})`,
+				};
+			}),
 			onChange: (value: string) => {
-				const staffId = Number(value);
-				setSelectedStaffId(staffId);
-				const staff = allStaff.find((s) => s.staff_id === staffId);
-				if (staff) {
-					setSelectedStaffRole(staff.staff_role);
-				}
+				setSelectedAmbulanceId(Number(value));
+				setSelectedStaffId(null);
+				setSelectedStaffRole("");
 			},
-			emptyPlaceholder: selectedAmbulanceHasAllRoles
-				? "All roles filled - no available staff"
-				: "Select an ambulance first",
+			emptyPlaceholder: "Select a hospital first",
 		},
 		{
 			name: "staff_role",
@@ -264,8 +298,31 @@ export default function PreassignTable() {
 				{ value: "emt", label: "EMT" },
 				{ value: "paramedic", label: "Paramedic" },
 			],
-			readOnly: true,
-			emptyPlaceholder: "Select a staff member first",
+			onChange: (value: string) => {
+				setSelectedStaffRole(value);
+				setSelectedStaffId(null);
+			},
+			emptyPlaceholder: "Select an ambulance first",
+		},
+		{
+			name: "staff_id",
+			label: "Staff Member",
+			type: "select",
+			required: true,
+			options: filteredStaff
+				.filter((staff) => staff.staff_role === selectedStaffRole)
+				.map((staff) => ({
+					value: staff.staff_id,
+					label: staff.name,
+				})),
+			onChange: (value: string) => {
+				setSelectedStaffId(Number(value));
+			},
+			emptyPlaceholder: selectedAmbulanceHasAllRoles
+				? "All roles filled - no available staff"
+				: selectedStaffRole
+				? `Select a ${selectedStaffRole} from the list`
+				: "Select a role first",
 		},
 	];
 	return (
@@ -390,10 +447,10 @@ export default function PreassignTable() {
 																}
 															}
 														}}
-														className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 transition"
+														className="p-1.5 bg-green-100 text-green-700 rounded hover:bg-green-200 transition"
 														title="Complete"
 													>
-														Complete
+														<Check className="w-4 h-4" />
 													</button>
 													<button
 														onClick={async () => {
@@ -419,10 +476,10 @@ export default function PreassignTable() {
 																}
 															}
 														}}
-														className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 transition"
+														className="p-1.5 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
 														title="Cancel"
 													>
-														Cancel
+														<X className="w-4 h-4" />
 													</button>
 												</>
 											)}
@@ -445,6 +502,7 @@ export default function PreassignTable() {
 				isOpen={isModalOpen}
 				onClose={() => {
 					setIsModalOpen(false);
+					setSelectedHospitalId(null);
 					setSelectedAmbulanceId(null);
 					setSelectedStaffId(null);
 					setSelectedStaffRole("");
@@ -452,9 +510,10 @@ export default function PreassignTable() {
 				title="New Staff Pre-Assignment"
 				fields={preassignFields}
 				initialData={{
+					hospital_id: selectedHospitalId?.toString() ?? "",
 					ambulance_id: selectedAmbulanceId?.toString() ?? "",
-					staff_id: selectedStaffId?.toString() ?? "",
 					staff_role: selectedStaffRole,
+					staff_id: selectedStaffId?.toString() ?? "",
 				}}
 				onSubmit={handleCreatePreassign}
 			/>

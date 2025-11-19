@@ -179,7 +179,7 @@ export default function RequestTable() {
 		{
 			name: "patient_id",
 			label: "Patient",
-			type: "select",
+			type: "select" as const,
 			required: true,
 			options: patients.map((p) => ({
 				value: p.patient_id,
@@ -215,7 +215,7 @@ export default function RequestTable() {
 		{
 			name: "ref_location_id",
 			label: "Reference Location",
-			type: "select",
+			type: "select" as const,
 			required: true,
 			options: filteredLocations.map((loc) => ({
 				value: loc.ref_location_id,
@@ -227,7 +227,7 @@ export default function RequestTable() {
 		{
 			name: "hospital_id",
 			label: "Hospital",
-			type: "select",
+			type: "select" as const,
 			required: true,
 			options: hospitals.map((h) => ({
 				value: h.hospital_id,
@@ -238,8 +238,8 @@ export default function RequestTable() {
 		},
 		{
 			name: "priority_level",
-			label: "Priority Level",
-			type: "select",
+			label: "Request Priority Level",
+			type: "select" as const,
 			options: [
 				{ value: "routine", label: "Routine" },
 				{ value: "moderate", label: "Moderate" },
@@ -377,7 +377,7 @@ export default function RequestTable() {
 					setSelectedHospitalId("");
 				}}
 				title="New Ambulance Request"
-				fields={requestFields as any}
+				fields={requestFields}
 				initialData={{
 					patient_id: selectedPatientId?.toString() ?? "",
 					ref_location_id: String(selectedRefLocationId),

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface FormField {
 	name: string;
@@ -41,15 +41,9 @@ export default function FormModal({
 	submitLabel = "Submit",
 	initialData,
 }: FormModalProps) {
-	const [formValues, setFormValues] = useState<Record<string, string>>({});
-
-	useEffect(() => {
-		if (isOpen && initialData) {
-			setFormValues(initialData);
-		} else if (!isOpen) {
-			setFormValues({});
-		}
-	}, [initialData, isOpen]);
+	const [formValues, setFormValues] = useState<Record<string, string>>(
+		initialData || {}
+	);
 
 	if (!isOpen) return null;
 
@@ -60,6 +54,12 @@ export default function FormModal({
 
 	const handleFieldChange = (fieldName: string, value: string) => {
 		setFormValues((prev) => ({ ...prev, [fieldName]: value }));
+
+		// Call the field's onChange callback if it exists
+		const field = fields.find((f) => f.name === fieldName);
+		if (field?.onChange) {
+			field.onChange(value);
+		}
 	};
 
 	return (
@@ -109,8 +109,7 @@ export default function FormModal({
 												required={field.required}
 												value={formValues[field.name] ?? ""}
 												onChange={(e) => {
-													const target = e.target as HTMLInputElement;
-													handleFieldChange(field.name, target.value); 
+													handleFieldChange(field.name, e.target.value);
 												}}
 												className={`w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none bg-white ${
 													formValues[field.name]
@@ -212,7 +211,6 @@ export default function FormModal({
 												return;
 											}
 										}}
-								
 									/>
 								)}
 							</div>
