@@ -6,6 +6,7 @@ import {
 	PatientTransferReport,
 	StaffPerformanceReport,
 	AmbulanceUtilizationReport,
+	HospitalAdmissionsReport,
 } from "../../components/reports";
 import { Users, UserCog, Ambulance, Building2, FileText } from "lucide-react";
 
@@ -57,7 +58,6 @@ export default function ReportsPage() {
 			icon: Building2,
 			description:
 				"Total patients received per hospital branch for a given date",
-			disabled: true,
 		},
 	];
 
@@ -154,15 +154,11 @@ export default function ReportsPage() {
 				);
 			case "hospital-admissions":
 				return (
-					<div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center min-h-[400px]">
-						<Building2 className="w-16 h-16 text-gray-400 mb-4" />
-						<h3 className="text-xl font-semibold text-gray-800 mb-2">
-							Coming Soon
-						</h3>
-						<p className="text-gray-600 text-center max-w-md">
-							Hospital Admissions Report is under development.
-						</p>
-					</div>
+					<HospitalAdmissionsReport
+						startDate={startDate}
+						endDate={endDate}
+						onExportPDF={handleExportPDF}
+					/>
 				);
 			default:
 				return null;
