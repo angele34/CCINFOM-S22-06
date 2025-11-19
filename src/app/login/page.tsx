@@ -131,10 +131,10 @@ export default function LoginPage() {
 									src="/logos/login_logo2.svg"
 									alt="PrimeCare Login"
 									width={360}
-									height={50}
+									height={60}
 									priority
 								/>
-								<p className="absolute left-1/2 bottom-4 transform -translate-x-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
+								<p className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-700 italic text-sm rounded whitespace-nowrap bg-white/80 px-3">
 									Precision in care. Speed when it matters
 								</p>
 							</div>
