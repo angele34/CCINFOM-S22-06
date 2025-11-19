@@ -226,6 +226,23 @@ export async function POST(req: Request) {
 				{ status: 400 }
 			);
 		}
+
+		// Handle Prisma unique constraint error
+		if (
+			error instanceof Error &&
+			error.message.includes("Unique constraint failed")
+		) {
+			if (error.message.includes("request_id")) {
+				return NextResponse.json(
+					{
+						error:
+							"A dispatch already exists for this request. Each request can only have one active dispatch.",
+					},
+					{ status: 400 }
+				);
+			}
+		}
+
 		if (error instanceof Error) {
 			return NextResponse.json({ error: error.message }, { status: 400 });
 		}
