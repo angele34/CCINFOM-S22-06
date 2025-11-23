@@ -470,7 +470,7 @@ export default function PreassignTable() {
 																}
 															}
 														}}
-														className="p-1.5 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
+														className="p-1.5 text-normal rounded transition"
 														title="Cancel"
 													>
 														<X className="w-4 h-4" />

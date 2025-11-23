@@ -30,6 +30,13 @@ body {
 	color: #003533;
 }
 
+.text-normal {
+	background-color: #006937;
+}
+.text-normal:hover {
+	background-color: #159155;
+}
+
 .bg-ambulance-status-on-trip {
 	background-color: #f1d04a;
 }
